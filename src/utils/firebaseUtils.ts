@@ -1,7 +1,7 @@
 import { getApp } from "firebase/app";
 import { RecaptchaVerifier, getAuth } from "firebase/auth";
 
-import { firebaseConfig } from "../configuration/firebase.ts";
+import { firebaseConfig } from "../configuration/firebase";
 import { initializeApp } from "firebase/app";
 
 export const initializeFirebase = () => {

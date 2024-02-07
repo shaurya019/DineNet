@@ -1,13 +1,15 @@
-import React, { useEffect } from "react";
-import LoginModal from "./components/Login/LoginModal.tsx";
-import { initializeFirebase } from "./utils/firebaseUtils.ts";
+import React from "react";
+import LoginModal from "./components/Login/LoginModal";
+import { initializeFirebase } from "./utils/firebaseUtils";
+import RecaptchaContainer from "./components/RecaptchaContainer";
+
 initializeFirebase();
 
 export default function App() {
 
   return (
     <div>
-      <div id="recaptcha-container"></div>
+      <RecaptchaContainer />
       <LoginModal />
     </div>
   );

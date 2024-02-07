@@ -4,7 +4,7 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { useState } from "react";
-import { getRecaptchaVerifier } from "../../utils/firebaseUtils.ts";
+import { getRecaptchaVerifier } from "../../utils/firebaseUtils";
 
 export const usePhoneAuth = () => {
   const auth = getAuth();
@@ -23,7 +23,7 @@ export const usePhoneAuth = () => {
   };
 
   const confirmOTP = (otp: string) => {
-    confirmationResult?.confirm?.(otp).then(() => console.log("authenticated"));
+    return confirmationResult?.confirm?.(otp);
   };
 
   return {

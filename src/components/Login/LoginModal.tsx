@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { usePhoneAuth } from "../../service/firebase/phoneAuth.ts";
+import { usePhoneAuth } from "../../service/firebase/phoneAuth";
+import alpine from "../../service/alpine/alpine";
 
 export default function LoginModal() {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
@@ -10,7 +11,7 @@ export default function LoginModal() {
     sendOTP(phoneNumber);
   };    
   const handleConfirmOtp = () => { 
-    confirmOTP(otp)
+    confirmOTP(otp)?.then(() => alpine.userLogin(phoneNumber, otp));
    }
 
   return (
