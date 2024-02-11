@@ -1,0 +1,1 @@
+export { TruncatedParagraph as default } from './TruncatedParagraph'

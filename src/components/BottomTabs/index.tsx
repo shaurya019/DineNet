@@ -1,0 +1,1 @@
+export { BottonTabs as default } from './BottonTabs'

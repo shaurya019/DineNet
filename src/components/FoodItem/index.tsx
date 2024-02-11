@@ -1,0 +1,1 @@
+export { Fooditem as default } from './Fooditem'
