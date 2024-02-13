@@ -1,3 +1,4 @@
+import { Search } from "@/assets/icons/Search";
 import React from "react";
 
 export const SearchField = () => {
@@ -9,7 +10,7 @@ export const SearchField = () => {
         placeholder="Search Food"
       />
       <div className="ml-auto">
-        <img src="@assets/logo.png" />
+        <Search className="stroke-grey-border" />
       </div>
     </div>
   );

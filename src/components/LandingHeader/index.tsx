@@ -1,0 +1,1 @@
+export { LandingHeader as default } from './LandingHeader'
