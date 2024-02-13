@@ -9,7 +9,7 @@ export const SearchField = () => {
         placeholder="Search Food"
       />
       <div className="ml-auto">
-        <img src="/assets/logo.png" />
+        <img src="@assets/logo.png" />
       </div>
     </div>
   );

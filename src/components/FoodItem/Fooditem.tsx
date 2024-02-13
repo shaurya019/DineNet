@@ -5,7 +5,7 @@ export const Fooditem = () => {
   return (
     <div className="flex flex-row gap-2 border-b p-2 mb-2">
       <div className="flex h-24 w-24">
-        <img className="" src="/assets/food.png"/>
+        <img className="" src="@assets/food.png"/>
       </div>
       <div className="flex flex-1 flex-col gap-1 items-start justify-evenly">
         <div className="flex flex-row gap-1">

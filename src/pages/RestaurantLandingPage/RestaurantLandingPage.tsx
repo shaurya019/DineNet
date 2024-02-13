@@ -1,9 +1,9 @@
 import React from 'react'
-import SearchField from "../../components/SearchField";
-import Filter from "../../components/Filter";
-import AccordionItem from "../../components/Accordion";
-import Fooditem from "../../components/FoodItem";
-import BottonTabs from '../../components/BottomTabs';
+import SearchField from "@components/SearchField";
+import Filter from "@components/Filter";
+import AccordionItem from "@components/Accordion";
+import Fooditem from "@components/FoodItem";
+import BottonTabs from '@components/BottomTabs';
 
 export const RestaurantLandingPage = () => {
   return (
@@ -11,7 +11,7 @@ export const RestaurantLandingPage = () => {
       <div className="flex flex-col gap-3 p-2">
         <div className="flex flex-row flex-nowrap gap-2 items-center ">
           <div>
-            <img src="/assets/logo.png" />
+            <img src="@assets/logo.png" />
           </div>
           <div className="flex-1 flex flex-col">
             <h3 className="text-grey-dark font-bold">Welcome to Hotel!</h3>

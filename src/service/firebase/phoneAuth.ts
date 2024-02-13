@@ -4,7 +4,7 @@ import {
   signInWithPhoneNumber,
 } from "firebase/auth";
 import { useState } from "react";
-import { getRecaptchaVerifier } from "../../utils/firebaseUtils";
+import { getRecaptchaVerifier } from "@utils/firebaseUtils";
 
 export const usePhoneAuth = () => {
   const auth = getAuth();

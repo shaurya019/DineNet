@@ -1,4 +1,4 @@
-import { generateUrl } from "../../utils/serviceUtils";
+import { generateUrl } from "@utils/serviceUtils";
 import { requestHandler } from "../requestHandler";
 const BASE_URL =
   "http://alpine-staging-lb-1249159613.ap-south-1.elb.amazonaws.com/api/v1";
