@@ -9,7 +9,7 @@ export const Fooditem = () => {
       </div>
       <div className="flex flex-1 flex-col gap-1 items-start justify-evenly">
         <div className="flex flex-row gap-1">
-          <h4 className="text-grey text-xs font-semibold">Paneer Pakoda</h4>
+          <h4 className="text-grey text-xs font-semibold font-MontserratMedium">Paneer Pakoda</h4>
         </div>
         <TruncatedParagraph className="text-[8px] text-grey"/>
         <p className="text-grey text-xs">4 Pcs | Serves 2</p>
