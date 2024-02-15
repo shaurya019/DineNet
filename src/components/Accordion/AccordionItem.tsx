@@ -10,13 +10,13 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
   children,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const toggleAccordion = () => setIsOpen((open) => !open);
   return (
     <div
-      className={`border border-gray-200 overflow-auto ${
-        isOpen && "min-h-[30rem]"
-      }`}
+      className={`border border-gray-200 ${
+        isOpen && "min-h-min"
+      } ${!isOpen && 'mb-2'}`}
     >
       <div
         className="flex justify-between items-center p-2 cursor-pointer bg-green-light"
@@ -27,8 +27,8 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       </div>
       <div
         className={`transition-[max-height] ${
-          isOpen ? "max-h-screen" : "max-h-0"
-        } overflow-hidden delay-150`}
+          isOpen ? "max-h-full" : "max-h-0"
+        } overflow-auto delay-150`}
       >
         <div className="p-2 border-t border-gray-200">
           <div className="text-gray-700">{children}</div>

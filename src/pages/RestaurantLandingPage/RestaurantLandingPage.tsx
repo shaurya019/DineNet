@@ -19,7 +19,7 @@ export const RestaurantLandingPage = () => {
           <Filter />
         </div>
       </div>
-      <div className="flex flex-col overflow-auto max-h-full gap-2">
+      <div className="flex flex-col overflow-auto max-h-full">
         <AccordionItem title="Recommended ( 12 )">
           <Fooditem />
           <Fooditem />
