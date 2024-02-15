@@ -1,9 +1,10 @@
 import React from "react";
 import TruncatedParagraph from "../TruncatedParagraph";
+import AddToCartButton from "../AddToCartButton";
 
 export const Fooditem = () => {
   return (
-    <div className="flex flex-row gap-2 border-b p-2 mb-2">
+    <div className="flex flex-row gap-2 border-b p-1 py-2 mb-2">
       <div className="flex h-24 w-24">
         <img className="" src="/assets/food.png"/>
       </div>
@@ -16,9 +17,7 @@ export const Fooditem = () => {
         <h4 className="text-sm text-grey"><span>&#8377;</span>120</h4>
       </div>
       <div className="ml-auto flex items-end">
-        <button className="bg-white border-2 border-green text-green px-4 py-1 rounded">
-            ADD
-        </button>
+        <AddToCartButton />
       </div>
     </div>
   );

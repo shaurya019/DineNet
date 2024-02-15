@@ -20,7 +20,7 @@ export const RestaurantLandingPage = () => {
         </div>
       </div>
       <div className="flex flex-col overflow-auto max-h-full gap-2">
-        <AccordionItem title="Recommended (12)">
+        <AccordionItem title="Recommended ( 12 )">
           <Fooditem />
           <Fooditem />
           <Fooditem />
@@ -32,7 +32,7 @@ export const RestaurantLandingPage = () => {
           <Fooditem />
           <Fooditem />
         </AccordionItem>
-        <AccordionItem title="Recommended (12)">
+        <AccordionItem title="Main Course ( 08 )">
           <Fooditem />
           <Fooditem />
           <Fooditem />
@@ -44,7 +44,7 @@ export const RestaurantLandingPage = () => {
           <Fooditem />
           <Fooditem />
         </AccordionItem>
-        <AccordionItem title="Recommended (12)">
+        <AccordionItem title="Starters ( 04 )">
           <Fooditem />
           <Fooditem />
           <Fooditem />

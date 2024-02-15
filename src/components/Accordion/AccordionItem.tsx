@@ -1,3 +1,4 @@
+import { Chevron } from "@/assets/icons/Chevron";
 import { ReactNode, useState } from "react";
 
 export interface AccordionItemProps {
@@ -22,28 +23,14 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         onClick={toggleAccordion}
       >
         <h2 className="text-sm text-green font-semibold">{title}</h2>
-        <svg
-          className={`w-6 h-6 transition-transform ${
-            isOpen ? "transform rotate-360" : ""
-          } stroke-green`}
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            d={isOpen ? "M19 9l-7 7-7-7" : "M5 15l7-7 7 7"}
-          />
-        </svg>
+        <Chevron isOpen={isOpen} />
       </div>
       <div
         className={`transition-[max-height] ${
           isOpen ? "max-h-screen" : "max-h-0"
         } overflow-hidden delay-150`}
       >
-        <div className="p-4 border-t border-gray-200">
+        <div className="p-2 border-t border-gray-200">
           <div className="text-gray-700">{children}</div>
         </div>
       </div>
