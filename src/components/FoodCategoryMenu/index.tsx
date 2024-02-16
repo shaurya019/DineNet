@@ -1,0 +1,1 @@
+export { FoodCategoryMenu as default } from './FoodCategoryMenu'

@@ -1,5 +1,5 @@
 import React from "react";
-interface IChevron {
+interface IChevron extends React.SVGAttributes<SVGSVGElement> {
   isOpen: Boolean;
 }
 export const Chevron = ({ isOpen }: IChevron) => {
@@ -7,7 +7,7 @@ export const Chevron = ({ isOpen }: IChevron) => {
     <svg
       className={`w-6 h-6 transition-transform ${
         isOpen ? "transform rotate-360" : ""
-      } stroke-green`}
+      }`}
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

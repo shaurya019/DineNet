@@ -5,22 +5,28 @@ import AccordionItem from "@components/Accordion";
 import Fooditem from "@components/FoodItem";
 import BottonTabs from '@components/BottomTabs';
 import LandingHeader from '@/components/LandingHeader';
+import FoodCategoryMenu from "@/components/FoodCategoryMenu";
 
 export const RestaurantLandingPage = () => {
   return (
     <div className="flex flex-col max-h-screen">
+      <FoodCategoryMenu />
       <div className="flex flex-col gap-3 p-2">
         <LandingHeader />
         <div>
           <SearchField />
         </div>
         <div className="flex flex-row gap-2 justify-start">
-          <Filter selected/>
+          <Filter selected />
           <Filter />
         </div>
       </div>
-      <div className="flex flex-col overflow-auto max-h-full">
-        <AccordionItem title="Recommended ( 12 )">
+      <div className="flex flex-col overflow-auto max-h-full mb-12">
+        <AccordionItem
+          defaultState={true}
+          title={<CategoryTitle title="Recommended ( 12 )" />}
+          color="green"
+        >
           <Fooditem />
           <Fooditem />
           <Fooditem />
@@ -32,7 +38,11 @@ export const RestaurantLandingPage = () => {
           <Fooditem />
           <Fooditem />
         </AccordionItem>
-        <AccordionItem title="Main Course ( 08 )">
+        <AccordionItem
+          defaultState={true}
+          title={<CategoryTitle title="Recommended ( 12 )"/>}
+          color="green"
+        >
           <Fooditem />
           <Fooditem />
           <Fooditem />
@@ -44,7 +54,11 @@ export const RestaurantLandingPage = () => {
           <Fooditem />
           <Fooditem />
         </AccordionItem>
-        <AccordionItem title="Starters ( 04 )">
+        <AccordionItem
+          defaultState={true}
+          title={<CategoryTitle title="Recommended ( 12 )" />}
+          color="green"
+        >
           <Fooditem />
           <Fooditem />
           <Fooditem />
@@ -63,3 +77,7 @@ export const RestaurantLandingPage = () => {
     </div>
   );
 };
+
+const CategoryTitle = ({ title }: { title: String }) => (
+  <h2 className="text-sm text-green font-semibold">{title}</h2>
+);
