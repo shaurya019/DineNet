@@ -5,7 +5,7 @@ export const LandingHeader = () => {
   const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
-      {isLoginModalOpen && <LoginModal />}
+      {isLoginModalOpen && <LoginModal closeModal={()=>setisLoginModalOpen(false)}/>}
       <div>
         <img src="/assets/logo.png" />
       </div>
