@@ -6,8 +6,15 @@ import Fooditem from "@components/FoodItem";
 import BottonTabs from '@components/BottomTabs';
 import LandingHeader from '@/components/LandingHeader';
 import FoodCategoryMenu from "@/components/FoodCategoryMenu";
+import { useGetClientProducts } from "@/hooks/useGetClientProducts";
+import { useLocation } from "react-router";
+import { getQueryParam } from "@/utils/routerUtils";
 
 export const RestaurantLandingPage = () => {
+  const location = useLocation();
+  const { data, isLoading } = useGetClientProducts(
+    getQueryParam(location.search, "clientId")!
+  );
   return (
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu />

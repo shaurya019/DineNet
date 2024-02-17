@@ -1,6 +1,6 @@
 import React, { MouseEventHandler, useState } from "react";
 import { usePhoneAuth } from "../../service/firebase/phoneAuth";
-import alpine from "../../service/alpine/alpine";
+import alpine from "../../service/alpine";
 import { LoginBackground } from "@/assets/images/LoginBackground";
 import OTPInput from "@/atomicComponents/OTPInput";
 import LabelledTextField from "@/atomicComponents/LabelledTextField";
