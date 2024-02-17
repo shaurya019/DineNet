@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
+import LoginModal from "../Login";
 
 export const LandingHeader = () => {
+  const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
+      {isLoginModalOpen && <LoginModal />}
       <div>
         <img src="/assets/logo.png" />
       </div>
@@ -13,7 +16,12 @@ export const LandingHeader = () => {
         </p>
       </div>
       <div className="ml-auto">
-        <button className="bg-green px-2 py-1 rounded border-2 border-grey text-white ">
+        <button
+          onClick={() =>
+            setisLoginModalOpen((isLoginModalOpen) => !isLoginModalOpen)
+          }
+          className="bg-green px-2 py-1 rounded border-2 border-grey text-white "
+        >
           Log-in
         </button>
       </div>

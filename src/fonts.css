@@ -14,3 +14,7 @@
     font-family: "MontserratThin";
     src: url("@assets/fonts/Montserrat/Montserrat-Thin.woff") format("woff2");
 }
+@font-face {
+    font-family: "NotoSans";
+    src: url("@assets/fonts/Noto Sans/notosans-extrabold.woff") format("woff2");
+}
