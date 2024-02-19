@@ -1,22 +1,36 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+interface IOTPInput {
+  onChange: Function;
+}
+export const OTPInput = ({ onChange }: IOTPInput) => {
+  const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([
+    null,
+    null,
+    null,
+    null,
+  ]);
 
-export const OTPInput = () => {
-  const [otp, setOtp] = useState<string[]>(['', '', '', '']);
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([null, null, null, null]);
+  useEffect(() => {
+    onChange(otp.join(""));
+  }, [otp]);
 
   const handleChange = (index: number, value: string) => {
     const newOtp = [...otp];
     newOtp[index] = value;
     setOtp(newOtp);
-    if (value && index < 3) {
+    if (value && index < 5) {
       inputRefs.current[index + 1]?.focus();
     }
   };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && index > 0 && !otp[index]) {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
+    if (e.key === "Backspace" && index > 0 && !otp[index]) {
       const newOtp = [...otp];
-      newOtp[index - 1] = '';
+      newOtp[index - 1] = "";
       setOtp(newOtp);
       inputRefs.current[index - 1]?.focus();
     }
@@ -24,10 +38,10 @@ export const OTPInput = () => {
 
   const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const pasteData = e.clipboardData.getData('text/plain');
+    const pasteData = e.clipboardData.getData("text/plain");
     const newOtp = [...otp];
 
-    for (let i = 0; i < pasteData.length && i < 4; i++) {
+    for (let i = 0; i < pasteData.length && i < 6; i++) {
       newOtp[i] = pasteData.charAt(i);
     }
 
@@ -44,9 +58,15 @@ export const OTPInput = () => {
           type="text"
           maxLength={1}
           value={digit}
-          onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(index, e.target.value)}
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => handleKeyDown(index, e)}
-          onPaste={(e: React.ClipboardEvent<HTMLInputElement>) => handlePaste(e)}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            handleChange(index, e.target.value)
+          }
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) =>
+            handleKeyDown(index, e)
+          }
+          onPaste={(e: React.ClipboardEvent<HTMLInputElement>) =>
+            handlePaste(e)
+          }
         />
       ))}
     </div>

@@ -12,13 +12,17 @@ interface ILoginModal {
 export const LoginModal = ({ closeModal }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
+  const [showOtp, setShowOtp] = useState(false);
   const { sendOTP, confirmOTP } = usePhoneAuth();
   const handleLogin = () => {
     //TODO: validate phone number
-    sendOTP(phoneNumber);
+    sendOTP('+91'+phoneNumber).then(() => setShowOtp(true));
   };
   const handleConfirmOtp = () => {
-    confirmOTP(otp)?.then(() => alpine.userLogin(phoneNumber, otp));
+    confirmOTP(otp)?.then((response) => {
+      console.log(response)
+      // alpine.userLogin(phoneNumber, otp);
+    });
   };
   const phoneInput = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">
@@ -26,8 +30,13 @@ export const LoginModal = ({ closeModal }: ILoginModal) => {
       <LabelledTextField
         label="Phone Number"
         placeholder="Enter your phone number"
+        value={phoneNumber}
+        onChange={(e) => setPhoneNumber(e.target.value)}
       />
-      <button className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans">
+      <button
+        onClick={handleLogin}
+        className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans"
+      >
         Send OTP
       </button>
     </div>
@@ -41,18 +50,21 @@ export const LoginModal = ({ closeModal }: ILoginModal) => {
       <h6 className="text-grey-dark text-xs font-normal">
         We have sent OTP on given mobile number.
       </h6>
-      <LabelledTextField label="Phone Number" value="+91 9639622223" disabled />
+      <LabelledTextField label="Phone Number" value={phoneNumber} disabled />
       <div className="flex flex-col gap-2 items-start">
         <p className="text-xs font-medium text-green">OTP</p>
-        <OTPInput />
+        <OTPInput onChange={(otp: string) => setOtp(otp)} />
         <div className="flex gap-1 item-center mt-1">
           <p className="text-grey-dark text-xs">Didn’t Received OTP?</p>
-          <button className="text-xs text-blue-600 font-semibold">
+          <button
+            
+            className="text-xs text-blue-600 font-semibold"
+          >
             RESEND
           </button>
         </div>
       </div>
-      <button className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans">
+      <button onClick={handleConfirmOtp} className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans">
         Login
       </button>
     </div>
@@ -68,7 +80,7 @@ export const LoginModal = ({ closeModal }: ILoginModal) => {
         <div className="absolute w-full h-full -right-[51px] overflow-hidden">
           <LoginBackground className="h-full w-full" />
         </div>
-        <div className="flex-1">{otpVerification}</div>
+        <div className="flex-1">{showOtp ? otpVerification : phoneInput}</div>
         <div className="mt-auto self-center mb-4">
           <img src="/assets/logo-name.png" />
         </div>
