@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 @import url("./fonts.css");
+
+.overflow-auto::-webkit-scrollbar {
+  display: none;
+}
+
 body {
   margin: 0;
   font-family: 'MontserratMedium', 'Segoe UI', 'Roboto', 'Oxygen',

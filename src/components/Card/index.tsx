@@ -1,0 +1,1 @@
+export { CardComponent as default } from "./CardComponent";

@@ -3,6 +3,7 @@ import { initializeFirebase } from "@utils/firebaseUtils";
 import RecaptchaContainer from "@components/RecaptchaContainer";
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
+import OrderPage from './pages/OrderConfirmation/index'
 import {
   QueryClient,
   QueryClientProvider,
@@ -15,10 +16,11 @@ export default function App() {
 
   return (
     <div>
-      <QueryClientProvider client={queryClient}>
+      <OrderPage />
+      {/* <QueryClientProvider client={queryClient}>
         <RecaptchaContainer />
         <RouterProvider router={router} />
-      </QueryClientProvider>
+      </QueryClientProvider> */}
     </div>
   );
 }

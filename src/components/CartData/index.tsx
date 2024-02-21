@@ -1,0 +1,1 @@
+export { CartData as default } from "./CartData";

@@ -1,0 +1,1 @@
+export { ConfirmationComponent as default } from "./ConfirmationComponent";

@@ -1,0 +1,1 @@
+export { Bottom as default } from "./Bottom";
