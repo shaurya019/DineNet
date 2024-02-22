@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from "react";
 import SearchField from "@components/SearchField";
 import Filter from "@components/Filter";
 import AccordionItem from "@components/Accordion";
 import Fooditem from "@components/FoodItem";
-import BottonTabs from '@components/BottomTabs';
-import LandingHeader from '@/components/LandingHeader';
+import BottonTabs from "@components/BottomTabs";
+import LandingHeader from "@/components/LandingHeader";
 import FoodCategoryMenu from "@/components/FoodCategoryMenu";
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
 import { useLocation } from "react-router";
@@ -12,9 +12,10 @@ import { getQueryParam } from "@/utils/routerUtils";
 
 export const RestaurantLandingPage = () => {
   const location = useLocation();
-  const { data, isLoading } = useGetClientProducts(
+  const { data = [], isLoading } = useGetClientProducts(
     getQueryParam(location.search, "clientId")!
   );
+  if (isLoading) return;
   return (
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu />
@@ -34,48 +35,27 @@ export const RestaurantLandingPage = () => {
           title={<CategoryTitle title="Recommended ( 12 )" />}
           color="green"
         >
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-        </AccordionItem>
-        <AccordionItem
-          defaultState={true}
-          title={<CategoryTitle title="Recommended ( 12 )"/>}
-          color="green"
-        >
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
+          {data.map((item: any) => (
+            <Fooditem data={item} />
+          ))}
         </AccordionItem>
         <AccordionItem
           defaultState={true}
           title={<CategoryTitle title="Recommended ( 12 )" />}
           color="green"
         >
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
-          <Fooditem />
+          {data.map((item: any) => (
+            <Fooditem data={item} />
+          ))}
+        </AccordionItem>
+        <AccordionItem
+          defaultState={true}
+          title={<CategoryTitle title="Recommended ( 12 )" />}
+          color="green"
+        >
+          {data.map((item: any) => (
+            <Fooditem data={item} />
+          ))}
         </AccordionItem>
       </div>
       <div>

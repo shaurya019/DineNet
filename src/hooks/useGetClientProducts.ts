@@ -4,6 +4,5 @@ export const useGetClientProducts = (client_id: string) => {
   return useQuery({
     queryKey: ["useGetClientProducts", client_id],
     queryFn: () => Alpine.getClientProducts(client_id),
-    
   });
 };

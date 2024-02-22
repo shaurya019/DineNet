@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 interface ITruncatedParagraph {
   className?: string;
+  children: ReactNode;
 }
-export const TruncatedParagraph = ({ className }: ITruncatedParagraph) => {
+export const TruncatedParagraph = ({
+  className,
+  children,
+}: ITruncatedParagraph) => {
   const [expanded, setExpanded] = useState(false);
   const toggleExpand = () => setExpanded((expanded) => !expanded);
   return (
@@ -11,8 +15,7 @@ export const TruncatedParagraph = ({ className }: ITruncatedParagraph) => {
       className={`${!expanded && "line-clamp-2"} ${className}`}
       onClick={toggleExpand}
     >
-      Cottage cheese fritters served with asnaisn asuabsa sansians as ansansa
-      sansiansas asansan
+      {children}
     </p>
   );
 };
