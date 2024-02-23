@@ -16,11 +16,11 @@ export default function App() {
 
   return (
     <div>
-      <OrderPage />
-      {/* <QueryClientProvider client={queryClient}>
+      {/* <OrderPage /> */}
+      <QueryClientProvider client={queryClient}>
         <RecaptchaContainer />
         <RouterProvider router={router} />
-      </QueryClientProvider> */}
+      </QueryClientProvider>
     </div>
   );
 }
