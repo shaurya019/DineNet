@@ -1,7 +1,6 @@
 import React, { MouseEventHandler, useState } from "react";
 import { usePhoneAuth } from "../../service/firebase/phoneAuth";
 import alpine from "../../service/alpine";
-import { LoginBackground } from "@/assets/images/LoginBackground";
 import OTPInput from "@/atomicComponents/OTPInput";
 import LabelledTextField from "@/atomicComponents/LabelledTextField";
 import { LeftArrow } from "@/assets/icons/LeftArrow";
@@ -16,11 +15,11 @@ export const LoginModal = ({ closeModal }: ILoginModal) => {
   const { sendOTP, confirmOTP } = usePhoneAuth();
   const handleLogin = () => {
     //TODO: validate phone number
-    sendOTP('+91'+phoneNumber).then(() => setShowOtp(true));
+    sendOTP("+91" + phoneNumber).then(() => setShowOtp(true));
   };
   const handleConfirmOtp = () => {
     confirmOTP(otp)?.then((response) => {
-      console.log(response)
+      console.log(response);
       // alpine.userLogin(phoneNumber, otp);
     });
   };
@@ -56,47 +55,37 @@ export const LoginModal = ({ closeModal }: ILoginModal) => {
         <OTPInput onChange={(otp: string) => setOtp(otp)} />
         <div className="flex gap-1 item-center mt-1">
           <p className="text-grey-dark text-xs">Didn’t Received OTP?</p>
-          <button
-            
-            className="text-xs text-blue-600 font-semibold"
-          >
+          <button className="text-xs text-blue-600 font-semibold">
             RESEND
           </button>
         </div>
       </div>
-      <button onClick={handleConfirmOtp} className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans">
+      <button
+        onClick={handleConfirmOtp}
+        className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans"
+      >
         Login
       </button>
     </div>
   );
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-grey bg-opacity-50 z-30 flex place-items-center">
-      <div className="h-1/2 w-full mx-2 bg-white rounded-xl relative z-0 flex flex-col">
+      <div
+        className="h-1/2 w-full mx-2 bg-white rounded-xl relative z-0 flex flex-col bg-no-repeat bg-cover"
+        style={{
+          background: "url('/assets/loginBg.png')",
+        }}
+      >
         <div className="absolute right-2 top-2 w-fit z-20">
           <button onClick={closeModal}>
             <Cross className="fill-green" />
           </button>
-        </div>
-        <div className="absolute w-full h-full -right-[51px] overflow-hidden">
-          <LoginBackground className="h-full w-full" />
         </div>
         <div className="flex-1">{showOtp ? otpVerification : phoneInput}</div>
         <div className="mt-auto self-center mb-4">
           <img src="/assets/logo-name.png" />
         </div>
       </div>
-      {/* <input
-        value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
-        placeholder="Enter phone number"
-      />
-      <button onClick={handleLogin}>GET OTP</button>
-      <input
-        value={otp}
-        onChange={(e) => setOtp(e.target.value)}
-        placeholder="Enter OTP"
-      />
-      <button onClick={handleConfirmOtp}>CONFIRM</button> */}
     </div>
   );
 };
