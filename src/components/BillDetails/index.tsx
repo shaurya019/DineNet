@@ -1,0 +1,1 @@
+export { BillDetailsComp as default } from "./BillDetailsComp";

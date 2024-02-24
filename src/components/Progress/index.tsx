@@ -1,0 +1,1 @@
+export { ProgressComp as default } from "./ProgressComp";

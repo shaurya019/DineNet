@@ -1,0 +1,1 @@
+export { ReqHistoryCom as default } from "./ReqHistoryCom";

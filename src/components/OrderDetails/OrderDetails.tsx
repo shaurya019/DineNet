@@ -41,7 +41,7 @@ export const OrderDetails = () => {
         <span className="font-normal text-xs">Add Instructions</span>
       </div>
       <div>
-      <button onClick={addInstruction} className="text-custon-add-green font-bold text-xs">ADD</button>
+      <button onClick={addInstruction} className="text-green-willam font-bold text-xs">ADD</button>
       </div>
     </div>
       <hr className="bg-silver  w-full" />

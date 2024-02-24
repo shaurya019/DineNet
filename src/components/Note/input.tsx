@@ -1,0 +1,1 @@
+export { NoteComp as default } from "./NoteComp";

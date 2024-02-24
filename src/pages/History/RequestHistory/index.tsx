@@ -1,0 +1,1 @@
+export { RequestHistoryPage as default } from "./RequestHistoryPage";

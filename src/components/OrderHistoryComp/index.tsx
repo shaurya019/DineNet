@@ -1,0 +1,1 @@
+export { OdHistoryComp as default } from "./OdHistoryComp";

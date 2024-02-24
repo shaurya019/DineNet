@@ -1,6 +1,6 @@
 import React from 'react'
-import Confirmation from "../../components/Confirmation"
-import {OrderConfirmation} from "../../assets/icons/OrderConfirmation"
+import Confirmation from "../../../components/Confirmation"
+import {OrderConfirmation} from "../../../assets/icons/OrderConfirmation"
 
 export const OrderPage = () => {
   return (

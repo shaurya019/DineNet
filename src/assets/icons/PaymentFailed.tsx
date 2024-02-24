@@ -2,7 +2,7 @@ import React from 'react'
 
 const PaymentFailed = () => {
   return (
-    <svg width="360" height="368" viewBox="0 0 360 368" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="313" height="313" viewBox="0 0 360 368" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M104.428 54.5391L110.991 71.3265L106.911 71.3074L103.642 60.9908L104.428 54.5391Z" fill="#E0E0E0"/>
     <path d="M82.0201 39.0278L79.7643 71.1932L103.052 71.6797L105.672 39.0278H82.0201Z" fill="#EBEBEB"/>
     <path d="M84.3496 41.618L82.472 68.3914L99.7842 69.2025L102.203 41.459L84.3496 41.618Z" fill="#FAFAFA"/>
