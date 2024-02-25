@@ -1,8 +1,12 @@
 import React from 'react'
 import {StripeComponent} from '../ContainerCart/StripeComponent'
 import {CartData} from '../CartData/CartData'
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/service/store/cartStore";
 
 export const OrderDetails = () => {
+  const { items } = useSelector((state: RootState) => state); 
+  // console.log(items);
   const addThings = () => {
   };
 
@@ -13,18 +17,12 @@ export const OrderDetails = () => {
     <>
     <StripeComponent title="Order Details"/>
       <div className='flex flex-col px-3.5 py-3.5'>
-     <CartData 
-      name="Paneer Pakoda"
-      quantity="4"
-      serves="2"
-      price="120"
-     />
-     <CartData
-      name="Paneer Pakoda"
-      quantity="0"
-      serves="2"
-      price="120"
-     />
+      {Object.keys(items).map(itemId => (
+         <CartData 
+         key={itemId}
+         item={items[itemId]}
+       />
+        ))}
      </div>
       <hr className="bg-silver  w-full" />
       <div className="bg-white text-greenCyan px-3.5 py-3 flex flex-row justify-between items-center">

@@ -1,7 +1,11 @@
 import React from 'react'
 import {StripeComponent} from '../ContainerCart/StripeComponent'
 
-export const Bill = () => {
+interface BillProps {
+  totalPrice: number;
+}
+
+export const Bill: React.FC<BillProps> = ({ totalPrice }) => {
   return (
    <>
     <StripeComponent title="Bill Details"/>
@@ -11,7 +15,7 @@ export const Bill = () => {
       <div className="flex items-center">
         <span className="font-semibold text-xs">Item Total :</span>
       </div>
-      <h5 className="font-semibold text-sm text-grey"><span>&#8377;</span>150.00</h5>
+      <h5 className="font-semibold text-sm text-grey"><span>&#8377;</span>{totalPrice}</h5>
       </div>
       <hr className="bg-silver  mx-4 my-3" />
       <div className="flex flex-col">

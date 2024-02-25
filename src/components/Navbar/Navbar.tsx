@@ -1,6 +1,8 @@
-import React,{useState} from 'react'
+import React,{useState,} from 'react'
 import CustomAlert from '../Alert';
+import { clearCart } from "@/service/Slice/cartSlice";
 import { BackButton } from '../../assets/icons/BackButton';
+import { useSelector, useDispatch } from "react-redux";
 
 interface NavbarProps {
     title: string;
@@ -9,7 +11,8 @@ interface NavbarProps {
   }
 export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
     const [isOpen, setIsOpen] = useState(false);
-  
+    const dispatch = useDispatch();
+
     const handleOpenAlert = () => {
       setIsOpen(true);
     };
@@ -18,6 +21,10 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
       setIsOpen(false);
     };
   
+    const clearCartFunction = () => {
+      dispatch(clearCart());
+    }
+
     return (
       <div className={`h-11 px-3.5 flex justify-between items-center ${show === "True" ? 'bg-greenCyan text-white' : 'bg-white'}`}>
         <div className="flex items-center">
@@ -29,7 +36,7 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
         <div>
         {showEmpty === "True" && (<button onClick={handleOpenAlert}> <h4 className="font-semibold text-sm">Empty Cart</h4></button>)}
        
-        <CustomAlert isOpen={isOpen} message="Are you sure you want to empty your cart ?" onClose={handleCloseAlert} />
+        <CustomAlert isOpen={isOpen} message="Are you sure you want to empty your cart ?" onClose={handleCloseAlert}  clearCart={clearCartFunction} />
         </div>
       </div>
     );

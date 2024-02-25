@@ -25,10 +25,10 @@ export const RestaurantLandingPage = () => {
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   useEffect(() => {
     const testFilter = (product: any) => {
-      if (filter == FilterValue.veg) {
+      if (filter === FilterValue.veg) {
         return !product.non_veg;
       }
-      if (filter == FilterValue.nonVeg) {
+      if (filter === FilterValue.nonVeg) {
         return product.non_veg;
       }
       return true;
@@ -65,13 +65,13 @@ export const RestaurantLandingPage = () => {
           <Filter
             onSelect={() => toggleFilter(FilterValue.veg)}
             title="Veg"
-            selected={filter == FilterValue.veg}
+            selected={filter === FilterValue.veg}
             selectedColor="bg-green-600"
           />
           <Filter
             onSelect={() => toggleFilter(FilterValue.nonVeg)}
             title="Non Veg"
-            selected={filter == FilterValue.nonVeg}
+            selected={filter === FilterValue.nonVeg}
             selectedColor="bg-orange-700"
           />
         </div>

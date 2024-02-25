@@ -16,7 +16,7 @@ export class Alpine {
   getClientProducts = (client_id: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "products/client_products/" + client_id),
+      url: generateUrl(BASE_URL, "products/client_products/1"),
     });
   };
 }

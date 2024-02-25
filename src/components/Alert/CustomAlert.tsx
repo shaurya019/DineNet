@@ -1,14 +1,19 @@
 import React from 'react';
-
+import { useSelector, useDispatch } from "react-redux";
+import { RootState } from "@/service/store/cartStore";
 interface CustomAlertProps {
   isOpen: boolean;
   message: string;
   onClose: () => void;
+  clearCart: () => void; 
 }
 
-export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, message, onClose }) => {
-  if (!isOpen) return null;
+export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, message, onClose, clearCart }) => {
+  const { items } = useSelector((state: RootState) => state);
+  const itemCount = Object.keys(items).length;
+  console.log(itemCount);
 
+  if (!isOpen) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div className="bg-white px-3.5 mx-10 rounded-lg max-w-md">
@@ -25,7 +30,10 @@ export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, message, onClo
               <span className="font-semibold text-[11px] text-grey-granite">Cancel</span>
             </div>
           </button>
-          <button onClick={onClose}>
+          <button onClick={() => {
+            clearCart();
+            onClose();
+          }}>
             <div className="w-24 md:w-32 h-8 rounded-md bg-greenCyan flex justify-center items-center">
               <span className="font-semibold text-[11px] text-white">Empty Cart</span>
             </div>
