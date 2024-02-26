@@ -1,11 +1,11 @@
 import React,{useState} from 'react'
-import Nav from '../../../components/Navbar';
-import Bottom from '../../../components/Bottom';
-import StripeComponent from '../../../components/ContainerCart'
-import {NoteComp} from '../../../components/Note/NoteComp'
-import {InputBoxComp} from '../../../components/InputBox/InputBoxComp'
-import SelectBoxComp from '../../../components/SelectBox/'
-import BillDetails from '../../../components/BillDetails'
+import Nav from '@/components/Navbar';
+import BottomSubmit from '@/components/BottomSubmit';
+import StripeComponent from '@/components/ContainerCart'
+import {BottomNoteComp} from '@/components/BottomNote/BottomNoteComp'
+import InputFormComponent from '@/components/InputForm'
+import PaymentMethodChoose from '@/components/PaymentMethodChoose'
+import BillDetails from '@/components/BillDetails'
 
 
 export const PaymentMadePage = () => {
@@ -14,16 +14,16 @@ export const PaymentMadePage = () => {
     <>
        <Nav title="Payment"  show="True" showEmpty="False"/> 
     <StripeComponent title="Order Details"/>
-    <InputBoxComp />
+    <InputFormComponent />
     <div className="bg-green-light text-white py-2 px-3.5 flex justify-between items-center">
       <div className="flex items-left">
         <span className="font-semibold text-xs text-green-mineral">Choose Payment Method</span>
       </div>
       </div>
-      <SelectBoxComp paySubmit={paySubmit} />
+      <PaymentMethodChoose paySubmit={paySubmit} />
     <BillDetails />
-    <NoteComp />
-      <Bottom Heading="Place Order" Pass="Payment" setPaySubmit={setPaySubmit}/> 
+    <BottomNoteComp />
+      <BottomSubmit Heading="Place Order" Pass="Payment" setPaySubmit={setPaySubmit}/> 
       </>
 )
 }

@@ -1,12 +1,12 @@
 import React from 'react'
-import { useSelector, useDispatch } from "react-redux";
-import Nav from '../../components/Navbar';
+import { useSelector } from "react-redux";
+import Nav from '@/components/Navbar';
 import { RootState } from "@/service/store/cartStore";
-import Empty from '../../components/EmptyCart'
-import OrderDetails from '../../components/OrderDetails';
-import Bottom from '../../components/Bottom';
-import Bill from '../../components/Bill'
-import Meal from '../../components/Meal'
+import EmptyCart from '@/components/EmptyCartComponent'
+import OrderDetails from '@/components/OrderDetails';
+import BottomSubmit from '@/components/BottomSubmit';
+import TaxCharges from '@/components/TaxCharges'
+import MealAddOns from '@/components/MealAddOns'
 import StripeComponent from '../../components/ContainerCart'
 
 export const CartPage = () => {
@@ -16,13 +16,13 @@ export const CartPage = () => {
   return (
     <div>
        <Nav title="Cart"  show={itemCount !== 0 ? "True" : "False"} showEmpty={itemCount !== 0 ? "True" : "False"}/> 
-      {itemCount === 0 ? <Empty /> : (
+      {itemCount === 0 ? <EmptyCart /> : (
         <>
           <OrderDetails />
           <StripeComponent title="Complete meal with add ons"/>
-          <Meal />
-          <Bill totalPrice={totalPrice}/>
-          <Bottom Heading="Home"/>
+          <MealAddOns />
+          <TaxCharges totalPrice={totalPrice}/>
+          <BottomSubmit Heading="Home"/>
         </>
       )}
     </div>

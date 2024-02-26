@@ -1,12 +1,12 @@
 import React from 'react'
 import { Plus } from '../../assets/icons/Plus';
 
-interface CartDataProps {
+interface MealAddOnsProps {
   name: string;
   price: string;
 }
 
-export const CardComponent: React.FC<CartDataProps> = ({ name, price }) => {
+export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ name, price }) => {
 
   const addThings = () => {
     // Handle Add Items logic here

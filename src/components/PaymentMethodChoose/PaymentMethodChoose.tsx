@@ -1,10 +1,10 @@
 import React,{useState} from 'react'
 
-interface SelectBoxCompProps {
+interface PaymentMethodChooseCompProps {
   paySubmit: boolean;
 }
 
-export const SelectBoxComp: React.FC<SelectBoxCompProps> = ({ paySubmit }) => {
+export const PaymentMethodChoose: React.FC<PaymentMethodChooseCompProps> = ({ paySubmit }) => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {

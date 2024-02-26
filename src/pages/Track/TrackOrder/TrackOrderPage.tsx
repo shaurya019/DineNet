@@ -1,9 +1,9 @@
 
 import React from 'react'
-import Nav from '../../../components/Navbar';
-import Bottom from '../../../components/Bottom';
-import {ProgressComp} from '../../../components/Progress/ProgressComp'
-import {ItemStatusComp} from '../../../components/ItemStatus/ItemStatusComp'
+import Nav from '@/components/Navbar';
+import BottomSubmit from '@/components/BottomSubmit';
+import {ProgressComp} from '@/components/Progress/ProgressComp'
+import {ItemStatusComp} from '@/components/ItemStatus/ItemStatusComp'
 
 export const TrackOrderPage = () => {
   return (
@@ -26,7 +26,7 @@ export const TrackOrderPage = () => {
     <div className='mt-7 mb-20'>
     <ProgressComp one="Request generated" two="Request Accepted " third="Completed" value="0"/>
     </div>
-   <Bottom Heading="Back To Home"/>
+   <BottomSubmit Heading="Back To Home"/>
 </div>
   )
 }

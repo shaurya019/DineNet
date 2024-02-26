@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const NoteComp = () => {
+export const BottomNoteComp = () => {
   return (
     <div className="bg-white mx-5 mb-20 h-42 rounded-md shadow-lg text-blue-dark">
       <div className="flex flex-row">

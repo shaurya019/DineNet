@@ -1,0 +1,1 @@
+export { InputFormComponent as default } from "./InputFormComponent";

@@ -1,0 +1,1 @@
+export { BottomNoteComp as default } from "./BottomNoteComp";

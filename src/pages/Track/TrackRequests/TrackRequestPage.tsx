@@ -1,8 +1,8 @@
 import React from 'react'
-import Bottom from '../../../components/Bottom';
-import Nav from '../../../components/Navbar';
-import {ProgressComp} from '../../../components/Progress/ProgressComp'
-import {RequestStatusComp} from '../../../components/RequestStatus/RequestStatusComp'
+import BottomSubmit from '@/components/BottomSubmit';
+import Nav from '@/components/Navbar';
+import {ProgressComp} from '@/components/Progress/ProgressComp'
+import {RequestStatusComp} from '@/components/RequestStatus/RequestStatusComp'
 
 export const TrackRequestPage = () => {
   return (
@@ -25,7 +25,7 @@ export const TrackRequestPage = () => {
     <div className='mt-7 mb-20'>
     <ProgressComp one="Request generated" two="Request Accepted " third="Completed" value="0"/>
     </div>
-   <Bottom Heading="Back To Home"/>
+   <BottomSubmit Heading="Back To Home"/>
 </div>
   )
 }

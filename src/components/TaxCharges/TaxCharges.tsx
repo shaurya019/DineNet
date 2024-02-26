@@ -1,11 +1,11 @@
 import React from 'react'
 import {StripeComponent} from '../ContainerCart/StripeComponent'
 
-interface BillProps {
+interface TaxChargesProps {
   totalPrice: number;
 }
 
-export const Bill: React.FC<BillProps> = ({ totalPrice }) => {
+export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice }) => {
   return (
    <>
     <StripeComponent title="Bill Details"/>

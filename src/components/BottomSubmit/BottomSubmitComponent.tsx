@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface BottomProps {
+interface BottomSubmitComponentProps {
   Heading: string;
   Pass?: string; 
   setPaySubmit?: React.Dispatch<React.SetStateAction<boolean>>; 
   setSubmit?: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
-export const Bottom: React.FC<BottomProps> = ({ Heading, Pass, setPaySubmit, setSubmit }) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, Pass, setPaySubmit, setSubmit }) => {
 
   const Proceed = () => {
 

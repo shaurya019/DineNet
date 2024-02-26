@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '../Navbar';
-import Bottom from '../Bottom';
+import Bottom from '../BottomSubmit';
 
 interface ConfirmationComponentProps {
     title: string;

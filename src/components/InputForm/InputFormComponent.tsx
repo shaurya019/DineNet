@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const InputBoxComp = () => {
+export const InputFormComponent = () => {
   return (
     <div className="flex flex-col items-center mx-3.5 mb-4">
     <div className="relative z-0 w-full group">

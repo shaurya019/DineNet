@@ -1,5 +1,5 @@
 import React,{useState,} from 'react'
-import CustomAlert from '../Alert';
+import CustomAlert from '../CustomAlert';
 import { clearCart } from "@/service/Slice/cartSlice";
 import { BackButton } from '../../assets/icons/BackButton';
 import { useSelector, useDispatch } from "react-redux";

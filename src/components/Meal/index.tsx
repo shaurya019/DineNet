@@ -1,1 +1,0 @@
-export { Meal as default } from "./Meal";

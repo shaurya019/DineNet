@@ -1,6 +1,6 @@
 import React from 'react'
-import Nav from '../../../components/Navbar';
-import OrderHistoryComp from '../../../components/OrderHistoryComp'
+import Nav from '@/components/Navbar';
+import OrderHistoryComp from '@/components/OrderHistoryComp'
 
 export const OrderHistoryPage = () => {
   return (

@@ -5,7 +5,7 @@ import CartPage from "./pages/Cart";
  const router = createBrowserRouter([
   {
     path: "/",
-    element: <CartPage />,
+    element: <RestaurantLandingPage />,
   },
   {
     path: "/cart",

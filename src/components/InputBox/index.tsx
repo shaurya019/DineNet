@@ -1,1 +1,0 @@
-export { InputBoxComp as default } from "./InputBoxComp";

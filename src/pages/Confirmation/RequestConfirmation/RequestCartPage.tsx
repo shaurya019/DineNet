@@ -1,6 +1,6 @@
 import React from 'react'
-import Confirmation from "../../../components/Confirmation"
-import RequestConfirm from "../../../assets/icons/RequestConfirmation"
+import Confirmation from "@/components/Confirmation"
+import RequestConfirm from "@/assets/icons/RequestConfirmation"
 
 export const RequestCartPage = () => {
   return (
