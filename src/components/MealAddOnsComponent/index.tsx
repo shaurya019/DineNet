@@ -1,1 +1,1 @@
-export { CardComponent as default } from "./MealAddOnsComponent";
+export { MealAddOnsComponent as default } from "./MealAddOnsComponent";

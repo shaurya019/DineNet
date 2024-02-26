@@ -1,1 +1,1 @@
-export { Meal as default } from "./MealAddOns";
+export { MealAddOns as default } from "./MealAddOns";
