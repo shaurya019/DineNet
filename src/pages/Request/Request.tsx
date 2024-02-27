@@ -112,7 +112,7 @@ export const Request = () => {
     }
 
      </div>
-     <BottomSubmit Heading="Submit" Pass="Submit Request" setSubmit={setRequestSubmit}/> 
+     <BottomSubmit Heading="Submit" setSubmit={setRequestSubmit}/> 
    </>
   )
 }

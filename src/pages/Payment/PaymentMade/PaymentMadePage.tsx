@@ -9,7 +9,7 @@ import BillDetails from '@/components/BillDetails'
 
 
 export const PaymentMadePage = () => {
-  const [paySubmit, setPaySubmit] = useState(false);
+  const [submit, setSubmit] = useState(false);
   return (
     <>
        <Nav title="Payment"  show="True" showEmpty="False"/> 
@@ -20,10 +20,10 @@ export const PaymentMadePage = () => {
         <span className="font-semibold text-xs text-green-mineral">Choose Payment Method</span>
       </div>
       </div>
-      <PaymentMethodChoose paySubmit={paySubmit} />
+      <PaymentMethodChoose paySubmit={submit} />
     <BillDetails />
     <BottomNoteComp />
-      <BottomSubmit Heading="Place Order" Pass="Payment" setPaySubmit={setPaySubmit}/> 
+      <BottomSubmit Heading="Place Order" setSubmit={setSubmit}/> 
       </>
 )
 }

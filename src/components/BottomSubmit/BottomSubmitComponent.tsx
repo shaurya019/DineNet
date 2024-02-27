@@ -2,23 +2,17 @@ import React from 'react';
 
 interface BottomSubmitComponentProps {
   Heading: string;
-  Pass?: string; 
-  setPaySubmit?: React.Dispatch<React.SetStateAction<boolean>>; 
   setSubmit?: React.Dispatch<React.SetStateAction<boolean>>; 
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, Pass, setPaySubmit, setSubmit }) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, setSubmit }) => {
 
   const Proceed = () => {
-
-    if (Pass === 'Submit Request' && setSubmit) { 
+    if (setSubmit) {
       setSubmit(true);
       console.log(setSubmit);
-    }
-
-    if (Pass === 'Payment' && setPaySubmit) { 
-      setPaySubmit(true);
-      console.log(setPaySubmit);
+    } else {
+      console.error("setSubmit function is not provided!");
     }
   };
 
