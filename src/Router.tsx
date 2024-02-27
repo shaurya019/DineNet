@@ -1,11 +1,11 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RestaurantLandingPage from "./pages/RestaurantLandingPage";
-import CartPage from "./pages/Cart";
+import Request from "./pages/Request";
  const router = createBrowserRouter([
   {
     path: "/",
-    element: <CartPage />,
+    element: <Request />,
   },
   // {
   //   path: "/cart",

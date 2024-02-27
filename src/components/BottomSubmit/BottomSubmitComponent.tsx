@@ -13,7 +13,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
     if (Pass === 'Submit Request' && setSubmit) { 
       setSubmit(true);
-      console.log(setPaySubmit);
+      console.log(setSubmit);
     }
 
     if (Pass === 'Payment' && setPaySubmit) { 
