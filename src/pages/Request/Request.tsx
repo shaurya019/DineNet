@@ -9,7 +9,7 @@ export const Request = () => {
     const [RequestSubmit, setRequestSubmit] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
   const [value, setValue] = useState('NotDisclosed');
-  const [area, setArea] = useState('Tell us what you need ');
+  const [area, setArea] = useState('Tell us what you need');
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [image, setImage] = useState<File | null>(null);
   const hiddenFileInput = useRef(null);
@@ -112,7 +112,7 @@ export const Request = () => {
     }
 
      </div>
-     <BottomSubmit Heading="Submit" setSubmit={setRequestSubmit}/> 
+     <BottomSubmit Heading="Submit" setSubmit={setRequestSubmit} imageFile={image} textRequest={area}/> 
    </>
   )
 }
