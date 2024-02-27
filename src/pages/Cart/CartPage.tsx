@@ -1,6 +1,5 @@
 import React, { useState,useEffect } from 'react';
 import { useSelector } from "react-redux";
-import axios from 'axios';
 import Nav from '@/components/Navbar';
 import { RootState } from "@/service/store/cartStore";
 import EmptyCart from '@/components/EmptyCartComponent'

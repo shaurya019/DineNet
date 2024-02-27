@@ -33,12 +33,18 @@ const cartSlice = createSlice({
     removeFromCart(state, action: PayloadAction<{ id: string }>) {
       const { id } = action.payload;
       if (state.items[id]) {
-        if (state.items[id].qty > 1) {
-          state.items[id].qty -= 1;
+        const item = state.items[id];
+        if (item.qty > 1) {
+          item.qty -= 1;
+          state.totalPrice -= item.price; 
         } else {
+          state.totalPrice -= item.price; 
           delete state.items[id];
         }
-        state.totalPrice -= state.items[id].price;
+      }
+      // If the cart becomes empty, set totalPrice to 0
+      if (Object.keys(state.items).length === 0) {
+        state.totalPrice = 0;
       }
     },
     clearCart(state) {
