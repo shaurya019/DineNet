@@ -1,8 +1,9 @@
 import React,{useState,} from 'react'
 import CustomAlert from '../CustomAlert';
 import { clearCart } from "@/service/Slice/cartSlice";
-import { BackButton } from '../../assets/icons/BackButton';
+import { BackArrow } from '../../assets/icons/BackArrow';
 import { useSelector, useDispatch } from "react-redux";
+import GoBack from '../GoBack';
 
 interface NavbarProps {
     title: string;
@@ -29,7 +30,7 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
       <div className={`h-11 px-3.5 flex justify-between items-center ${show === "True" ? 'bg-greenCyan text-white' : 'bg-white'}`}>
         <div className="flex items-center">
           <button className="text-custom-empty-title">
-          {show === "True" ? <BackButton fillColor="white" /> : <BackButton fillColor='#4C4D4F' /> }
+          {show === "True" ? <GoBack fillColor="white" /> : <GoBack fillColor='#4C4D4F' /> }
             </button>
           <h4 className={`ml-2.5 font-semibold text-base ${show === "True" ? 'text-white' : 'text-grey'}`}>{title}</h4>
         </div>
