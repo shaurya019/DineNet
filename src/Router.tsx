@@ -2,14 +2,19 @@ import React from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import RestaurantLandingPage from "./pages/RestaurantLandingPage";
 import Request from "./pages/Request";
- const router = createBrowserRouter([
+import CartPage from "./pages/Cart";
+const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/requests",
     element: <Request />,
   },
-  // {
-  //   path: "/cart",
-  //   element: <CartPage />,
-  // },
+  {
+    path: "/cart",
+    element: <CartPage />,
+  },
+  {
+    path: "/",
+    element: <RestaurantLandingPage />,
+  },
 ]);
 export default router
