@@ -5,7 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 
 export const OrderDetails = () => {
-  const { items } = useSelector((state: RootState) => state); 
+  const {
+    cart: { items },
+  } = useSelector((state: RootState) => state); 
   // console.log(items);
   const addThings = () => {
   };

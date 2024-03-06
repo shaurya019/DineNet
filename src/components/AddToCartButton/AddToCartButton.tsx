@@ -10,7 +10,7 @@ interface IAddToCartButton {
 }
 export const AddToCartButton = ({ item }: IAddToCartButton) => {
   const itemCount = useSelector(
-    (state: RootState) => state.items[item.id]?.qty
+    (state: RootState) => state.cart.items[item.id]?.qty
   );
   const dispatch = useDispatch();
   const handleAddItem = () =>

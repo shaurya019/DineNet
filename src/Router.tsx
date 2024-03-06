@@ -7,15 +7,15 @@ import CartPage from "./pages/Cart";
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <RestaurantLandingPage />,
+  },
+  {
+    path: "/request",
     element: <Request />,
   },
   {
     path: "/cart",
     element: <CartPage />,
-  },
-  {
-    path: "/",
-    element: <RestaurantLandingPage />,
   },
 ]);
 export default router

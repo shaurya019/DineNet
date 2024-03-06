@@ -17,9 +17,9 @@ enum FilterValue {
 }
 export const RestaurantLandingPage = () => {
   const location = useLocation();
-  const { data = [], isLoading } = useGetClientProducts(
-    getQueryParam(location.search, "clientId")!
-  );
+  const clientId = getQueryParam(location.search, "clientId");
+  // if (!clientId) return "Invalid Client";
+  const { data = [], isLoading } = useGetClientProducts(clientId!);
   const [filteredData, setFilteredData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
@@ -46,7 +46,7 @@ export const RestaurantLandingPage = () => {
     setFilteredData(filteredData);
   }, [searchQuery, data, filter]);
   const toggleFilter = (value: FilterValue) => {
-    if (filter!==FilterValue.none) setFilter(FilterValue.none);
+    if (filter !== FilterValue.none) setFilter(FilterValue.none);
     else setFilter(value);
   };
   if (isLoading) return;
@@ -89,9 +89,7 @@ export const RestaurantLandingPage = () => {
           </AccordionItem>
         ))}
       </div>
-      <div>
-        <BottonTabs />
-      </div>
+      <BottonTabs />
     </div>
   );
 };

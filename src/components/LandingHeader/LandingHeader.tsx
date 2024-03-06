@@ -1,8 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import LoginModal from "../Login";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "@/service/store/cartStore";
+import { fetchUserLoginStatus } from "@/service/Slice/userSlice";
+import { Profile } from "@/assets/icons/Profile";
 
 export const LandingHeader = () => {
   const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
+  const user = useSelector((state: RootState) => state.user);
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(fetchUserLoginStatus());
+  }, []);
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
       {isLoginModalOpen && (
@@ -18,14 +27,20 @@ export const LandingHeader = () => {
         </p>
       </div>
       <div className="ml-auto">
-        <button
-          onClick={() =>
-            setisLoginModalOpen((isLoginModalOpen) => !isLoginModalOpen)
-          }
-          className="bg-green px-2 py-1 rounded text-white shadow-lg"
-        >
-          Log-in
-        </button>
+        {user.loggedIn ? (
+          <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
+              <Profile className="stroke-white h-4 w-4 fill-green" />
+          </div>
+        ) : (
+          <button
+            onClick={() =>
+              setisLoginModalOpen((isLoginModalOpen) => !isLoginModalOpen)
+            }
+            className="bg-green px-2 py-1 rounded text-white shadow-lg"
+          >
+            Log-in
+          </button>
+        )}
       </div>
     </div>
   );

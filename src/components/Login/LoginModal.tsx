@@ -5,22 +5,30 @@ import OTPInput from "@/atomicComponents/OTPInput";
 import LabelledTextField from "@/atomicComponents/LabelledTextField";
 import { LeftArrow } from "@/assets/icons/LeftArrow";
 import { Cross } from "@/assets/icons/Cross";
+import { UserCredential } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { signInUser } from "@/service/Slice/userSlice";
 interface ILoginModal {
   closeModal?: MouseEventHandler;
 }
-export const LoginModal = ({ closeModal }: ILoginModal) => {
+export const LoginModal = ({ closeModal = () => {} }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
   const [showOtp, setShowOtp] = useState(false);
   const { sendOTP, confirmOTP } = usePhoneAuth();
+  const dispatch = useDispatch();
   const handleLogin = () => {
     //TODO: validate phone number
     sendOTP("+91" + phoneNumber).then(() => setShowOtp(true));
   };
-  const handleConfirmOtp = () => {
-    confirmOTP(otp)?.then((response) => {
-      console.log(response);
-      // alpine.userLogin(phoneNumber, otp);
+  const handleConfirmOtp: MouseEventHandler = (e) => {
+    confirmOTP(otp)?.then(async (response: UserCredential) => {
+      const token = await response.user.getIdToken();
+      alpine.userLogin(phoneNumber, token).then(() => {
+        window.localStorage.setItem("firebaseToken", token);
+        dispatch(signInUser({ phone: phoneNumber, firebaseToken: token }));
+        closeModal(e);
+      });
     });
   };
   const phoneInput = (
@@ -71,7 +79,7 @@ export const LoginModal = ({ closeModal }: ILoginModal) => {
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-grey bg-opacity-50 z-30 flex place-items-center">
       <div
-        className="h-1/2 w-full mx-2 bg-white rounded-xl relative z-0 flex flex-col bg-no-repeat bg-cover"
+        className="h-1/2 w-full mx-2 bg-white rounded-xl relative z-0 flex flex-col !bg-no-repeat !bg-cover"
         style={{
           background: "url('/assets/loginBg.png')",
         }}

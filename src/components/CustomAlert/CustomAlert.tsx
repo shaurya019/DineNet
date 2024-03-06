@@ -9,7 +9,9 @@ interface CustomAlertProps {
 }
 
 export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, message, onClose, clearCart }) => {
-  const { items } = useSelector((state: RootState) => state);
+  const {
+    cart: { items },
+  } = useSelector((state: RootState) => state);
   const itemCount = Object.keys(items).length;
   console.log(itemCount);
 

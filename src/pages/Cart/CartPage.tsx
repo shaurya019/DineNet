@@ -10,7 +10,9 @@ import MealAddOns from '@/components/MealAddOns'
 import StripeComponent from '../../components/ContainerCart'
 
 export const CartPage = () => {
-  const { items,totalPrice } = useSelector((state: RootState) => state);
+  const {
+    cart: { items, totalPrice },
+  } = useSelector((state: RootState) => state);
   const itemCount = Object.keys(items).length;
   const itemQuantity = items[1]?.qty;
     const [totalTax, setTotalTax] = useState(0);
