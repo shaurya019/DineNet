@@ -18,9 +18,14 @@ export default class Axios implements IAxios {
     });
 
     this.client.interceptors.response.use((response) => {
+      debugger;
+      if (response.status == 401) {
+        window.localStorage.removeItem("authToken");
+      }
       //@ts-ignore
       const authToken = response?.headers?.getAuthorization();
-      window.localStorage.setItem("authToken", authToken.split(' ').at(-1));
+      if (authToken)
+        window.localStorage.setItem("authToken", authToken.split(" ").at(-1));
       return response;
     });
   }
