@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchField from "@components/SearchField";
 import Filter from "@components/Filter";
 import AccordionItem from "@components/Accordion";
@@ -23,6 +23,7 @@ export const RestaurantLandingPage = () => {
   const [filteredData, setFilteredData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
+  const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
   useEffect(() => {
     const testFilter = (product: any) => {
       if (filter === FilterValue.veg) {
@@ -49,10 +50,15 @@ export const RestaurantLandingPage = () => {
     if (filter !== FilterValue.none) setFilter(FilterValue.none);
     else setFilter(value);
   };
+  const handleCategoryClick = (index: number) => {
+    console.log('clicked', index, itemsRef.current);
+    
+    itemsRef.current[index]?.scrollIntoView(true)
+  };
   if (isLoading) return;
   return (
     <div className="flex flex-col max-h-screen">
-      <FoodCategoryMenu data={data} />
+      <FoodCategoryMenu data={data} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
         <LandingHeader />
         <div>
@@ -77,10 +83,12 @@ export const RestaurantLandingPage = () => {
         </div>
       </div>
       <div className="flex flex-col overflow-auto max-h-full mb-12">
-        {filteredData?.map?.((category: any) => (
+        {filteredData?.map?.((category: any, index: number) => (
           <AccordionItem
+            // ref={(elem) => (itemsRef.current[index] = elem)}
             defaultState={true}
-            title={<CategoryTitle title={category.category_name} />}
+            title={<h2 ref={(elem) => (itemsRef.current[index] = elem)} className="text-sm text-green font-semibold">{category.category_name}</h2>}
+            // title={<CategoryTitle title={category.category_name} />}
             color="green"
           >
             {category.products.map((item: any) => (
@@ -93,7 +101,3 @@ export const RestaurantLandingPage = () => {
     </div>
   );
 };
-
-const CategoryTitle = ({ title }: { title: String }) => (
-  <h2 className="text-sm text-green font-semibold">{title}</h2>
-);
