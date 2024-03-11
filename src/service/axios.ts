@@ -1,4 +1,6 @@
 import axios, { AxiosInstance } from "axios";
+import { store } from "./store/cartStore";
+import { signOutUser } from "./Slice/userSlice";
 interface IAxios {
   client: AxiosInstance;
 }
@@ -18,9 +20,11 @@ export default class Axios implements IAxios {
     });
 
     this.client.interceptors.response.use((response) => {
-      debugger;
       if (response.status == 401) {
         window.localStorage.removeItem("authToken");
+        window.localStorage.removeItem("firebaseToken");
+        store.dispatch(signOutUser())
+        return response
       }
       //@ts-ignore
       const authToken = response?.headers?.getAuthorization();
