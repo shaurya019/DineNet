@@ -32,7 +32,8 @@ module.exports = {
         blue:{
           bright:"#1565C0",
           dark: "#082338CC",
-          oxford: "#263238"
+          oxford: "#263238",
+          pantone:"#216287"
         },
         green: {
           DEFAULT: "#4F7066",

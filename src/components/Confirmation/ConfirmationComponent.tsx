@@ -1,6 +1,7 @@
 import React from 'react'
 import Nav from '../Navbar';
-import Bottom from '../BottomSubmit';
+import { useNavigate } from "react-router-dom";
+import Bottom from '../../atomicComponents/BottomSubmit';
 
 interface ConfirmationComponentProps {
     title: string;
@@ -9,10 +10,24 @@ interface ConfirmationComponentProps {
     message3: string;
     message4: string;
     buttonName: string;
+    category?:string;
+    requestText?:string;
     svg: React.ReactNode; 
   }
   
-  export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({title,message1,message2,message3,message4,buttonName,svg}) => {
+
+  export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({title,message1,message2,message3,message4,buttonName,category, requestText,svg}) => {
+    const navigate=useNavigate();
+
+    const handleButtonClick = () => {
+      console.log(buttonName);
+      if(buttonName==="Track Request"){
+        navigate('/trackRequest', {replace: true ,state:{category, requestText }});
+      } else{
+        navigate('/trackOrder',{replace: true ,});
+      }
+  };
+
     return (
       <div>
           <Nav title="Cart"  show="False" showEmpty="False"/> 
@@ -22,11 +37,11 @@ interface ConfirmationComponentProps {
               {svg}
               <h4 className="font-normal text-center text-green-willam text-sm mt-1 mb-4">{message2}<span className="font-semibold"> {message3}</span></h4>
               <h4 className="font-normal text-center text-center text-green-willam text-xs  mb-7">{message4}</h4>
-              <div className='mb-4 h-7 w-56 border border-green-willam rounded rounded-md border-2'>
+              <button onClick={handleButtonClick}className='mb-4 h-7 w-56 border border-green-willam rounded rounded-md border-2'>
                   <h5 className=' text-green-willam text-center font-medium'>{buttonName}</h5>
-              </div>
+              </button>
           </div>
-         <Bottom Heading="Back to Home"/> 
+         <Bottom Heading="Back to Home" path="RestaurantLandingPage"/> 
       </div>
     )
   }

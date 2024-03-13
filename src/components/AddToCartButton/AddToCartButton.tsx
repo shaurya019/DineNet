@@ -2,7 +2,6 @@ import { Minus } from "@/assets/icons/Minus";
 import { Plus } from "@/assets/icons/Plus";
 import { addToCart, removeFromCart } from "@/service/Slice/cartSlice";
 import { RootState } from "@/service/store/cartStore";
-import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 interface IAddToCartButton {

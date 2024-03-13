@@ -1,7 +1,7 @@
 import React from 'react'
 import {StripeComponent} from '../ContainerCart/StripeComponent'
 import {CartData} from '../CartData/CartData'
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 
 export const OrderDetails = () => {

@@ -1,6 +1,4 @@
 import React from 'react';
-import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "@/service/store/cartStore";
 interface CustomAlertProps {
   isOpen: boolean;
   message: string;
@@ -9,12 +7,11 @@ interface CustomAlertProps {
 }
 
 export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, message, onClose, clearCart }) => {
-  const {
-    cart: { items },
-  } = useSelector((state: RootState) => state);
-  const itemCount = Object.keys(items).length;
-  console.log(itemCount);
-
+  // const {
+  //   cart: { items },
+  // } = useSelector((state: RootState) => state);
+  // const itemCount = Object.keys(items).length;
+  // console.log(itemCount);
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
