@@ -1,4 +1,5 @@
 import React from 'react'
+import BottomSubmit from '@/atomicComponents/BottomSubmit';
 import PersonIcon from '../../assets/icons/Person';
 
 export const Empty = () => {
@@ -13,6 +14,7 @@ export const Empty = () => {
   <div className='mx-10 mt-5 mb-20 justify-center items-center text-center'>
     <h3 className='font-normal text-custon-add-green text-sm'>Browse menu to add items to cart</h3>
   </div>
+  <BottomSubmit Heading="Home" path="RestaurantLandingPage"/>
    </div>
   )
 }
