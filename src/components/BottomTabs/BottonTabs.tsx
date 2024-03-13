@@ -10,6 +10,9 @@ export const BottonTabs = () => {
   const handleNavigateCart = () => { 
     navigate('/cart')
    }
+   const handleNavigateRequest = () => { 
+    navigate('/request')
+   }
   return (
     <div className="fixed bottom-0 z-10 bg-white w-full border-t border-green p-2">
       <div className="flex justify-around gap-[50%]">
@@ -20,7 +23,7 @@ export const BottonTabs = () => {
           </div>
           <p className="text-[9px] font-medium text-green">Cart</p>
         </div>
-        <Tab Icon={Request} text="Requests" selected={false} />
+        <Tab onClick={handleNavigateRequest} Icon={Request} text="Requests" selected={false} />
       </div>
     </div>
   );
