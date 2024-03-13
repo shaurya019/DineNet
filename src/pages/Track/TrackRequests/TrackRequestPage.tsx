@@ -1,10 +1,13 @@
 import React from 'react'
-import BottomSubmit from '@/components/BottomSubmit';
+import BottomSubmit from '@/atomicComponents/BottomSubmit';
 import Nav from '@/components/Navbar';
 import {ProgressComp} from '@/components/Progress/ProgressComp'
+import { useLocation } from 'react-router-dom';
 import {RequestStatusComp} from '@/components/RequestStatus/RequestStatusComp'
 
 export const TrackRequestPage = () => {
+  const location = useLocation();
+  const { category, requestText } = location.state || {};
   return (
     <div>
     <Nav title="Request Details"  show="True" showEmpty="False"/> 
@@ -20,12 +23,12 @@ export const TrackRequestPage = () => {
     </div>  
     </div>
     <div className='mt-7'>
-    <RequestStatusComp message="I need a towel in my room, please." title="Room Service"/>
+    <RequestStatusComp message={requestText} title={category}/>
     </div>
     <div className='mt-7 mb-20'>
-    <ProgressComp one="Request generated" two="Request Accepted " third="Completed" value="0"/>
+    <ProgressComp one="Request generated" two="Request Accepted " third="Completed" value="1"/>
     </div>
-   <BottomSubmit Heading="Back To Home"/>
+   <BottomSubmit Heading="Back To Home" path="RestaurantLandingPage"/>
 </div>
   )
 }

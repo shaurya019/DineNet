@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Nav from '@/components/Navbar';
-import BottomSubmit from '@/components/BottomSubmit';
+import BottomSubmit from '@/atomicComponents/BottomSubmit';
 import {ProgressComp} from '@/components/Progress/ProgressComp'
 import {ItemStatusComp} from '@/components/ItemStatus/ItemStatusComp'
 
@@ -26,7 +26,7 @@ export const TrackOrderPage = () => {
     <div className='mt-7 mb-20'>
     <ProgressComp one="Request generated" two="Request Accepted " third="Completed" value="0"/>
     </div>
-   <BottomSubmit Heading="Back To Home"/>
+   <BottomSubmit Heading="Back To Home" path="RestaurantLandingPage"/>
 </div>
   )
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from '@/components/Navbar';
-import BottomSubmit from '@/components/BottomSubmit';
+import BottomSubmit from '@/atomicComponents/BottomSubmit';
 import PaymentFailed from '@/assets/icons/PaymentFailed'
 
 export const PaymentFailedPage = () => {
@@ -13,7 +13,7 @@ export const PaymentFailedPage = () => {
             <h4 className="font-light text-custom-empty-title text-sm mb-6 text-center">Please try again..</h4>
             <PaymentFailed />
             </div>
-       <BottomSubmit Heading="Retry payment"/> 
+       <BottomSubmit Heading="Retry payment" path=""/> 
     </>
   )
 }
