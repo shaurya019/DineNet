@@ -20,7 +20,7 @@ export default class Axios implements IAxios {
     });
 
     this.client.interceptors.response.use((response) => {
-      if (response.status == 401) {
+      if (response.status === 401) {
         window.localStorage.removeItem("authToken");
         window.localStorage.removeItem("firebaseToken");
         store.dispatch(signOutUser())
