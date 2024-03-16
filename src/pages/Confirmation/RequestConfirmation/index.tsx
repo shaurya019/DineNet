@@ -1,1 +1,1 @@
-export { RequestCartPage as default } from "./RequestCartPage";
+export { ConfirmationRequestPage as default } from "./ConfirmationRequestPage";

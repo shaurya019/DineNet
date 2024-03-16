@@ -19,9 +19,8 @@ export const Request = () => {
     const [productName, setProductName] = useState('');
     const [area, setArea] = useState('');
     const [image, setImage] = useState<File | null>(null);
-
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    console.log()
+    console.log("image",image);
     // UseEffect for the textarea change ,select Product category
     useEffect(() => {
         const names = data.map((product: any) => product.product_name);

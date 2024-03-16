@@ -1,1 +1,1 @@
-export { OrderPage as default } from "./OrderPage";
+export { ConfirmationOrderPage as default } from "./ConfirmationOrderPage";

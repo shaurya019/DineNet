@@ -24,6 +24,8 @@ interface BottomSubmitComponentProps {
 
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal }) => {
 
+  console.log("imageFile",imageFile);
+
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
   console.log(firebaseToken);
@@ -31,7 +33,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   //Mutation
   const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, firebaseToken, ChooseOption);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(textRequest,imageFile);
-  console.log(complimentaryOrderData);
+  console.log('complimentaryOrderData',complimentaryOrderData);
   
 
   // React Hooks
@@ -44,6 +46,13 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Redux Dispatch
   const dispatch = useDispatch();
 
+
+  // Use to naviagte to phonePay Url
+  useEffect(() => {
+    if(complimentaryOrderData!=null){
+      navigate('/confirmationRequest', { replace: true });
+    }
+  },(complimentaryOrderData));
 
   // Use to naviagte to phonePay Url
   useEffect(() => {
@@ -119,34 +128,6 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   //   }
   // };
 
-
-  // Post method to store fileData to the s3 bucket
-  // const storeFileData = async () => {
-  //   console.log("firebaseToken-", firebaseToken);
-  //   try {
-  //     const formData = new FormData();
-  //     formData.append('text', textRequest ?? '');
-  //     if (imageFile) {
-  //       formData.append('image', imageFile);
-  //     }
-
-  //     const response = await fetch('http://alpine-staging-lb-1249159613.ap-south-1.elb.amazonaws.com/api/v1/complimentary_order', {
-  //       method: 'POST',
-  //       body: formData
-  //     });
-
-  //     if (!response.ok) {
-  //       setIsLoading(false);
-  //       throw new Error(`HTTP error! Status: ${response.status}`);
-  //     }
-  //   } catch (error) {
-  //     setIsLoading(false);
-  //     console.error('Error occurred:', error);
-  //   } finally {
-  //     navigate('/requestCart', { replace: true, state: { category, requestText } });
-  //     setIsLoading(false);
-  //   }
-  // };
 
 
   // Navigation Switch

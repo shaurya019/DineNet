@@ -3,7 +3,7 @@ import Confirmation from "@/components/Confirmation"
 import RequestConfirm from "@/assets/icons/RequestConfirmation"
 import { useLocation } from 'react-router-dom';
 
-export const RequestCartPage = () => {
+export const ConfirmationRequestPage = () => {
   const location = useLocation();
   const { category, requestText } = location.state || {};
   return (

@@ -79,18 +79,19 @@ export class Alpine {
     });
   };
   postComplimentaryOrder = (textRequest:any,imageFile:any) => {
-    // const paymentSource = ChooseOption === "Option1" ? 'ONLINE' : 'OFFLINE';
+   
     const formData = new FormData();
     formData.append('text', textRequest ?? '');
     if (imageFile) {
+      console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);
     }
-  
+
     return requestHandler({
       method: "post",
       url: generateUrl(BASE_URL, "complimentary_order"),
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/multipart/form-data'
       },
       data: formData,
     });
