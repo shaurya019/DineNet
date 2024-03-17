@@ -62,5 +62,9 @@ const router = createBrowserRouter([
     path:"/confirmationRequest",
     element: <ConfirmationRequest />,
   },
+  {
+    path: "/payment",
+    element: <PaymentMade />,
+  },
 ]);
 export default router
