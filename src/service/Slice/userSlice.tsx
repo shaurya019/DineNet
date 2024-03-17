@@ -10,12 +10,14 @@ export interface UserState {
   loggedIn: boolean;
   firebaseToken: string | null;
   phone?: string;
+  name?: string;
 }
 
 const initialState: UserState = {
   loggedIn: false,
   firebaseToken: null,
   phone: "",
+  name: ""
 };
 
 export const fetchUserLoginStatus = createAsyncThunk(

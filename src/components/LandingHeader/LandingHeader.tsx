@@ -1,14 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import LoginModal from "../Login";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/service/store/cartStore";
 import { fetchUserLoginStatus } from "@/service/Slice/userSlice";
 import { Profile } from "@/assets/icons/Profile";
+import UserProfile from "../UserProfilePopover";
 
 export const LandingHeader = () => {
   const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
+  const profileRef = useRef<SVGSVGElement>(null);
   useEffect(() => {
     dispatch(fetchUserLoginStatus());
   }, []);
@@ -28,8 +30,14 @@ export const LandingHeader = () => {
       </div>
       <div className="ml-auto">
         {user.loggedIn ? (
-          <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
-              <Profile className="stroke-white h-4 w-4 fill-green" />
+          <div
+            className="h-8 w-8 rounded-full bg-green flex items-center justify-center"
+            
+          >
+            <Profile className="stroke-white h-4 w-4 fill-green" ref={profileRef}/>
+            <UserProfile
+              targetRef={profileRef}
+            />
           </div>
         ) : (
           <button

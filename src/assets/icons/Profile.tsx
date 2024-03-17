@@ -1,10 +1,10 @@
 import React from "react";
+interface ProfileProps extends React.SVGAttributes<SVGSVGElement> {}
 
-export const Profile = (props: React.SVGAttributes<SVGSVGElement>) => {
+export const Profile = React.forwardRef<SVGSVGElement, ProfileProps>((props, ref) => {
   return (
     <svg
-      width="16"
-      height="15"
+      ref={ref}
       viewBox="0 0 16 15"
       fill={props.fill}
       {...props}
@@ -17,4 +17,4 @@ export const Profile = (props: React.SVGAttributes<SVGSVGElement>) => {
       <circle cx="8.31239" cy="3.20179" r="2.55872" stroke={props.stroke} />
     </svg>
   );
-};
+});
