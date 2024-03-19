@@ -10,6 +10,7 @@ import { useGetClientProducts } from "@/hooks/useGetClientProducts";
 import { useLocation } from "react-router";
 import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
+import Loader from "@/atomicComponents/Loader";
 enum FilterValue {
   none,
   veg,
@@ -55,7 +56,12 @@ export const RestaurantLandingPage = () => {
     
     itemsRef.current[index]?.scrollIntoView(true)
   };
-  if (isLoading) return;
+  if (isLoading)
+    return (
+      <div className="flex flex-1 items-center justify-center h-screen">
+        <Loader />
+      </div>
+    );
   return (
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data} onClick={handleCategoryClick} />
