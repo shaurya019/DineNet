@@ -1,4 +1,4 @@
-import React, { MouseEventHandler, useState } from "react";
+import React, { MouseEventHandler, useEffect, useState } from "react";
 import { usePhoneAuth } from "../../service/firebase/phoneAuth";
 import alpine from "../../service/alpine";
 import OTPInput from "@/atomicComponents/OTPInput";
@@ -10,14 +10,22 @@ import { useDispatch } from "react-redux";
 import { signInUser } from "@/service/Slice/userSlice";
 interface ILoginModal {
   closeModal?: MouseEventHandler;
+  phone?: string;
 }
-export const LoginModal = ({ closeModal = () => {} }: ILoginModal) => {
+export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
   const [showOtp, setShowOtp] = useState(false);
   const { sendOTP, confirmOTP } = usePhoneAuth();
   const dispatch = useDispatch();
-  const handleLogin = () => {
+  useEffect(()=>{
+    if(phone?.length && phone?.length>=10 && !phoneNumber){
+      setPhoneNumber(phone)
+      handleLogin(phone)
+    }
+  },[phone])
+  
+  const handleLogin = (phoneNumber:string) => {
     //TODO: validate phone number
     sendOTP("+91" + phoneNumber).then(() => setShowOtp(true));
   };
@@ -41,7 +49,7 @@ export const LoginModal = ({ closeModal = () => {} }: ILoginModal) => {
         onChange={(e) => setPhoneNumber(e.target.value)}
       />
       <button
-        onClick={handleLogin}
+        onClick={()=>handleLogin(phoneNumber)}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans"
       >
         Send OTP

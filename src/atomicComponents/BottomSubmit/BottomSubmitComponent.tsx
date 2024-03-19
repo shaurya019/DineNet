@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 import { usePostOrderDetails } from '@/hooks/usePostOrderDetails'
 import { usePostComplimentaryOrder } from '@/hooks/usePostComplimentaryOrder'
+import LoginModal from '@/components/Login';
 
 interface BottomSubmitComponentProps {
   Heading: string;
@@ -25,6 +26,8 @@ interface BottomSubmitComponentProps {
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal }) => {
 
   console.log("imageFile",imageFile);
+
+  const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
 
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
@@ -140,10 +143,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         navigate('/paymentMade');
         break;
       case "OrderPage":
-        orderDetailsMutate();
-        break;
       case "RequestCart":
-        complimentaryOrderMutate();
+        setShowOtpModal(true)
         break;
       default:
         console.error("Invalid path provided.");
@@ -157,7 +158,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       setSubmit?.(true);
     }
     navigateTo(path);
-  };
+      };
 
   const processOfOrder = () => {
     setSubmit?.(true);
@@ -166,8 +167,27 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
   }
 
+  const handleCreateOrder = () => { 
+    switch (path) {
+      case "OrderPage":
+        orderDetailsMutate();
+        break;
+      case "RequestCart":
+        complimentaryOrderMutate();
+        break;
+      default:
+        console.error("Invalid path provided.");
+    }
+   }
+
+  const handleCloseOtpModal = () => { 
+    handleCreateOrder()
+    setShowOtpModal(false)
+   }
+
   return (
     <div className='fixed bottom-0 w-full bg-white border-t-whiteSmoke mt-10 py-3 px-2.5' style={{ boxShadow: '0 -4px 4px 0px rgba(0, 0, 0, 0.07)', minHeight: '60px' }}>
+      {showOtpModal && phone?.length!>=10 && <LoginModal closeModal={handleCloseOtpModal} phone={phone}/>}
       <div className="bg-greenCyan text-center py-3 rounded-2xl"
         onClick={() => {
           if (ChooseOption !== null) {
