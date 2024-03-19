@@ -12,6 +12,7 @@ import {
 } from "@tanstack/react-query";
 import { Provider } from "react-redux";
 import { store } from "./service/store/cartStore";
+import Alert from "./components/Alert";
 
 initializeFirebase();
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ export default function App() {
           <RecaptchaContainer />
           <RouterProvider router={router} />
         </QueryClientProvider>
+        <Alert />
       </Provider>
     </div>
   );

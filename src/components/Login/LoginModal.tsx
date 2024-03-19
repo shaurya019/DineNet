@@ -8,6 +8,7 @@ import { Cross } from "@/assets/icons/Cross";
 import { UserCredential } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { signInUser } from "@/service/Slice/userSlice";
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 interface ILoginModal {
   closeModal?: MouseEventHandler;
   phone?: string;
@@ -35,6 +36,12 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       alpine.userLogin(phoneNumber, token).then(() => {
         window.localStorage.setItem("firebaseToken", token);
         dispatch(signInUser({ phone: phoneNumber, firebaseToken: token }));
+        dispatch(
+          showAlert({
+            message: "Successfully Logged In",
+            type: AlertType.success,
+          })
+        );
         closeModal(e);
       });
     });
