@@ -6,9 +6,8 @@ import { useGetComplimenatryProductHistory } from "@/hooks/useGetComplimenatryPr
 
 export const RequestHistoryPage = () => {
   const { data = [], isLoading } = useGetComplimenatryProductHistory();
-  console.log('RequestHistoryPage', data, data.length);
 
-  if (isLoading) return null; // Return null or a loading indicator while data is loading
+  if (isLoading) return null; 
 
   return (
     <>

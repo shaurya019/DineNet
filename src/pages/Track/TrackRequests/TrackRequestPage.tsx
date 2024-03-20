@@ -3,11 +3,18 @@ import BottomSubmit from '@/atomicComponents/BottomSubmit';
 import Nav from '@/components/Navbar';
 import {ProgressComp} from '@/components/Progress/ProgressComp'
 import { useLocation } from 'react-router-dom';
+import {useGetComplimentaryProductData} from '@/hooks/useGetComplimentaryProductData'
 import {RequestStatusComp} from '@/components/RequestStatus/RequestStatusComp'
 
 export const TrackRequestPage = () => {
+
   const location = useLocation();
-  const { category, requestText } = location.state || {};
+  const { Order } = location.state || {};
+  console.log("Order",Order);
+
+  const { data = [], isLoading } = useGetComplimentaryProductData(Order!);
+
+  if (isLoading) return;
   return (
     <div>
     <Nav title="Request Details"  show="True" showEmpty="False"/> 
@@ -23,7 +30,7 @@ export const TrackRequestPage = () => {
     </div>  
     </div>
     <div className='mt-7'>
-    <RequestStatusComp message={requestText} title={category}/>
+    <RequestStatusComp message={data[0].text} title="category"/>
     </div>
     <div className='mt-7 mb-20'>
     <ProgressComp one="Request generated" two="Request Accepted " third="Completed" value="1"/>

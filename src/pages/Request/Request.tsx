@@ -11,7 +11,7 @@ export const Request = () => {
     // Api fetch for Complimenatry Product Category
     const { data = [], isLoading } = useComplimenatryProductCategory(1);
 
-// React Hooks
+    // React Hooks
     const [RequestSubmit, setRequestSubmit] = useState(false);
     const [isOpen, setIsOpen] = useState(true);
     const [value, setValue] = useState('NotDisclosed');
@@ -20,8 +20,8 @@ export const Request = () => {
     const [area, setArea] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-    console.log("image",image);
-    // UseEffect for the textarea change ,select Product category
+  
+
     useEffect(() => {
         const names = data.map((product: any) => product.product_name);
         setProductName(names);
@@ -31,7 +31,6 @@ export const Request = () => {
         if (textareaRef.current) {
             textareaRef.current.style.height = '117px';
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-            console.log("Textarea height adjusted", textareaRef.current.style.height);
         }
     }, [area,data,value]);
 
@@ -54,7 +53,6 @@ export const Request = () => {
     };
 
     const handleItemClick = (newValue: string) => {
-        console.log("Value", newValue);
         setValue(newValue);
         setIsOpen(false);
     };

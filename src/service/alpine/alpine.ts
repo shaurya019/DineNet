@@ -19,6 +19,12 @@ export class Alpine {
       url: generateUrl(BASE_URL, "products/client_products/" + client_id),
     });
   };
+  getComplimentaryProductData = (client_id: string) => {
+    return requestHandler({
+      method: "get",
+      url: generateUrl(BASE_URL, "complimentary_order/find_order/" + client_id),
+    });
+  };
   getClientProductsTax = (items:any) => {
     const productQuantities = Object.values(items).map((item:any) => ({
       product_id: item.id,
@@ -50,21 +56,20 @@ export class Alpine {
       url: generateUrl(BASE_URL,"complimentary_order/customer_orders"),
     });
   };
-  postOrderDetails = (name:any, phone:any, firebaseToken:any, ChooseOption:any) => {
-    const paymentSource = ChooseOption === "Option1" ? 'ONLINE' : 'OFFLINE';
+  postOrderDetails = (name:any, phone:any, firebaseToken:any, ChooseOption:any,items:any) => {
+    const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
+    const orderItems = Object.values(items).map((item:any) => ({
+      quantity: item.qty,
+      product_id: item.id,
+      campaign_name: 'TEST'
+    }));
     const body = {
       customer_name: name,
       customer_phone: phone,
       client_id: 1,
       source: 'A',
       customization: 'A',
-      order_items: [
-        {
-          quantity: 1,
-          product_id: 1,
-          campaign_name: 'TEST'
-        }
-      ],
+      order_items: orderItems,
       payment_source: paymentSource,
       firebase_token: firebaseToken,
     };

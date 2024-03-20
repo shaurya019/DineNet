@@ -19,19 +19,17 @@ interface ReqHistoryComProps {
 
     const handleTrackRequest = () => {
       const requestData = {
-        Request,
-        Status,
-        Subject
+        Order
       };
   
       // Navigate to the target route with data
-      navigate('/trackRequest',);
+      navigate('/trackRequest', { state: requestData });
     };
 
   return (
     <div>
        <div className='flex flex-col m-1 '>
-        <div className='h-11 rounded-t-[20px] bg-gallery items-center border border-solid border-gallery flex flex-row px-5 justify-between'>
+        <div className='h-11 rounded-t-[20px] bg-grey-gallery items-center border border-solid border-gallery flex flex-row px-5 justify-between'>
         <div className='flex flex-col'>
         <h4 className='text-sm text-green-willam font-medium'>{Request}</h4>
         <div className='flex flex-row'>
