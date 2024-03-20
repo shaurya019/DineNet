@@ -3,15 +3,13 @@ import { initializeFirebase } from "@utils/firebaseUtils";
 import RecaptchaContainer from "@components/RecaptchaContainer";
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
-
-
-
+import { PersistGate } from "redux-persist/integration/react";
 import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { Provider } from "react-redux";
-import { store } from "./service/store/cartStore";
+import { persistor, store } from "./service/store/cartStore";
 import Alert from "./components/Alert";
 
 initializeFirebase();
@@ -21,11 +19,13 @@ export default function App() {
   return (
     <div>
       <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <RecaptchaContainer />
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-        <Alert />
+        <PersistGate loading={null} persistor={persistor}>
+          <QueryClientProvider client={queryClient}>
+            <RecaptchaContainer />
+            <RouterProvider router={router} />
+          </QueryClientProvider>
+          <Alert />
+        </PersistGate>
       </Provider>
     </div>
   );
