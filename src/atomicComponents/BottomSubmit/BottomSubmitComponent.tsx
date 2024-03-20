@@ -53,8 +53,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         const Order = {
           id: complimentaryOrderData.id,
         };
-        console.log('requestData',Order);
-      navigate('/confirmationRequest', { replace: true, state: { Order } });
+       navigate('/confirmationRequest', { replace: true, state: { Order } });
       }
     }
   },[complimentaryOrderData,textRequest,category]);
@@ -89,7 +88,6 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
 
 
-  // Post method for Payment
   // const paymentFetchData = async () => {
   //   try {
   //     const paymentSource = ChooseOption === "Option1" ? 'ONLINE' : 'OFFLINE';

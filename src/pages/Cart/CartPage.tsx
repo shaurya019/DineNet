@@ -14,6 +14,8 @@ export const CartPage = () => {
   const itemCount = Object.keys(items).length;
   const { totalTax, taxList } = useTaxCalculation();
 
+
+
   return (
     <div>
       <Nav title="Cart" show={itemCount !== 0 ? "True" : "False"} showEmpty={itemCount !== 0 ? "True" : "False"} />
