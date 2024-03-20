@@ -10,7 +10,7 @@ import StripeComponent from '@/components/ContainerCart'
 import useTaxCalculation from '@/hooks/useTaxCustom'
 
 export const CartPage = () => {
-  const { items, totalPrice , clearedItems } = useSelector((state: RootState) => state.cart);
+  const { items, totalPrice } = useSelector((state: RootState) => state.cart);
   const itemCount = Object.keys(items).length;
   const { totalTax, taxList } = useTaxCalculation();
 

@@ -25,18 +25,20 @@ interface BottomSubmitComponentProps {
 
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal }) => {
 
+<<<<<<< Updated upstream
   console.log("imageFile",imageFile);
 
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
 
+=======
+  const { items, } = useSelector((state: RootState) => state.cart);
+>>>>>>> Stashed changes
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
-  console.log(firebaseToken);
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, firebaseToken, ChooseOption);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, firebaseToken, ChooseOption,items);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(textRequest,imageFile);
-  console.log('complimentaryOrderData',complimentaryOrderData);
   
 
   // React Hooks
@@ -53,23 +55,35 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Use to naviagte to phonePay Url
   useEffect(() => {
     if(complimentaryOrderData!=null){
-      navigate('/confirmationRequest', { replace: true });
+      if(textRequest !== undefined && textRequest.length > 0 && category!=='NotDisclosed'){
+        const Order = {
+          id: complimentaryOrderData.id,
+        };
+        console.log('requestData',Order);
+      navigate('/confirmationRequest', { replace: true, state: { Order } });
+      }
     }
-  },(complimentaryOrderData));
+  },[complimentaryOrderData,textRequest,category]);
+
+
+    // Dispatch and navigate after the redirection is complete
+    const handleRedirectComplete = () => {
+      dispatch(clearCart());
+      navigate('/order', { replace: true });
+    };
+
 
   // Use to naviagte to phonePay Url
   useEffect(() => {
     const fetchPaymentData = async () => {
-      if (orderDetailsData && orderDetailsData.payment_info) {
+      // console.log(orderDetailsData);
+      // console.log(ChooseOption);
+      if(orderDetailsData && ChooseOption==='OFFLINE'){
+        handleRedirectComplete();
+      }else if (orderDetailsData && orderDetailsData.payment_info) {
         let url = orderDetailsData.payment_info.url;
         // Redirect to the payment URL
         window.location.href = url;
-
-        // Dispatch and navigate after the redirection is complete
-        const handleRedirectComplete = () => {
-          dispatch(clearCart());
-          navigate('/order', { replace: true });
-        };
 
         handleRedirectComplete();
       }
@@ -144,7 +158,15 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         break;
       case "OrderPage":
       case "RequestCart":
+<<<<<<< Updated upstream
         setShowOtpModal(true)
+=======
+        if (textRequest !== undefined && textRequest.length > 0 && category !== 'NotDisclosed') {
+          complimentaryOrderMutate();
+        }else{
+          setIsLoading(false);
+        }
+>>>>>>> Stashed changes
         break;
       default:
         console.error("Invalid path provided.");
@@ -205,7 +227,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
           }
         }}
       >
-        {category !== "NotDisclosed" && isLoading ? (
+        {textRequest!=='' && category!=='NotDisclosed' && isLoading ? (
           <div className="flex justify-center items-center text-white">
             <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
@@ -213,7 +235,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
             </svg>
           </div>
         ) : (
-          <button className="uppercase text-white font-black text-xs">{Heading}</button>
+          <button className="uppercase font-[NotoSans] text-white font-black text-xs">{Heading}</button>
         )}
       </div>
     </div>
