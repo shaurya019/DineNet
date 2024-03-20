@@ -25,14 +25,8 @@ interface BottomSubmitComponentProps {
 
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal }) => {
 
-<<<<<<< Updated upstream
-  console.log("imageFile",imageFile);
-
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
-
-=======
   const { items, } = useSelector((state: RootState) => state.cart);
->>>>>>> Stashed changes
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
 
@@ -158,15 +152,12 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         break;
       case "OrderPage":
       case "RequestCart":
-<<<<<<< Updated upstream
-        setShowOtpModal(true)
-=======
+        // setShowOtpModal(true)
         if (textRequest !== undefined && textRequest.length > 0 && category !== 'NotDisclosed') {
           complimentaryOrderMutate();
         }else{
           setIsLoading(false);
         }
->>>>>>> Stashed changes
         break;
       default:
         console.error("Invalid path provided.");
