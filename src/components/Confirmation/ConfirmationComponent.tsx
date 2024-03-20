@@ -10,19 +10,21 @@ interface ConfirmationComponentProps {
     message3: string;
     message4: string;
     buttonName: string;
-    category?:string;
-    requestText?:string;
+    // category?:string;
+    // requestText?:string;
+    Order?:string;
     svg: React.ReactNode; 
   }
   
 
-  export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({title,message1,message2,message3,message4,buttonName,category, requestText,svg}) => {
+  export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({title,message1,message2,message3,message4,buttonName,Order,svg}) => {
     const navigate=useNavigate();
 
     const handleButtonClick = () => {
       console.log(buttonName);
       if(buttonName==="Track Request"){
-        navigate('/trackRequest', {replace: true ,state:{category, requestText }});
+        console.log('requestData',Order);
+        navigate('/trackRequest', {replace: true ,state:{Order}});
       } else{
         navigate('/trackOrder',{replace: true ,});
       }
@@ -30,7 +32,7 @@ interface ConfirmationComponentProps {
 
     return (
       <div>
-          <Nav title="Cart"  show="False" showEmpty="False"/> 
+          <Nav title="Home"  show="False" showEmpty="False"/> 
           <div className='flex flex-col mb-20 mx-10 justify-center items-center'>
           <h3 className="font-semibold text-green-willam text-center text-2xl mb-2">{title}</h3>
               <h4 className="font-normal text-center text-green-willam text-sm mb-1">{message1}</h4>
