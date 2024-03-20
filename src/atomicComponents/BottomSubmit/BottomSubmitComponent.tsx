@@ -150,12 +150,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         break;
       case "OrderPage":
       case "RequestCart":
-        // setShowOtpModal(true)
-        if (textRequest !== undefined && textRequest.length > 0 && category !== 'NotDisclosed') {
-          complimentaryOrderMutate();
-        }else{
-          setIsLoading(false);
-        }
+        setShowOtpModal(true)
         break;
       default:
         console.error("Invalid path provided.");
@@ -184,7 +179,11 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         orderDetailsMutate();
         break;
       case "RequestCart":
-        complimentaryOrderMutate();
+        if (textRequest !== undefined && textRequest.length > 0 && category !== 'NotDisclosed') {
+          complimentaryOrderMutate();
+        }else{
+          setIsLoading(false);
+        }
         break;
       default:
         console.error("Invalid path provided.");
