@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 import { useNavigate } from "react-router-dom";
 import { signOutUser } from "@/service/Slice/userSlice";
+import { useSignOut } from "@/hooks/useSignOut";
 
 type UserProfileProps = {
   targetRef: React.RefObject<HTMLElement | SVGSVGElement>;
@@ -14,10 +15,13 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { mutateAsync: signOut } = useSignOut();
   const handleLogout = () => {
-    window.localStorage.removeItem("authToken");
-    window.localStorage.removeItem("firebaseToken");
-    dispatch(signOutUser());
+    signOut().then(() => {
+      window.localStorage.removeItem("authToken");
+      window.localStorage.removeItem("firebaseToken");
+      dispatch(signOutUser());
+    });
   };
   return (
     <Popover targetRef={targetRef}>

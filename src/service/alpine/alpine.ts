@@ -101,6 +101,12 @@ export class Alpine {
       data: formData,
     });
   };
+  signOut = ()=>{
+    return requestHandler({
+      method: "post",
+      url: generateUrl(BASE_URL, "users/logout"),
+    });
+  }
 }
 
 
