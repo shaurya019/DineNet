@@ -22,10 +22,11 @@ interface BottomSubmitComponentProps {
   ChooseOption?: string | null;
   phone?: string;
   name?: string;
+  instruction?:string;
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal }) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal,instruction }) => {
 
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const { items, } = useSelector((state: RootState) => state.cart);
@@ -35,7 +36,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, firebaseToken, ChooseOption, items);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction,firebaseToken, ChooseOption, items);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
 
