@@ -87,7 +87,7 @@ export class Alpine {
       customer_name: name,
       customer_phone: phone,
       client_id: 1,
-      source: 'A',
+      source: 'Room 1',
       customization: instruction,
       order_items: orderItems,
       payment_source: paymentSource,

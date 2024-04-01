@@ -79,11 +79,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   useEffect(() => {
     const fetchPaymentData = async () => {
       if (orderDetailsData) {
-        const Id = orderDetailsData.order_items.map((item: any) => item.id);
-        console.log(Id);
-        var ID = Id[0].toString();
         if (ChooseOption === 'OFFLINE') {
-          handleRedirectComplete(ID);
+          handleRedirectComplete(orderDetailsData.id);
         } else if (orderDetailsData.payment_info) {
           let url = orderDetailsData.payment_info.url;
           window.location.href = url;
