@@ -5,6 +5,7 @@ import Nav from '@/components/Navbar';
 import DownArrow from '@/assets/icons/DownArrow';
 import UpwardArrow from '@/assets/icons/UpwardArrow';
 import UploadImage from '@/atomicComponents/ImageUploader'; 
+import Loader from "@/atomicComponents/Loader";
 
 export const Request = () => {
 
@@ -17,14 +18,17 @@ export const Request = () => {
     const [value, setValue] = useState('NotDisclosed');
     const [submit, setSubmit] = useState(false);
     const [productName, setProductName] = useState('');
+    const[productId,setProductId] = useState(0);
     const [area, setArea] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
-  
 
     useEffect(() => {
         const names = data.map((product: any) => product.product_name);
         setProductName(names);
+        const id = data.map((product: any) => product.id);
+        console.log("NameId",id);
+        setProductId(id);
         if (value !== 'NotDisclosed') {
             setSubmit(true);
         }
@@ -36,18 +40,6 @@ export const Request = () => {
 
 
 
-    // useEffect(() => {
-    //     const names = data.map((product: any) => product.product_name);
-    //     setProductName(names);
-    // }, [data]);
-
-    // useEffect(() => {
-    //     if (value !== 'NotDisclosed') {
-    //         setSubmit(true);
-    //     }
-    // }, [value]);
-
-
     const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
         setArea(event.target.value);
     };
@@ -57,7 +49,11 @@ export const Request = () => {
         setIsOpen(false);
     };
 
-    if (isLoading) return;
+    if (isLoading) return (
+        <div className="flex flex-1 items-center justify-center h-screen">
+          <Loader />
+        </div>
+      ); 
 
     return (
         <>
@@ -105,7 +101,7 @@ export const Request = () => {
                     <img src={URL.createObjectURL(image)} alt="" className='w-[86px] h-[79px] mt-3  rounded' />
                 )}
             </div>
-            <BottomSubmit Heading="Submit Request" setSubmit={setRequestSubmit} imageFile={image} textRequest={area} path="RequestCart" category={value} submit={submit} requestText={area} />
+            <BottomSubmit Heading="Submit Request" setSubmit={setRequestSubmit} productId={productId} imageFile={image} textRequest={area} path="RequestCart" category={value} submit={submit} requestText={area} />
         </>
     );
 };
