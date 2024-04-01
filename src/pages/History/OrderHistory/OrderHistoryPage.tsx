@@ -1,35 +1,36 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react';
 import Nav from '@/components/Navbar';
 import { useGetOrderHistory } from "@/hooks/useGetOrderHistory";
-import OrderHistoryComp from '@/components/OrderHistoryComp'
+import OrderHistoryComp from '@/components/OrderHistoryComp';
 import EmptyOrderPage from './EmptyOrderPage';
+import Loader from "@/atomicComponents/Loader";
 
 export const OrderHistoryPage = () => {
-  const [len,setLen] = useState(0);
-  const { data = [], isLoading } = useGetOrderHistory();
-  console.log("OrderHistoryPage",data)
-  useEffect(()=>{
-    const results = data.results;
-   if(results){
-    setLen(results.length);
-   }
-  },[data]);
-  if (isLoading) return;
+  const [page, setPage] = useState(1); // Initialize page number
+  const { data = {}, isLoading, } = useGetOrderHistory(page);
+  const observer = useRef<IntersectionObserver>();
+  // Handle loading state
+  if (isLoading) {
+    return (
+      <div className="flex flex-1 items-center justify-center h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
-        <Nav title="Order History"  show="True" showEmpty="False"/> 
-        {len === 0 ?
+      <Nav title="Order History" show="True" showEmpty="False" />
+      {data.length === 0 ? (
         <EmptyOrderPage />
-        : 
-       <>
-       <OrderHistoryComp Request="Request Category" Room="102" Order="112" Status="Received" Date="07 Oct 2023" Time="9:30 P.M" Paid="Paid Online" RequestStatus="Track Request" />
-        <OrderHistoryComp Request="Request Category" Room="102" Order="112" Status="Delivered" Date="07 Oct 2023" Time="9:30 P.M" Paid="Paid Online" RequestStatus="Track Request" />
-        <OrderHistoryComp Request="Request Category" Room="102" Order="112" Status="Delivered" Date="07 Oct 2023" Time="9:30 P.M" Paid="Cash At Counter" RequestStatus="Track Request" />
-        <OrderHistoryComp Request="Request Category" Room="102" Order="112" Status="Received" Date="07 Oct 2023" Time="9:30 P.M"  Paid="Paid Online" RequestStatus="Track Request" /> 
+      ) : (
+        <>
+          {data.results && data.results.map((item: any, index: any) => (
+            <OrderHistoryComp key={index} Request="Hotel Name" item={item} />
+          ))}
+          <div className="bottom-of-page" style={{ height: '10px' }} />
         </>
-      }
+      )}
     </>
-  )
-}
-
-
+  );
+};

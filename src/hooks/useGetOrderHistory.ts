@@ -1,9 +1,9 @@
 import Alpine from "@/service/alpine";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetOrderHistory = () => {
+export const useGetOrderHistory = (page:any) => {
   return useQuery({
     queryKey: ["useGetOrderHistory", ],
-    queryFn: () => Alpine.getOrderHistory(),
+    queryFn: () => Alpine.getOrderHistory(page),
   });
 };
