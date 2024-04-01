@@ -12,9 +12,8 @@ import Loader from "@/atomicComponents/Loader";
 export const TrackOrderPage = () => {
   const location = useLocation();
   const { id } = location.state || {};
-  // location.state
-  console.log("locationState",location.state);
-  console.log("ID IN TRACK",typeof id,id);
+  
+  
   const [status,setStatus]  = useState('0')
   const { data = [], isLoading } = useGetOrderedDetails(id);
 

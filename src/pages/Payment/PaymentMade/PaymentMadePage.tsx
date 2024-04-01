@@ -18,7 +18,7 @@ export const PaymentMadePage = () => {
   const { totalPrice } = useSelector((state: RootState) => state.cart);
 
   // Redux User Data
-  const {phone, firebaseToken } = useSelector((state: RootState) => state.user);
+  const { phone, firebaseToken } = useSelector((state: RootState) => state.user);
   // TaxCalculation API
   const { totalTax, taxList } = useTaxCalculation();
 
@@ -32,17 +32,11 @@ export const PaymentMadePage = () => {
   useEffect(() => {
     // Retrieve the token from local storage
     const storedToken = localStorage.getItem('authToken');
-    console.log("storedToken",storedToken);
+    
     // Check if the token exists
     if (storedToken) {
-      console.log("Coming");
-      // Decode the token
-
-      // Decode the token
-const decoded: { name?: string } = jwtDecode(storedToken); // Type assertion
-const name = decoded.name; // Access the 'name' property
-console.log("Name:", name);
-
+      const decoded: { name?: string } = jwtDecode(storedToken); // Type assertion
+      const name = decoded.name; // Access the 'name' property
       // Set the decoded token in state
       setNamex(name);
 
@@ -50,7 +44,7 @@ console.log("Name:", name);
       console.log('No token found in local storage');
     }
   }, []);
-  
+
   return (
     <>
       <Nav title="Payment" show="True" showEmpty="False" />
@@ -61,7 +55,7 @@ console.log("Name:", name);
           <span className="font-semibold text-xs text-green-mineral">Choose Payment Method</span>
         </div>
       </div>
-      <PaymentMethodChoose submit={submit} final={final}  setSubmit={setSubmit} Option={selectedOption} SelectedOption={setSelectedOption} />
+      <PaymentMethodChoose submit={submit} final={final} setSubmit={setSubmit} Option={selectedOption} SelectedOption={setSelectedOption} />
       <BillDetailsComp totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
       <BottomNoteComp />
       <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} ChooseOption={selectedOption} path="OrderPage" />
