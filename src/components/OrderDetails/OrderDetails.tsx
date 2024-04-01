@@ -7,20 +7,21 @@ import { RootState } from "@/service/store/cartStore";
 import EditItems from "@assets/icons/Edit"
 
 interface OrderDetailsProps {
-  // refresh: boolean;
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
+  add: boolean;
+  setAdd: React.Dispatch<React.SetStateAction<boolean>>;
+  save: boolean;
+  setSave: React.Dispatch<React.SetStateAction<boolean>>;
+  instruction: string;
+  setInstruction: React.Dispatch<React.SetStateAction<string>>;
 }
 
-
-
-export const OrderDetails = ({setRefresh}:OrderDetailsProps) => {
+export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
   const {
     cart: { items },
   } = useSelector((state: RootState) => state);
 
-  const [add, setAdd] = useState<Boolean>(false);
-  const [save, setSave] = useState<boolean>(false);
-  const [instruction, setInstruction] = useState('');
+ 
 
   const handleChange = (e: any) => {
     setInstruction(e.target.value);

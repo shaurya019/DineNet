@@ -22,6 +22,9 @@ export const CartPage = () => {
   const { totalTax, taxList } = useTaxCalculation();
   const [meal,setMeal] = useState([]);
   const [refresh,setRefresh] = useState(false);
+  const [add, setAdd] = useState<boolean>(false);
+  const [save, setSave] = useState<boolean>(false);
+  const [instruction, setInstruction] = useState('');
   const { data = [], isLoading } = useGetClientProducts(id.id,cartTags);
 
 
@@ -47,11 +50,19 @@ export const CartPage = () => {
       <Nav title="Cart" show={itemCount !== 0 ? "True" : "False"} showEmpty={itemCount !== 0 ? "True" : "False"} />
       {itemCount === 0 ? <EmptyCart /> : (
         <>
-          <OrderDetails setRefresh={setRefresh} />
+          <OrderDetails 
+            setRefresh={setRefresh} 
+            add={add} 
+            setAdd={setAdd} 
+            save={save} 
+            setSave={setSave} 
+            instruction={instruction} 
+            setInstruction={setInstruction} 
+          />
           <StripeComponent title="Complete meal with add ons" />
           <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />
           <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList}/>
-          <BottomSubmit Heading="Proceed" path="PaymentMade" />
+          <BottomSubmit Heading="Proceed" path="PaymentMade"  instruction={instruction}/>
         </>
       )}
     </div>

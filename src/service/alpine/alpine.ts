@@ -76,7 +76,7 @@ export class Alpine {
       url: generateUrl(BASE_URL,"complimentary_order/customer_orders"),
     });
   };
-  postOrderDetails = (name:any, phone:any, firebaseToken:any, ChooseOption:any,items:any) => {
+  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any) => {
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
@@ -88,7 +88,7 @@ export class Alpine {
       customer_phone: phone,
       client_id: 1,
       source: 'A',
-      customization: 'A',
+      customization: instruction,
       order_items: orderItems,
       payment_source: paymentSource,
       firebase_token: firebaseToken,
