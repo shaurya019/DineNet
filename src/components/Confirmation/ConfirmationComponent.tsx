@@ -10,8 +10,6 @@ interface ConfirmationComponentProps {
     message3: string;
     message4: string;
     buttonName: string;
-    // category?:string;
-    // requestText?:string;
     Order?:string;
     svg: React.ReactNode; 
   }
@@ -19,14 +17,14 @@ interface ConfirmationComponentProps {
 
   export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({title,message1,message2,message3,message4,buttonName,Order,svg}) => {
     const navigate=useNavigate();
-
     const handleButtonClick = () => {
       console.log(buttonName);
       if(buttonName==="Track Request"){
-        console.log('requestData',Order);
         navigate('/trackRequest', {replace: true ,state:{Order}});
       } else{
-        navigate('/trackOrder',{replace: true ,});
+        console.log("OrderId",Order);
+        let id = Order;
+        navigate('/trackOrder',{replace: true ,state:{id}});
       }
   };
 

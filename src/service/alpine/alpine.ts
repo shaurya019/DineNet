@@ -1,7 +1,8 @@
+/* eslint-disable no-template-curly-in-string */
 import { generateUrl } from "@utils/serviceUtils";
 import { requestHandler } from "../requestHandler";
 const BASE_URL =
-  "http://alpine-staging-lb-1249159613.ap-south-1.elb.amazonaws.com/api/v1";
+  "https://staging-api.cubik.in/api/v1";
 export class Alpine {
   userLogin = (mobile_number: string, firebase_token: string) => {
     return requestHandler({
@@ -44,10 +45,29 @@ export class Alpine {
       url: generateUrl(BASE_URL, "complimentary_products/" + client_id),
     });
   };
-  getOrderHistory = () => {
+  getOrderHistory = (x: string) => {
+    return requestHandler({
+      method: "get",
+      url: generateUrl(BASE_URL,"orders/customer_orders?page=1"),
+    });
+  };
+  getTransactionStatus = (id: string) => {
+    return requestHandler({
+      method: "get",
+      url: generateUrl(BASE_URL,"payment/transaction_status/"+ id),
+    });
+  };
+  getOrderDetails = () => {
     return requestHandler({
       method: "get",
       url: generateUrl(BASE_URL,"orders/customer_orders"),
+    });
+  };
+  getOrderedDetails = (id:string) => {
+    console.log("AlpineId",id,typeof id);
+    return requestHandler({
+      method: "get",
+      url: generateUrl(BASE_URL,"orders/" + id),
     });
   };
   getComplimenatryProductHistory = () => {
@@ -83,9 +103,9 @@ export class Alpine {
       data: body,
     });
   };
-  postComplimentaryOrder = (textRequest:any,imageFile:any) => {
-   
+  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any) => {
     const formData = new FormData();
+    formData.append('product_id',productId ?? 0);
     formData.append('text', textRequest ?? '');
     if (imageFile) {
       console.log('imageFilehere', imageFile)

@@ -19,6 +19,7 @@
     "clsx": "^2.1.0",
     "firebase": "^10.8.0",
     "fork-ts-checker-webpack-plugin": "^6.5.3",
+    "jwt-decode": "^4.0.0",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "match-sorter": "^6.3.4",

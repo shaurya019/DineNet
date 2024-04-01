@@ -1,18 +1,22 @@
-import React from 'react'
-import {MealAddOnsComponent} from '../MealAddOnsComponent/MealAddOnsComponent'
+import React from 'react';
+import { MealAddOnsComponent } from '../MealAddOnsComponent/MealAddOnsComponent';
 
-export const MealAddOns = () => {
-  return (
-    <div className="overflow-auto whitespace-nowrap my-[14px]">
-    <div className="inline-block min-w-screen px-4 py-2">
-      <div className="flex space-x-4">
-        <MealAddOnsComponent name="Coke" price="50"/>
-        <MealAddOnsComponent name="Kulfi" price="80"/>
-        <MealAddOnsComponent name="Coke" price="50"/>
-      </div>
-    </div>
-  </div>
-  )
+interface MealAddOnsProps {
+  meals: any[];
+  refresh: boolean;
+  setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-
+export const MealAddOns = ({ meals,refresh, setRefresh}: MealAddOnsProps) => {
+  return (
+    <div className="max-h-[200px] overflow-y-auto whitespace-nowrap my-[14px]">
+      <div className="inline-block min-w-screen px-2 py-2">
+        <div className="flex space-x-4">
+          {meals.map((meal: any, index: number) => (
+            <MealAddOnsComponent key={index} meal={meal} refresh={refresh} setRefresh={setRefresh} />
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};

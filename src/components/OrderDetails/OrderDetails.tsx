@@ -6,7 +6,14 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 import EditItems from "@assets/icons/Edit"
 
-export const OrderDetails = () => {
+interface OrderDetailsProps {
+  // refresh: boolean;
+  setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+
+
+export const OrderDetails = ({setRefresh}:OrderDetailsProps) => {
   const {
     cart: { items },
   } = useSelector((state: RootState) => state);
@@ -47,6 +54,7 @@ export const OrderDetails = () => {
           <CartData
             key={itemId}
             item={items[itemId]}
+            setRefresh={setRefresh}
           />
         ))}
       </div>
