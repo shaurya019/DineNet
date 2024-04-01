@@ -19,7 +19,7 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId");
-  const { data = [], isLoading } = useGetClientProducts(clientId!);
+  const { data = [], isLoading } = useGetClientProducts(clientId ? clientId : "1");
   const [filteredData, setFilteredData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
