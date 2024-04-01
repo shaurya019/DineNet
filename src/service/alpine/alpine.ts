@@ -107,6 +107,7 @@ export class Alpine {
     const formData = new FormData();
     formData.append('product_id',productId ?? 0);
     formData.append('text', textRequest ?? '');
+    formData.append('source','Room 1');
     if (imageFile) {
       console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);
