@@ -11,14 +11,18 @@ interface PaymentMethodChooseCompProps {
 export const PaymentMethodChoose: React.FC<PaymentMethodChooseCompProps> = ({ submit,final,Option,setSubmit,SelectedOption }) => {
 
   const handleOptionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    SelectedOption(event.target.value);
+    if(!final){
+      SelectedOption(event.target.value);
+    }
   };
 
   const handleDivClick = (option:any) => {
-    SelectedOption(option);
+    if(!final){
+      SelectedOption(option);
+    }
   };
 
-
+  console.log('Final prop:', final);
   return (
     <div>
       { submit && Option === "Option3" ? <h5 className='mx-4 my-3 text-red-dark text-[10px] font-medium'>Please select payment method before proceeding</h5> : ''}
