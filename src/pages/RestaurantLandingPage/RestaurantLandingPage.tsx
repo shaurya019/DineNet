@@ -19,12 +19,12 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId");
-  // if (!clientId) return "Invalid Client";
   const { data = [], isLoading } = useGetClientProducts(clientId!);
   const [filteredData, setFilteredData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
+
   useEffect(() => {
     const testFilter = (product: any) => {
       if (filter === FilterValue.veg) {
@@ -91,10 +91,8 @@ export const RestaurantLandingPage = () => {
       <div className="flex flex-col overflow-auto max-h-full mb-12">
         {filteredData?.map?.((category: any, index: number) => (
           <AccordionItem
-            // ref={(elem) => (itemsRef.current[index] = elem)}
             defaultState={true}
             title={<h2 ref={(elem) => (itemsRef.current[index] = elem)} className="text-sm text-green font-semibold">{category.category_name}</h2>}
-            // title={<CategoryTitle title={category.category_name} />}
             color="green"
           >
             {category.products.map((item: any) => (
@@ -103,7 +101,7 @@ export const RestaurantLandingPage = () => {
           </AccordionItem>
         ))}
       </div>
-      <BottonTabs />
+      <BottonTabs clientId={clientId!}/>
     </div>
   );
 };

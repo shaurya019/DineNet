@@ -42,6 +42,7 @@ const userSlice = createSlice({
     signOutUser(state) {
       state.firebaseToken = null;
       state.phone = "";
+      state.name = "";
       state.loggedIn = false;
     },
   },

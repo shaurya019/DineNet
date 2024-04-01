@@ -2,10 +2,14 @@ import React from 'react'
 import Veg from '../../assets/icons/Veg';
 import AddToCartButton from "../AddToCartButton";
 
+interface OrderDetailsProps {
+  item: any;
+  setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-export const CartData = ({ item }: any) => {
+
+export const CartData = ({ item,setRefresh }: OrderDetailsProps) => {
   const { name,serves, price } = item;
-
 
   return (
     <div className='py-4 flex  items-center justify-between'>
@@ -17,7 +21,7 @@ export const CartData = ({ item }: any) => {
       {name}
     </h4>
   </div>
-      <AddToCartButton item={item} />
+      <AddToCartButton item={item} setRefresh={setRefresh}/>
       <div className="price-container w-[45px] text-right">
     <h4 className="font-medium text-xs text-grey">
       <span>&#8377;</span>{price}

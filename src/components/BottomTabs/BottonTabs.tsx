@@ -5,10 +5,18 @@ import { Request } from "@assets/icons/Request";
 import { Cart } from "@/assets/icons/Cart";
 import './BottomTabs.css'
 import { useNavigate } from "react-router-dom";
-export const BottonTabs = () => {
+
+interface BottonTabsProps {
+  clientId: any;
+}
+
+export const BottonTabs = ({clientId}:BottonTabsProps) => {
   const navigate=useNavigate()
   const handleNavigateCart = () => { 
-    navigate('/cart')
+    const id = {
+      id: clientId!,
+    };
+    navigate('/cart',{state:{id}})
    }
    const handleNavigateRequest = () => { 
     navigate('/request')

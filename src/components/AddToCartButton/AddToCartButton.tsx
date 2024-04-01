@@ -6,8 +6,10 @@ import { useSelector, useDispatch } from "react-redux";
 
 interface IAddToCartButton {
   item: any;
+  setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
 }
-export const AddToCartButton = ({ item }: IAddToCartButton) => {
+export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
+  const { totalCartItems } = useSelector((state: RootState) => state.cart);
   const itemCount = useSelector(
     (state: RootState) => state.cart.items[item.id]?.qty
   );
@@ -19,14 +21,23 @@ export const AddToCartButton = ({ item }: IAddToCartButton) => {
         name: item.product_name,
         price: item.price,
         qty: 0,
+        tags:item.tags
       })
     );
   const handleRemoveItem = () => {
+    if(totalCartItems>1 && item.qty===1 && setRefresh!=null){
+      setRefresh(true);
+    }
     dispatch(
       removeFromCart({
         id: item.id,
       })
     );
+    if(setRefresh!=null){
+      setTimeout(() => {
+        setRefresh(false);
+      }, 300);
+    }
   };
   return itemCount ? (
     <div className="bg-white border-2 border-green text-green px-2 py-1 rounded flex justify-between gap-5">
