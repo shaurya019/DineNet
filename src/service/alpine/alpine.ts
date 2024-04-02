@@ -45,10 +45,10 @@ export class Alpine {
       url: generateUrl(BASE_URL, "complimentary_products/" + client_id),
     });
   };
-  getOrderHistory = (x: string) => {
+  getOrderHistory = (page: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"orders/customer_orders?page=1"),
+      url: generateUrl(BASE_URL,"orders/customer_orders?page=" + page),
     });
   };
   getTransactionStatus = (id: string) => {
@@ -70,10 +70,10 @@ export class Alpine {
       url: generateUrl(BASE_URL,"orders/" + id),
     });
   };
-  getComplimenatryProductHistory = () => {
+  getComplimenatryProductHistory = (page:any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"complimentary_order/customer_orders"),
+      url: generateUrl(BASE_URL,"complimentary_order/customer_orders?page=" + page + "&size=10"),
     });
   };
   postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any) => {

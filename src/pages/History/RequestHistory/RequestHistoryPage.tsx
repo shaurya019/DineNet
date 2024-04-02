@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from "react";
 import Nav from '@/components/Navbar';
 import EmptyRequestPage from './EmptyRequestPage';
 import RequestHistoryComp from '@/components/RequestHistoryCom';
@@ -6,8 +6,40 @@ import Loader from "@/atomicComponents/Loader";
 import { useGetComplimenatryProductHistory } from "@/hooks/useGetComplimenatryProductHistory";
 
 export const RequestHistoryPage = () => {
-  const { data, isLoading, error } = useGetComplimenatryProductHistory();
 
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [showData, setShowData] = useState<any[]>([]);
+  const { data, isLoading, error } = useGetComplimenatryProductHistory(page)
+
+  useEffect(() => {
+    console.log(data);
+    if (data && data.orders && data.orders.length > 0) {
+      setShowData(prevData => [...prevData, ...data.orders]);
+      setTotalPages(data.totalCount); // Assuming totalCount is the correct property
+    }
+  }, [data]);
+  
+
+  useEffect(() => {
+    const handleScroll = (e: any) => {
+      const scrollHeight = e.target.documentElement.scrollHeight;
+      const scrollTop = e.target.documentElement.scrollTop;
+      const clientHeight = e.target.documentElement.clientHeight;
+
+      if (scrollTop + clientHeight >= scrollHeight - 20) {
+        if (page + 1 <= totalPages) {
+          setPage(prevPage => prevPage + 1);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [page, totalPages]);
+
+  
   if (isLoading) return (
     <div className="flex flex-1 items-center justify-center h-screen">
       <Loader />
@@ -15,22 +47,18 @@ export const RequestHistoryPage = () => {
   );
 
   if (error) {
-    // Handle error, e.g., show error message
     return <div>Error: {error.message}</div>;
   }
 
-  // Extract the orders array from the data object
-  const orders = data?.orders || [];
 
-  // Check if orders array is empty
-  if (orders.length === 0) {
+  if (showData.length === 0) {
     return <EmptyRequestPage />;
   }
 
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False"/> 
-      {orders.map((item:any, index:any) => {
+      {showData.map((item:any, index:any) => {
         const createdAt = new Date(item.created_at); 
         const date = createdAt.toISOString().split('T')[0];
         const time = createdAt.toTimeString().split(' ')[0];
