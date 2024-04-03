@@ -40,14 +40,14 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
     }
   };
   return itemCount ? (
-    <div className="bg-white border-2 border-green text-green px-1 py-1 rounded flex justify-between gap-5">
-      <button>
-        <Minus className="stroke-green" onClick={handleRemoveItem} />
-      </button>
+    <div className="bg-white border-2 border-green text-green px-2 py-1 rounded flex justify-between gap-5">
+       <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleRemoveItem}>
+        <Minus className="stroke-green" />
+      </div>
       <h4>{itemCount}</h4>
-      <button>
-        <Plus className="stroke-green" onClick={handleAddItem} />
-      </button>
+      <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleAddItem}>
+      <Plus className="stroke-green" />
+      </div>
     </div>
   ) : (
     <button className="bg-white border-2 border-green text-green px-6 py-1 rounded" onClick={handleAddItem}>
