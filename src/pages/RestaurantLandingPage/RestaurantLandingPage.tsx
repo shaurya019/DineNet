@@ -53,9 +53,13 @@ export const RestaurantLandingPage = () => {
     else setFilter(value);
   };
   const handleCategoryClick = (index: number) => {
-    console.log('clicked', index, itemsRef.current);
-    
-    itemsRef.current[index]?.scrollIntoView(true)
+    const element = itemsRef.current[index];
+    if (element) {
+      element.scrollIntoView({
+        behavior: "smooth", 
+        block: "start", 
+      });
+    }
   };
   if (isLoading)
     return (
