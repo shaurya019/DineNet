@@ -41,7 +41,7 @@ export const RestaurantLandingPage = () => {
         ? data.filter((category: any) => {
             return category?.products?.filter?.(
               (item: any) =>
-                new RegExp(`${searchQuery}`).test(item["product_name"]) &&
+                new RegExp(`${searchQuery}`, 'i').test(item["product_name"]) &&
                 testFilter(item)
             )?.length;
           })
