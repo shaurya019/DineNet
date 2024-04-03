@@ -16,6 +16,8 @@ interface ILoginModal {
 export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
+  const [isLoadingOtp, setIsLoadingOtp] = useState(false);
+  const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
   const { sendOTP, confirmOTP } = usePhoneAuth();
   const dispatch = useDispatch();
@@ -28,12 +30,16 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   },[phone])
   
   const handleLogin = (phoneNumber:string) => {
+    setIsLoadingOtp(true);
     //TODO: validate phone number
     console.log("PhoneNumber",phoneNumber);
-    sendOTP("+91" + phoneNumber).then(() => setShowOtp(true));
+    sendOTP("+91" + phoneNumber).then(() => setShowOtp(true)).finally(() => {
+      setIsLoadingOtp(false);
+    });
   };
 
   const handleConfirmOtp: MouseEventHandler = (e) => {
+    setIsLoadingLogin(true);
     confirmOTP(otp)?.then(async (response: UserCredential) => {
       const token = await response.user.getIdToken();
       alpine.userLogin(phoneNumber, token).then(() => {
@@ -47,7 +53,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         );
         closeModal(e);
       });
-    });
+    }).finally(()=>{setIsLoadingLogin(false)});
   };
   
   const phoneInput = (
@@ -61,9 +67,17 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       />
       <button
         onClick={()=>handleLogin(phoneNumber)}
-        className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans"
+        className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
+        disabled={!phoneNumber || phoneNumber.length < 10} 
       >
-        Send OTP
+        {isLoadingOtp ?  
+       <svg className="animate-spin h-4 w-5  mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.007 8.007 0 014 12H0c0 6.627 5.373 12 12 12v-4c-3.314 0-6.292-1.346-8.485-3.515l-1.415 1.415z"></path>
+     </svg>
+     : 
+            "Send OTP"
+             }
       </button>
     </div>
   );
@@ -89,9 +103,16 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       </div>
       <button
         onClick={handleConfirmOtp}
-        className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-NotoSans"
+        disabled={!otp || otp.length < 6}
+        className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
       >
-        Login
+       {isLoadingLogin ?  
+        <svg className="animate-spin h-4 w-5  mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A8.007 8.007 0 014 12H0c0 6.627 5.373 12 12 12v-4c-3.314 0-6.292-1.346-8.485-3.515l-1.415 1.415z"></path>
+      </svg> : 
+            "Login"
+             }
       </button>
     </div>
   );
