@@ -15,31 +15,37 @@ import { useEffect, useState } from "react";
 import Loader from "@/atomicComponents/Loader";
 
 export const CartPage = () => {
+
   const location = useLocation();
+
   const {id} = location.state || {};
+
   const { items, totalPrice, cartTags } = useSelector((state: RootState) => state.cart);
+
   const itemCount = Object.keys(items).length;
+
   const { totalTax, taxList } = useTaxCalculation();
+
   const [meal,setMeal] = useState([]);
   const [refresh,setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const [instruction, setInstruction] = useState('');
+
   const { data = [], isLoading } = useGetClientProducts(id.id,cartTags);
 
 
   useEffect(()=>{
     const filteredData = data.flatMap((category: any) => category.products);
     const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
-  // const filteredProducted = filteredProducts.filter((product:any) =>
-  //   product.tags.some((tag:any) => cartTags.includes(tag))
-  // );
-  // setMeal(filteredProducted);
-  setMeal([]);
-  
+  const filteredProducted = filteredProducts.filter((product:any) =>
+    product.tags.some((tag:any) => cartTags.includes(tag))
+  );
+  setMeal(filteredProducted);
+
   },[cartTags, data,]);
 
-  if(refresh) return (
+  if(refresh || isLoading) return (
     <div className="flex flex-1 items-center justify-center h-screen">
       <Loader />
     </div>
