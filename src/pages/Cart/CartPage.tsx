@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Nav from '@/components/Navbar';
 import { RootState } from "@/service/store/cartStore";
@@ -11,7 +12,6 @@ import useTaxCalculation from '@/hooks/useTaxCustom'
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
 import { useLocation } from "react-router";
 import { getQueryParam } from "@/utils/routerUtils";
-import { useEffect, useState } from "react";
 import Loader from "@/atomicComponents/Loader";
 
 export const CartPage = () => {
