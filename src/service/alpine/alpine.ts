@@ -77,6 +77,7 @@ export class Alpine {
     });
   };
   postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any) => {
+    console.log("postOrderDetails",instruction,typeof instruction);
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
@@ -88,7 +89,7 @@ export class Alpine {
       customer_phone: phone,
       client_id: 1,
       source: 'Room 1',
-      customization: instruction,
+      customization: instruction ?? "Need spicy",
       order_items: orderItems,
       payment_source: paymentSource,
       firebase_token: firebaseToken,

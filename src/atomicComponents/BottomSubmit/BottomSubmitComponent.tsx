@@ -36,6 +36,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
   //Mutation
+  console.log("Bottom",instruction,typeof instruction);
   const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction,firebaseToken, ChooseOption, items);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
