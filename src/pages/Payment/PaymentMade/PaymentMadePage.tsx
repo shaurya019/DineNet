@@ -12,6 +12,12 @@ import useTaxCalculation from '@/hooks/useTaxCustom'
 import { jwtDecode } from "jwt-decode";
 
 
+interface JwtPayload {
+  name?: string;
+  mobile_number?: string;
+}
+
+
 export const PaymentMadePage = () => {
 
   // Redux Cart Data
@@ -35,10 +41,11 @@ export const PaymentMadePage = () => {
     
     // Check if the token exists
     if (storedToken) {
-      const decoded: { name?: string } = jwtDecode(storedToken); // Type assertion
-      const name = decoded.name; // Access the 'name' property
-      // Set the decoded token in state
+      const decoded: JwtPayload = jwtDecode(storedToken);
+      const name = decoded.name || ''; 
+      const phone = decoded.mobile_number || ''; 
       setNamex(name);
+      setPhonex(phone);
 
     } else {
       console.log('No token found in local storage');
