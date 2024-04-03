@@ -134,7 +134,7 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
                     key={orderIndex}
                   >
                     <div className="w-1/3 flex flex-row">
-                      <Veg />
+                     <Veg color="#4CAF50"/>
                       <h4 className="text-[10px] text-left ml-2">
                         {orderItem.product.name}
                       </h4>

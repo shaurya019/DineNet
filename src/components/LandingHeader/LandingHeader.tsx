@@ -30,14 +30,12 @@ export const LandingHeader = () => {
       </div>
       <div className="ml-auto">
         {user.loggedIn ? (
-          <div
-            className="h-8 w-8 rounded-full bg-green flex items-center justify-center"
-            
-          >
-            <Profile className="stroke-white h-4 w-4 fill-green" ref={profileRef}/>
-            <UserProfile
-              targetRef={profileRef}
+          <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
+            <Profile
+              className="stroke-white h-4 w-4 fill-green"
+              ref={profileRef}
             />
+            <UserProfile targetRef={profileRef} />
           </div>
         ) : (
           <button

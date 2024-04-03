@@ -11,6 +11,7 @@ import { useLocation } from "react-router";
 import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
+
 enum FilterValue {
   none,
   veg,

@@ -14,7 +14,7 @@ export const CartData = ({ item,setRefresh }: OrderDetailsProps) => {
   return (
     <div className='py-4 flex  items-center justify-between'>
       <span className='py-0.5'>
-        <Veg />
+      <Veg color="#4CAF50"/>
       </span>
       <div className='flex-col w-[99px] overflow-hidden'>
     <h4 className="font-medium text-xs text-grey text-ellipsis">

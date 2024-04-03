@@ -19,6 +19,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [showOtp, setShowOtp] = useState(false);
   const { sendOTP, confirmOTP } = usePhoneAuth();
   const dispatch = useDispatch();
+
   useEffect(()=>{
     if(phone?.length && phone?.length>=10 && !phoneNumber){
       setPhoneNumber(phone)
@@ -28,8 +29,10 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   
   const handleLogin = (phoneNumber:string) => {
     //TODO: validate phone number
+    console.log("PhoneNumber",phoneNumber);
     sendOTP("+91" + phoneNumber).then(() => setShowOtp(true));
   };
+
   const handleConfirmOtp: MouseEventHandler = (e) => {
     confirmOTP(otp)?.then(async (response: UserCredential) => {
       const token = await response.user.getIdToken();
@@ -46,6 +49,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       });
     });
   };
+  
   const phoneInput = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">
       <h4 className="text-green font-bold">Login</h4>

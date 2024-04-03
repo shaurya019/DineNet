@@ -2,6 +2,8 @@
 import React, { useRef } from "react";
 import TruncatedParagraph from "../TruncatedParagraph";
 import AddToCartButton from "../AddToCartButton";
+import Veg from '../../assets/icons/Veg';
+
 interface IFooditem {
   data: any;
 }
@@ -25,6 +27,7 @@ export const Fooditem = ({ data }: IFooditem) => {
           <h4 className="text-grey text-xs font-semibold font-MontserratMedium">
             {data.product_name}
           </h4>
+          {data.non_veg === true ? <Veg color="#E8505B"/>  : <Veg color="#4CAF50"/> }
         </div>
         <TruncatedParagraph className="text-[8px] text-grey">
           {data.description}
