@@ -40,7 +40,7 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
     }
   };
   return itemCount ? (
-    <div className="bg-white border-2 border-green text-green px-2 py-1 rounded flex justify-between gap-5">
+    <div className="bg-white border-2 border-green text-green px-1 py-1 rounded flex justify-between gap-5">
       <button>
         <Minus className="stroke-green" onClick={handleRemoveItem} />
       </button>
