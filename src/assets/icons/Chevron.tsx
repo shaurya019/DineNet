@@ -16,7 +16,7 @@ export const Chevron = ({ isOpen }: IChevron) => {
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth="2"
-        d={isOpen ? "M19 9l-7 7-7-7" : "M5 15l7-7 7 7"}
+        d={isOpen ? "M5 15l7-7 7 7" : "M19 9l-7 7-7-7"}
       />
     </svg>
   );
