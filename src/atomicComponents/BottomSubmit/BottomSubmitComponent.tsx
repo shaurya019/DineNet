@@ -22,22 +22,22 @@ interface BottomSubmitComponentProps {
   ChooseOption?: string | null;
   phone?: string;
   name?: string;
-  instruction?:string;
+  instruction?: string;
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal,instruction }) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal, instruction }) => {
 
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const { items, } = useSelector((state: RootState) => state.cart);
   const { loggedIn } = useSelector((state: RootState) => state.user);
-  
+
 
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
   //Mutation
-  console.log("Bottom",instruction,typeof instruction);
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction,firebaseToken, ChooseOption, items);
+  // console.log("Bottom",instruction,typeof instruction);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
 
@@ -68,7 +68,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Dispatch and navigate after the redirection is complete
   const handleRedirectComplete = (Id: any) => {
     dispatch(clearCart());
-    console.log('Id type',typeof Id,Id);
+    console.log('Id type', typeof Id, Id);
     const Order = {
       id: Id,
     };
@@ -104,9 +104,11 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         break;
       case "OrderPage":
       case "RequestCart":
-        if (loggedIn) {
+        if (loggedIn || ChooseOption !== 'OFFLINE') {
+          console.log("ChooseOption", ChooseOption);
           handleCreateOrder();
         } else {
+          console.log("ChooseOption", ChooseOption);
           setShowOtpModal(true)
         }
         break;
@@ -149,7 +151,15 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   }
 
   const handleCloseOtpModal = () => {
-    handleCreateOrder()
+    if (typeof(Storage) !== "undefined") {
+      localStorage.removeItem('_grecaptcha');
+    }
+    // window._grecaptcha.reset();
+    setIsLoading(false);
+    if (setFinal && setSubmit) {
+      setSubmit(false);
+      setFinal(false);
+    }
     setShowOtpModal(false)
   }
 
@@ -169,9 +179,10 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
   }
 
+  console.log("showOtpModal#$%", showOtpModal);
   return (
     <div className='fixed bottom-0 w-full bg-white border-t-whiteSmoke mt-10 py-3 px-2.5' style={{ boxShadow: '0 -4px 4px 0px rgba(0, 0, 0, 0.07)', minHeight: '60px' }}>
-      {showOtpModal && <LoginModal closeModal={handleCloseOtpModal} phone={phone} />}
+      {showOtpModal && <LoginModal closeModal={handleCloseOtpModal} phone={phone}  orderDetailsMutate={orderDetailsMutate} />}
       <div className="bg-greenCyan text-center py-3 rounded-2xl"
         onClick={handleOnSubmit}
       >

@@ -21,7 +21,8 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
         name: item.product_name,
         price: item.price,
         qty: 0,
-        tags:item.tags
+        tags:item.tags,
+        nonVeg:item.non_veg
       })
     );
   const handleRemoveItem = () => {

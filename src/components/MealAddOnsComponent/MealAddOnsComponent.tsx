@@ -19,7 +19,8 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, s
         name: meal.product_name,
         price: meal.price,
         qty: 0,
-        tags: meal.tags
+        tags: meal.tags,
+        nonVeg:meal.non_veg
       }));
       setTimeout(() => {
         setRefresh(false);

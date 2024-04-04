@@ -9,12 +9,13 @@ interface OrderDetailsProps {
 
 
 export const CartData = ({ item,setRefresh }: OrderDetailsProps) => {
-  const { name,serves, price } = item;
+  const { name,serves, price,nonVeg } = item;
+  console.log(item);
 
   return (
     <div className='py-4 flex  items-center justify-between'>
       <span className='py-0.5'>
-      <Veg color="#4CAF50"/>
+      { nonVeg ? <Veg color="#E8505B"/>  : <Veg color="#4CAF50"/> }
       </span>
       <div className='flex-col w-[99px] overflow-hidden'>
     <h4 className="font-medium text-xs text-grey text-ellipsis">

@@ -6,6 +6,7 @@ interface CartItem {
   price: number;
   qty: number;
   tags: string[];
+  nonVeg:boolean;
 }
 
 interface CartState {
@@ -37,11 +38,11 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart(state, action: PayloadAction<CartItem>) {
-      const { id, name, price,tags } = action.payload;
+      const { id, name, price,tags,nonVeg } = action.payload;
       if (state.items[id]) {
         state.items[id].qty++;
       } else {
-        state.items[id] = { id, name, price, qty: 1,tags };
+        state.items[id] = { id, name, price, qty: 1,tags,nonVeg };
         if (tags && typeof tags !== "string") {
           console.log(typeof tags,tags);
           tags.forEach((tag: string) => state.cartTags.push(tag));
@@ -62,7 +63,7 @@ const cartSlice = createSlice({
             item.tags.forEach(tag => {
               const index = state.cartTags.indexOf(tag);
               if (index !== -1) {
-                state.cartTags.splice(index, 1); // Remove the tag at the found index
+                state.cartTags.splice(index, 1); 
               }
             });
           }
