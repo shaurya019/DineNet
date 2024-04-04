@@ -12,8 +12,9 @@ import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 interface ILoginModal {
   closeModal?: MouseEventHandler;
   phone?: string;
+  orderDetailsMutate?: () => void;
 }
-export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
+export const LoginModal = ({ closeModal = () => {}, phone,orderDetailsMutate }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
   const [isLoadingOtp, setIsLoadingOtp] = useState(false);
@@ -52,6 +53,10 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
           })
         );
         closeModal(e);
+        if (orderDetailsMutate) { 
+          orderDetailsMutate(); 
+        }
+  
       });
     }).finally(()=>{setIsLoadingLogin(false)});
   };
@@ -61,12 +66,13 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       <h4 className="text-green font-bold">Login</h4>
       <LabelledTextField
         label="Phone Number"
+        labelClassName="montserrat-label"
         placeholder="Enter your phone number"
         value={phoneNumber}
         onChange={(e) => setPhoneNumber(e.target.value)}
       />
       <button
-        onClick={()=>handleLogin(phoneNumber)}
+         onClick={isLoadingOtp ? undefined : () => handleLogin(phoneNumber)}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
         disabled={!phoneNumber || phoneNumber.length < 10} 
       >
@@ -102,7 +108,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         </div>
       </div>
       <button
-        onClick={handleConfirmOtp}
+        onClick = {handleConfirmOtp}
         disabled={!otp || otp.length < 6}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
       >

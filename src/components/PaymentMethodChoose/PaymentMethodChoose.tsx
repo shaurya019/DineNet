@@ -22,7 +22,7 @@ export const PaymentMethodChoose: React.FC<PaymentMethodChooseCompProps> = ({ su
     }
   };
 
-  console.log('Final prop:', final);
+
   return (
     <div>
       { submit && Option === "Option3" ? <h5 className='mx-4 my-3 text-red-dark text-[10px] font-medium'>Please select payment method before proceeding</h5> : ''}
