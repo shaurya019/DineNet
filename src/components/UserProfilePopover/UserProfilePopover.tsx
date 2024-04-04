@@ -17,6 +17,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   const navigate = useNavigate();
   const { mutateAsync: signOut } = useSignOut();
   const handleLogout = () => {
+    console.log("handleSignout");
     signOut().then(() => {
       window.localStorage.removeItem("authToken");
       window.localStorage.removeItem("firebaseToken");

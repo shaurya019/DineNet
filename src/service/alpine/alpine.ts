@@ -77,7 +77,7 @@ export class Alpine {
     });
   };
   postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any) => {
-    console.log("postOrderDetails",instruction,typeof instruction);
+    // console.log("postOrderDetails",instruction,typeof instruction);
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
