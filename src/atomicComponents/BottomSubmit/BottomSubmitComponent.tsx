@@ -160,7 +160,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       setSubmit(false);
       setFinal(false);
     }
-    setShowOtpModal(false)
+    setShowOtpModal(false);
+    window.location.reload();
   }
 
   const handleOnSubmit = () => {
