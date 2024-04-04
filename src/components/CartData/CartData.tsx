@@ -14,7 +14,8 @@ export const CartData = ({ item,setRefresh }: OrderDetailsProps) => {
 
   return (
     <div className='py-4 flex  items-center justify-between'>
-      <span className='py-0.5'>
+    <div className='flex justify-between items-center'>
+    <span className='py-0.5 mr-6'>
       { nonVeg ? <Veg color="#E8505B"/>  : <Veg color="#4CAF50"/> }
       </span>
       <div className='flex-col w-[99px] overflow-hidden'>
@@ -22,6 +23,7 @@ export const CartData = ({ item,setRefresh }: OrderDetailsProps) => {
       {name}
     </h4>
   </div>
+    </div>
       <AddToCartButton item={item} setRefresh={setRefresh}/>
       <div className="price-container w-[45px] text-right">
     <h4 className="font-medium text-xs text-grey">
