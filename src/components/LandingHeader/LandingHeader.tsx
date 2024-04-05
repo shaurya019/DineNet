@@ -11,13 +11,20 @@ export const LandingHeader = () => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
+
+  const handleCloseOtpModal = () => {
+    setisLoginModalOpen(false)
+      window.location.reload();
+  }
+
+
   useEffect(() => {
     dispatch(fetchUserLoginStatus());
   }, []);
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
       {isLoginModalOpen && (
-        <LoginModal closeModal={() => setisLoginModalOpen(false)} />
+        <LoginModal closeModal={() => handleCloseOtpModal()} />
       )}
       <div>
         <img src="/assets/logo.png" />
