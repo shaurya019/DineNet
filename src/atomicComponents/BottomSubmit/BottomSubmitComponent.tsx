@@ -35,8 +35,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
   // Redux User Data
   const { firebaseToken } = useSelector((state: RootState) => state.user);
+
   //Mutation
-  // console.log("Bottom",instruction,typeof instruction);
   const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
@@ -68,7 +68,6 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Dispatch and navigate after the redirection is complete
   const handleRedirectComplete = (Id: any) => {
     dispatch(clearCart());
-    console.log('Id type', typeof Id, Id);
     const Order = {
       id: Id,
     };
@@ -85,6 +84,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         } else if (orderDetailsData.payment_info) {
           let url = orderDetailsData.payment_info.url;
           window.location.href = url;
+          dispatch(clearCart());
         }
       }
     };
@@ -105,10 +105,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       case "OrderPage":
       case "RequestCart":
         if (loggedIn || ChooseOption !== 'OFFLINE') {
-          console.log("ChooseOption", ChooseOption);
           handleCreateOrder();
         } else {
-          console.log("ChooseOption", ChooseOption);
           setShowOtpModal(true)
         }
         break;
