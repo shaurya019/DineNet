@@ -10,11 +10,10 @@ import { useDispatch } from "react-redux";
 import { signInUser } from "@/service/Slice/userSlice";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 interface ILoginModal {
-  closeModal?: MouseEventHandler;
+  closeModal?: (action: string) => void;
   phone?: string;
-  orderDetailsMutate?: () => void;
 }
-export const LoginModal = ({ closeModal = () => {}, phone,orderDetailsMutate }: ILoginModal) => {
+export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
   const [isLoadingOtp, setIsLoadingOtp] = useState(false);
@@ -40,6 +39,7 @@ export const LoginModal = ({ closeModal = () => {}, phone,orderDetailsMutate }: 
   };
 
   const handleConfirmOtp: MouseEventHandler = (e) => {
+    console.log("Trying in this")
     setIsLoadingLogin(true);
     confirmOTP(otp)?.then(async (response: UserCredential) => {
       const token = await response.user.getIdToken();
@@ -52,11 +52,7 @@ export const LoginModal = ({ closeModal = () => {}, phone,orderDetailsMutate }: 
             type: AlertType.success,
           })
         );
-        closeModal(e);
-        if (orderDetailsMutate) { 
-          orderDetailsMutate(); 
-        }
-  
+        closeModal("otp");
       });
     }).finally(()=>{setIsLoadingLogin(false)});
   };
@@ -131,7 +127,7 @@ export const LoginModal = ({ closeModal = () => {}, phone,orderDetailsMutate }: 
         }}
       >
         <div className="absolute right-2 top-2 w-fit z-20">
-          <button onClick={closeModal}>
+          <button onClick={ () => closeModal("cross")}>
             <Cross className="fill-green" />
           </button>
         </div>

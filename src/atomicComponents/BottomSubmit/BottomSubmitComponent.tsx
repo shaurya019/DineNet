@@ -150,18 +150,12 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
   }
 
-  const handleCloseOtpModal = () => {
-    if (typeof(Storage) !== "undefined") {
-      localStorage.removeItem('_grecaptcha');
+  const handleCloseOtpModal = (action: string) => {
+    if (action === "otp") {
+      orderDetailsMutate(); 
+    } else if (action === "cross") {
+      window.location.reload();
     }
-    // window._grecaptcha.reset();
-    setIsLoading(false);
-    if (setFinal && setSubmit) {
-      setSubmit(false);
-      setFinal(false);
-    }
-    setShowOtpModal(false);
-    window.location.reload();
   }
 
   const handleOnSubmit = () => {
@@ -180,10 +174,9 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
   }
 
-  console.log("showOtpModal#$%", showOtpModal);
   return (
     <div className='fixed bottom-0 w-full bg-white border-t-whiteSmoke mt-10 py-3 px-2.5' style={{ boxShadow: '0 -4px 4px 0px rgba(0, 0, 0, 0.07)', minHeight: '60px' }}>
-      {showOtpModal && <LoginModal closeModal={handleCloseOtpModal} phone={phone}  orderDetailsMutate={orderDetailsMutate} />}
+      {showOtpModal && <LoginModal closeModal={handleCloseOtpModal} phone={phone} />}
       <div className="bg-greenCyan text-center py-3 rounded-2xl"
         onClick={handleOnSubmit}
       >
