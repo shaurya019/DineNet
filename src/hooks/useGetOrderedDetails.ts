@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 export const useGetOrderedDetails = (id:string) => {
   console.log("GetId",id,typeof id);
   return useQuery({
-    queryKey: ["useGetOrderedDetails", ],
-    queryFn: () => Alpine.getOrderedDetails(id),
+    queryKey: ["id"],
+    queryFn: () => Alpine.getOrderedDetails(id!),
   });
 };

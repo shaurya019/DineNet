@@ -23,10 +23,12 @@ interface BottomSubmitComponentProps {
   phone?: string;
   name?: string;
   instruction?: string;
+  roomNo?:string;
+  clientId?:string;
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal, instruction }) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal, instruction,roomNo,clientId }) => {
 
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const { items, } = useSelector((state: RootState) => state.cart);
@@ -37,8 +39,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const { firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
-  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items,roomNo,clientId);
+  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile,roomNo);
 
 
   // React Hooks
@@ -152,6 +154,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     if (action === "otp") {
       orderDetailsMutate(); 
     } else if (action === "cross") {
+      // console.log("RELOADING FROM SHAURYA SIDE")
       window.location.reload();
     }
   }

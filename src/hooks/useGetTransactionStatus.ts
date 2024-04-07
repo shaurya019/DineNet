@@ -3,7 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetTransactionStatus = (TransactionId:any) => {
   return useQuery({
-    queryKey: ["useGetTransactionStatus", TransactionId],
+    queryKey: [TransactionId],
     queryFn: () => Alpine.getTransactionStatus(TransactionId),
+    enabled: !!TransactionId,
   });
 };
