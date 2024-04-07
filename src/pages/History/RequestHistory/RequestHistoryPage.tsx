@@ -51,14 +51,16 @@ export const RequestHistoryPage = () => {
   }
 
 
-  if (showData.length === 0) {
-    return <EmptyRequestPage />;
-  }
+
 
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False"/> 
-      {showData.map((item:any, index:any) => {
+      {showData.length === 0 ? (
+       <EmptyRequestPage />
+      ) : (
+        <>
+            {showData.map((item:any, index:any) => {
         const createdAt = new Date(item.created_at); 
         const date = createdAt.toISOString().split('T')[0];
         const time = createdAt.toTimeString().split(' ')[0];
@@ -74,6 +76,9 @@ export const RequestHistoryPage = () => {
           />
         );
       })}
+          {isLoading && <Loader />}
+        </>
+      )}
     </>
   );
 };
