@@ -68,7 +68,7 @@ export const CartPage = () => {
           <StripeComponent title="Complete meal with add ons" />
           <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />
           <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList}/>
-          <BottomSubmit Heading="Proceed" path="PaymentMade"  instruction={instruction}/>
+          <BottomSubmit Heading="Proceed" path="PaymentMade" clientId={id.id} roomNo={id.roomNo} instruction={instruction}/>
         </>
       )}
     </div>

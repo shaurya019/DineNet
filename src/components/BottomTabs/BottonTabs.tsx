@@ -10,20 +10,25 @@ import { useNavigate } from "react-router-dom";
 
 interface BottonTabsProps {
   clientId: any;
+  roomNo:any
 }
 
-export const BottonTabs = ({ clientId }: BottonTabsProps) => {
+export const BottonTabs = ({ clientId,roomNo }: BottonTabsProps) => {
   const { totalCartItems } = useSelector((state: RootState) => state.cart);
   console.log("totalCartItems", totalCartItems);
   const navigate = useNavigate()
   const handleNavigateCart = () => {
     const id = {
       id: clientId!,
+      roomNo:roomNo!,
     };
     navigate('/cart', { state: { id } })
   }
   const handleNavigateRequest = () => {
-    navigate('/request')
+    const room = {
+      roomNo:roomNo!,
+    };
+    navigate('/request', { state: { room } })
   }
   return (
     <div className="fixed bottom-0 z-10 bg-white w-full border-t border-green p-2">

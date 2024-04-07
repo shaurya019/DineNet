@@ -6,7 +6,7 @@ import { fetchUserLoginStatus } from "@/service/Slice/userSlice";
 import { Profile } from "@/assets/icons/Profile";
 import UserProfile from "../UserProfilePopover";
 
-export const LandingHeader = () => {
+export const LandingHeader = ({ roomNo }: { roomNo: string }) => {
   const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
@@ -14,6 +14,7 @@ export const LandingHeader = () => {
 
   const handleCloseOtpModal = () => {
     setisLoginModalOpen(false)
+    console.log("RELOADING FROM SINGH SIDE")
       window.location.reload();
   }
 
@@ -32,7 +33,7 @@ export const LandingHeader = () => {
       <div className="flex-1 flex flex-col">
         <h3 className="text-grey-dark font-bold">Welcome to Hotel!</h3>
         <p className="text-grey-dark text-xs">
-          You have checked in into room no. 06
+          You have checked in into room no. {roomNo}
         </p>
       </div>
       <div className="ml-auto">

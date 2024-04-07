@@ -21,7 +21,7 @@ export const RestaurantLandingPage = () => {
   const location = useLocation();
   console.log(location.search);
   const clientId = getQueryParam(location.search, "clientId");
-  const roomNo = getQueryParam(location.search, "roomNo");
+  const roomNo = getQueryParam(location.search, "roomNo") || "1";
   const { data = [], isLoading } = useGetClientProducts(clientId ? clientId : "1");
   const [filteredData, setFilteredData] = useState(data);
   const [searchQuery, setSearchQuery] = useState("");
@@ -73,7 +73,7 @@ export const RestaurantLandingPage = () => {
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
-        <LandingHeader />
+        <LandingHeader roomNo={roomNo}/>
         <div>
           <SearchField
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -108,7 +108,7 @@ export const RestaurantLandingPage = () => {
           </AccordionItem>
         ))}
       </div>
-      <BottonTabs clientId={clientId!}/>
+      <BottonTabs clientId={clientId!} roomNo={roomNo!}/>
     </div>
   );
 };
