@@ -15,24 +15,28 @@ interface ILoginModal {
 }
 export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [submit,setSubmit] = useState(false);
   const [otp, setOtp] = useState<string>("");
   const [isLoadingOtp, setIsLoadingOtp] = useState(false);
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
   const [showOtp, setShowOtp] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
+  const [errorType, setErrorType] = useState<string>("");
   const { sendOTP, confirmOTP } = usePhoneAuth();
+  
   const dispatch = useDispatch();
 
   useEffect(()=>{
     if(phone?.length && phone?.length>=10 && !phoneNumber){
-      setPhoneNumber(phone)
-      handleLogin(phone)
+      console.log("Number Change")
+      setPhoneNumberError(false); 
+      setPhoneNumber(phone);
+      handleLogin(phone);
     }
   },[phone])
   
   const handleLogin = (phoneNumber:string) => {
     setIsLoadingOtp(true);
-    //TODO: validate phone number
-    console.log("PhoneNumber",phoneNumber);
     sendOTP("+91" + phoneNumber).then(() => setShowOtp(true)).finally(() => {
       setIsLoadingOtp(false);
     });
@@ -65,12 +69,32 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         labelClassName="montserrat-label"
         placeholder="Enter your phone number"
         value={phoneNumber}
-        onChange={(e) => setPhoneNumber(e.target.value)}
+        onChange={(e) => {
+          setPhoneNumber(e.target.value);
+          setPhoneNumberError(false); // Reset error state on change
+        }}
+        error={phoneNumberError === true ? errorType === 'empty' ? "Phone number cannot be empty" : errorType === 'length' ? "Phone number should be of 10 digits" : undefined : undefined}
+        errorClassName="text-red-500"
+        inputClassName={phoneNumberError ? "border-red-500" : ""}
+        disabled={isLoadingOtp} 
       />
       <button
-         onClick={isLoadingOtp ? undefined : () => handleLogin(phoneNumber)}
+             onClick={() => {
+              if (phoneNumber === "") {
+                console.log("Empty number")
+                setPhoneNumberError(true);
+                setErrorType('empty');
+                return;
+              }else if(phoneNumber.length < 10){
+                setPhoneNumberError(true);
+                setErrorType('length');
+                return;
+              }
+              console.log("Empty Hi")
+              handleLogin(phoneNumber);
+            }}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
-        disabled={!phoneNumber || phoneNumber.length < 10} 
+        // disabled={!phoneNumber || phoneNumber.length < 10} 
       >
         {isLoadingOtp ?  
        <svg className="animate-spin h-4 w-5  mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
