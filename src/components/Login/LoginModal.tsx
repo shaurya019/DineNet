@@ -43,7 +43,6 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   };
 
   const handleConfirmOtp: MouseEventHandler = (e) => {
-    console.log("Trying in this")
     setIsLoadingLogin(true);
     confirmOTP(otp)?.then(async (response: UserCredential) => {
       const token = await response.user.getIdToken();
@@ -79,9 +78,9 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         disabled={isLoadingOtp} 
       />
       <button
+      disabled={isLoadingOtp}
              onClick={() => {
               if (phoneNumber === "") {
-                console.log("Empty number")
                 setPhoneNumberError(true);
                 setErrorType('empty');
                 return;
@@ -90,11 +89,9 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
                 setErrorType('length');
                 return;
               }
-              console.log("Empty Hi")
               handleLogin(phoneNumber);
             }}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
-        // disabled={!phoneNumber || phoneNumber.length < 10} 
       >
         {isLoadingOtp ?  
        <svg className="animate-spin h-4 w-5  mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -129,7 +126,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       </div>
       <button
         onClick = {handleConfirmOtp}
-        disabled={!otp || otp.length < 6}
+        disabled={!otp || otp.length < 6 || isLoadingLogin}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
       >
        {isLoadingLogin ?  
