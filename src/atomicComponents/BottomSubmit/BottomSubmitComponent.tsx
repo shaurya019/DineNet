@@ -84,9 +84,9 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         if (ChooseOption === 'OFFLINE') {
           handleRedirectComplete(orderDetailsData.id);
         } else if (orderDetailsData.payment_info) {
-          let url = orderDetailsData.payment_info.url;
-          window.location.href = url;
           dispatch(clearCart());
+          let url = orderDetailsData.payment_info.url;
+          window.location.replace(url);
         }
       }
     };
