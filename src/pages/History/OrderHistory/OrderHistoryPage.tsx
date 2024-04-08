@@ -39,7 +39,7 @@ export const OrderHistoryPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [page, totalPages]);
 
-  if (isLoading) {
+  if (isLoading || data === null) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />

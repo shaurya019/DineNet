@@ -40,7 +40,7 @@ export const RequestHistoryPage = () => {
   }, [page, totalPages]);
 
   
-  if (isLoading) return (
+  if (isLoading || data === null) return (
     <div className="flex flex-1 items-center justify-center h-screen">
       <Loader />
     </div>
