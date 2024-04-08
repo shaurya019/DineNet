@@ -64,6 +64,7 @@ export const CartPage = () => {
             setSave={setSave} 
             instruction={instruction} 
             setInstruction={setInstruction} 
+            id={id.id}
           />
           <StripeComponent title="Complete meal with add ons" />
           <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />

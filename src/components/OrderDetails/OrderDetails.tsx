@@ -14,9 +14,10 @@ interface OrderDetailsProps {
   setSave: React.Dispatch<React.SetStateAction<boolean>>;
   instruction: string;
   setInstruction: React.Dispatch<React.SetStateAction<string>>;
+  id:string;
 }
 
-export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
+export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instruction, setInstruction,id }: OrderDetailsProps) => {
   const {
     cart: { items },
   } = useSelector((state: RootState) => state);
@@ -31,7 +32,7 @@ export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instructi
   const navigate = useNavigate();
 
   const addThings = () => {
-    navigate('/');
+    navigate(`/?clientId=${id}`);
   };
 
   const saveThings = () => {
