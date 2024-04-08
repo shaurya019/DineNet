@@ -11,19 +11,18 @@ export const ConfirmationOrderPage = () => {
   const history = useNavigate();
 
 
-
-
   const queryParams = new URLSearchParams(location.search);
   const transactionId = queryParams.get('transacation_id');
+
   const { id } = location.state?.Order || {};
+
   const [orderId, setOrderId] = useState('');
+
   const [paystatus, setPayStatus] = useState('');
 
   const { data = [], isLoading } = useGetTransactionStatus(transactionId);
 
   useEffect(() => {
-    console.log("id",id);
-    console.log("data",data);
     
     if(id){
       setOrderId(id);

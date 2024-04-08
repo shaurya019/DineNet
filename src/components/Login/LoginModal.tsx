@@ -9,13 +9,13 @@ import { UserCredential } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { signInUser } from "@/service/Slice/userSlice";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
+
 interface ILoginModal {
   closeModal?: (action: string) => void;
   phone?: string;
 }
 export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [submit,setSubmit] = useState(false);
   const [otp, setOtp] = useState<string>("");
   const [isLoadingOtp, setIsLoadingOtp] = useState(false);
   const [isLoadingLogin, setIsLoadingLogin] = useState(false);
@@ -71,7 +71,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         value={phoneNumber}
         onChange={(e) => {
           setPhoneNumber(e.target.value);
-          setPhoneNumberError(false); // Reset error state on change
+          setPhoneNumberError(false); 
         }}
         error={phoneNumberError === true ? errorType === 'empty' ? "Phone number cannot be empty" : errorType === 'length' ? "Phone number should be of 10 digits" : undefined : undefined}
         errorClassName="text-red-500"

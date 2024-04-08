@@ -13,7 +13,6 @@ export const TrackOrderPage = () => {
   const location = useLocation();
   const { id } = location.state || {};
   
-  
   const [status,setStatus]  = useState('0')
   const { data = [], isLoading } = useGetOrderedDetails(id);
 
