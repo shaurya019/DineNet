@@ -28,6 +28,7 @@ export const RestaurantLandingPage = () => {
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
+
   useEffect(() => {
     const testFilter = (product: any) => {
       if (filter === FilterValue.veg) {
@@ -38,22 +39,31 @@ export const RestaurantLandingPage = () => {
       }
       return true;
     };
-    let filteredData =
-      searchQuery || filter
-        ? data.filter((category: any) => {
-            return category?.products?.filter?.(
-              (item: any) =>
-                new RegExp(`${searchQuery}`, 'i').test(item["product_name"]) &&
-                testFilter(item)
-            )?.length;
-          })
-        : data;
+
+    
+    let filteredData = [];
+    if (searchQuery || filter) {
+        filteredData = data.map((category:any) => ({
+            ...category,
+            products: category.products.filter((item:any) =>
+                new RegExp(`${searchQuery}`, 'i').test(item.product_name) && testFilter(item)
+            )
+        })).filter((category:any) => category.products.length > 0);
+    } else {
+        filteredData = data;
+    }
     setFilteredData(filteredData);
+    
   }, [searchQuery, data, filter]);
+
+
+
   const toggleFilter = (value: FilterValue) => {
     if (filter !== FilterValue.none) setFilter(FilterValue.none);
     else setFilter(value);
   };
+
+
   const handleCategoryClick = (index: number) => {
     const element = itemsRef.current[index];
     if (element) {
@@ -63,12 +73,16 @@ export const RestaurantLandingPage = () => {
       });
     }
   };
+
+
   if (isLoading)
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
       </div>
     );
+
+
   return (
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data} onClick={handleCategoryClick} />
