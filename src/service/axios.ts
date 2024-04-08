@@ -28,8 +28,9 @@ export default class Axios implements IAxios {
       }
       //@ts-ignore
       const authToken = response?.headers?.getAuthorization();
+      localStorage.removeItem('persist:root');
       if (authToken)
-        window.localStorage.setItem("authToken", authToken.split(" ").at(-1));
+      window.localStorage.setItem("authToken", authToken.split(" ").at(-1));
       return response;
     });
   }
