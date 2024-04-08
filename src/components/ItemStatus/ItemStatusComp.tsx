@@ -17,7 +17,7 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
             item.order_items.map((orderItem: any, orderIndex: any) => (
               <div className="flex flex-row justify-between ml-3 mr-10 mb-3">
                 <h5 className="w-1/3 font-medium text-grey text-xs text-left">
-                  {orderItem.campaign_name}
+                {orderItem.product.name}
                 </h5>
                 <h5 className="w-1/3 font-medium text-grey text-xs text-center">
                   {orderItem.quantity}
