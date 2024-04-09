@@ -10,7 +10,6 @@ interface OrderDetailsProps {
 
 export const CartData = ({ item,setRefresh }: OrderDetailsProps) => {
   const { name,serves, price,nonVeg } = item;
-  console.log(item);
 
   return (
     <div className='py-4 flex  items-center justify-between'>

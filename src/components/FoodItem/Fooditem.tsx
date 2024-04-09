@@ -8,7 +8,6 @@ interface IFooditem {
   data: any;
 }
 export const Fooditem = ({ data }: IFooditem) => {
-  console.log("data",data);
   const ref = useRef<HTMLImageElement>(null);
   return (
     <div className="flex flex-row gap-2 border-b p-1 py-2 mb-2">

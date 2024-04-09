@@ -10,7 +10,6 @@ import { useNavigate } from "react-router-dom";
 
 export const BottonTabs = () => {
   const { totalCartItems } = useSelector((state: RootState) => state.cart);
-  console.log("totalCartItems", totalCartItems);
   const navigate = useNavigate()
   const handleNavigateCart = () => {
     navigate('/cart')

@@ -16,6 +16,7 @@ import Loader from "@/atomicComponents/Loader";
 
 export const CartPage = () => {
 
+  const clientId = localStorage.getItem("clientId");
 
   const { items, totalPrice, cartTags } = useSelector((state: RootState) => state.cart);
 
@@ -23,23 +24,24 @@ export const CartPage = () => {
 
   const { totalTax, taxList } = useTaxCalculation();
 
-  const [meal,setMeal] = useState([]);
+  const [meal, setMeal] = useState<any[]>([]);
+  const [res, setRes] = useState<any[]>([]);
   const [refresh,setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const [instruction, setInstruction] = useState('');
-
-  const { data = [], isLoading } = useGetClientProducts(cartTags);
+  const { data = [], isLoading } = useGetClientProducts(clientId,cartTags);
 
 
   useEffect(()=>{
-    const filteredData = data.flatMap((category: any) => category.products);
+    if (data && data.category_map) {
+    const filteredData = data.category_map.flatMap((category: any) => category.products);
     const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
   const filteredProducted = filteredProducts.filter((product:any) =>
     product.tags.some((tag:any) => cartTags.includes(tag))
   );
   setMeal(filteredProducted);
-
+    }
   },[cartTags, data,]);
 
   if(refresh || isLoading) return (
