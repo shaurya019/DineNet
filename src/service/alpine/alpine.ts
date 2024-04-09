@@ -63,8 +63,7 @@ export class Alpine {
       url: generateUrl(BASE_URL,"orders/customer_orders"),
     });
   };
-  getOrderedDetails = () => {
-    const clientId = localStorage.getItem("clientId");
+  getOrderedDetails = (clientId:any) => {
     return requestHandler({
       method: "get",
       url: generateUrl(BASE_URL,"orders/" + clientId),
@@ -76,10 +75,8 @@ export class Alpine {
       url: generateUrl(BASE_URL,"complimentary_order/customer_orders?page=" + page + "&size=10"),
     });
   };
-  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any) => {
+  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any,clientId:any,roomNo:any) => {
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
-    const roomNo = localStorage.getItem("roomNo");
-    const clientId = localStorage.getItem("clientId");
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
       product_id: item.id,
@@ -105,12 +102,11 @@ export class Alpine {
       data: body,
     });
   };
-  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any) => {
+  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,roomNo:any) => {
     const formData = new FormData();
-    const roomNo = localStorage.getItem("roomNo");
     formData.append('product_id',productId ?? 0);
     formData.append('text', textRequest ?? '');
-    formData.append('source',roomNo || "1");
+    formData.append('source',roomNo ?? "1");
     if (imageFile) {
       console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);
