@@ -1,10 +1,10 @@
 import Alpine from "@/service/alpine";
 import { useQuery } from "@tanstack/react-query";
 
-export const useGetClientProducts = (client_id: string | null, totalTags?: any) => {
-  const defaultClientId = client_id || "1"; // If client_id is null, use "1" as the default value
+export const useGetClientProducts = (totalTags?: any) => {
+  const clientId = localStorage.getItem("clientId");
   return useQuery({
-    queryKey: ["useGetClientProducts", defaultClientId, totalTags],
-    queryFn: () => Alpine.getClientProducts(defaultClientId),
+    queryKey: ["useGetClientProducts",clientId, totalTags],
+    queryFn: () => Alpine.getClientProducts(clientId!),
   });
 };

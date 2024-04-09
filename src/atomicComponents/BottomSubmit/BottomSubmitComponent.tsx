@@ -23,13 +23,11 @@ interface BottomSubmitComponentProps {
   phone?: string;
   name?: string;
   instruction?: string;
-  roomNo?:string;
-  clientId?:string;
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal, instruction,roomNo,clientId }) => {
-
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal, instruction}) => {
+  const clientId = localStorage.getItem("clientId");
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const { items, } = useSelector((state: RootState) => state.cart);
   const { loggedIn } = useSelector((state: RootState) => state.user);
@@ -39,8 +37,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const { firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items,roomNo,clientId);
-  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile,roomNo);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
+  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
 
   // React Hooks
@@ -99,7 +97,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const navigateTo = (path: string) => {
     switch (path) {
       case "RestaurantLandingPage":
-        navigate('/', { replace: true });
+        navigate(`/?clientId=${clientId}`, { replace: true });
         break;
       case "PaymentMade":
         navigate('/paymentMade');

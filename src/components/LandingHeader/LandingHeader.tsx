@@ -6,12 +6,13 @@ import { fetchUserLoginStatus } from "@/service/Slice/userSlice";
 import { Profile } from "@/assets/icons/Profile";
 import UserProfile from "../UserProfilePopover";
 
-export const LandingHeader = ({ roomNo }: { roomNo: string }) => {
+export const LandingHeader = () => {
   const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
-
+  const roomNo = localStorage.getItem("roomNo");
+  
   const handleCloseOtpModal = () => {
     setisLoginModalOpen(false)
     console.log("RELOADING FROM SINGH SIDE")

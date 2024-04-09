@@ -1,9 +1,9 @@
 import Alpine from "@/service/alpine";
 import { useMutation } from "@tanstack/react-query";
 
-export const usePostOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any , items:any,roomNo:any,clientId:any) => {
+export const usePostOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any , items:any) => {
   return useMutation({
     mutationKey : ["usePostOrder", ],
-    mutationFn: () => Alpine.postOrderDetails(name, phone,instruction, firebaseToken, ChooseOption,items,roomNo,clientId),
+    mutationFn: () => Alpine.postOrderDetails(name, phone,instruction, firebaseToken, ChooseOption,items),
   });
 };

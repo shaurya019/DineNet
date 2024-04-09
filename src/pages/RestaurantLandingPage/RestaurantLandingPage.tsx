@@ -19,7 +19,6 @@ enum FilterValue {
 }
 export const RestaurantLandingPage = () => {
   const location = useLocation();
-  console.log(location.search);
   const clientId = getQueryParam(location.search, "clientId");
   const roomNo = getQueryParam(location.search, "roomNo") || "1";
   const { data = [], isLoading } = useGetClientProducts(clientId ? clientId : "1");
@@ -29,6 +28,13 @@ export const RestaurantLandingPage = () => {
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
 
+  // Store clientId and roomNo in local storage
+  useEffect(() => {
+    localStorage.setItem("clientId", clientId || "1");
+    localStorage.setItem("roomNo", roomNo || "1");
+  }, [clientId, roomNo]);
+
+  
   useEffect(() => {
     const testFilter = (product: any) => {
       if (filter === FilterValue.veg) {
@@ -87,7 +93,7 @@ export const RestaurantLandingPage = () => {
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
-        <LandingHeader roomNo={roomNo}/>
+        <LandingHeader/>
         <div>
           <SearchField
             onChange={(e) => setSearchQuery(e.target.value)}
@@ -122,7 +128,7 @@ export const RestaurantLandingPage = () => {
           </AccordionItem>
         ))}
       </div>
-      <BottonTabs clientId={clientId!} roomNo={roomNo!}/>
+      <BottonTabs />
     </div>
   );
 };

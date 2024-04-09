@@ -16,9 +16,6 @@ import Loader from "@/atomicComponents/Loader";
 
 export const CartPage = () => {
 
-  const location = useLocation();
-
-  const {id} = location.state || {};
 
   const { items, totalPrice, cartTags } = useSelector((state: RootState) => state.cart);
 
@@ -32,7 +29,7 @@ export const CartPage = () => {
   const [save, setSave] = useState<boolean>(false);
   const [instruction, setInstruction] = useState('');
 
-  const { data = [], isLoading } = useGetClientProducts(id.id,cartTags);
+  const { data = [], isLoading } = useGetClientProducts(cartTags);
 
 
   useEffect(()=>{
@@ -64,12 +61,11 @@ export const CartPage = () => {
             setSave={setSave} 
             instruction={instruction} 
             setInstruction={setInstruction} 
-            id={id.id}
           />
           <StripeComponent title="Complete meal with add ons" />
           <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />
           <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList}/>
-          <BottomSubmit Heading="Proceed" path="PaymentMade" clientId={id.id} roomNo={id.roomNo} instruction={instruction}/>
+          <BottomSubmit Heading="Proceed" path="PaymentMade"instruction={instruction}/>
         </>
       )}
     </div>

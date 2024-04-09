@@ -10,7 +10,7 @@ import Loader from "@/atomicComponents/Loader";
 export const Request = () => {
 
     // Api fetch for Complimenatry Product Category
-    const { data = [], isLoading } = useComplimenatryProductCategory(1);
+    const { data = [], isLoading } = useComplimenatryProductCategory();
 
     // React Hooks
     const [RequestSubmit, setRequestSubmit] = useState(false);

@@ -1,9 +1,10 @@
 import Alpine from "@/service/alpine";
 import { useQuery } from "@tanstack/react-query";
 
-export const useComplimenatryProductCategory = (client_id:any) => {
+export const useComplimenatryProductCategory = () => {
+  const clientId = localStorage.getItem("clientId");
   return useQuery({
-    queryKey: ["useComplimenatryProductCategory", client_id],
-    queryFn: () => Alpine.complimenatryProductCategory(client_id),
+    queryKey: ["useComplimenatryProductCategory",],
+    queryFn: () => Alpine.complimenatryProductCategory(clientId!),
   });
 };

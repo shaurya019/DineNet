@@ -10,11 +10,11 @@ import Loader from "@/atomicComponents/Loader";
 
 
 export const TrackOrderPage = () => {
-  const location = useLocation();
-  const { id } = location.state || {};
+  // const location = useLocation();
+  // const { id } = location.state || {};
   
   const [status,setStatus]  = useState('0')
-  const { data = [], isLoading } = useGetOrderedDetails(id);
+  const { data = [], isLoading } = useGetOrderedDetails();
 
   useEffect(()=>{
     console.log(data);

@@ -8,27 +8,15 @@ import { Cart } from "@/assets/icons/Cart";
 import './BottomTabs.css'
 import { useNavigate } from "react-router-dom";
 
-interface BottonTabsProps {
-  clientId: any;
-  roomNo:any
-}
-
-export const BottonTabs = ({ clientId,roomNo }: BottonTabsProps) => {
+export const BottonTabs = () => {
   const { totalCartItems } = useSelector((state: RootState) => state.cart);
   console.log("totalCartItems", totalCartItems);
   const navigate = useNavigate()
   const handleNavigateCart = () => {
-    const id = {
-      id: clientId!,
-      roomNo:roomNo!,
-    };
-    navigate('/cart', { state: { id } })
+    navigate('/cart')
   }
   const handleNavigateRequest = () => {
-    const room = {
-      roomNo:roomNo!,
-    };
-    navigate('/request', { state: { room } })
+    navigate('/request')
   }
   return (
     <div className="fixed bottom-0 z-10 bg-white w-full border-t border-green p-2">
