@@ -27,7 +27,6 @@ export const Request = () => {
         const names = data.map((product: any) => product.product_name);
         setProductName(names);
         const id = data.map((product: any) => product.id);
-        console.log("NameId",id);
         setProductId(id);
         if (value !== 'NotDisclosed') {
             setSubmit(true);

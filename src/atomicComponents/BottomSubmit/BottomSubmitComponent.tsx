@@ -30,11 +30,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const clientId = localStorage.getItem("clientId");
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const { items, } = useSelector((state: RootState) => state.cart);
-  const { loggedIn } = useSelector((state: RootState) => state.user);
-
-
-  // Redux User Data
-  const { firebaseToken } = useSelector((state: RootState) => state.user);
+  const { loggedIn,firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
   const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
@@ -82,10 +78,10 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         if (ChooseOption === 'OFFLINE') {
           handleRedirectComplete(orderDetailsData.id);
         } else if (orderDetailsData.payment_info) {
-          dispatch(clearCart());
           let url = orderDetailsData.payment_info.url;
           window.location.replace(url);
         }
+        dispatch(clearCart());
       }
     };
 
@@ -104,9 +100,11 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         break;
       case "OrderPage":
       case "RequestCart":
-        if (loggedIn || ChooseOption !== 'OFFLINE') {
+        if (loggedIn || ChooseOption === 'ONLINE') {
+          console.log("WHY",loggedIn," ",firebaseToken,)
           handleCreateOrder();
         } else {
+          console.log("HAPPY");
           setShowOtpModal(true)
         }
         break;
