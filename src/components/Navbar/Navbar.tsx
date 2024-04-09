@@ -4,6 +4,7 @@ import { clearCart } from "@/service/Slice/cartSlice";
 import { BackArrow } from '../../assets/icons/BackArrow';
 import { useSelector, useDispatch } from "react-redux";
 import GoBack from '../GoBack';
+import { useNavigate } from 'react-router-dom';
 
 interface NavbarProps {
     title: string;
@@ -13,6 +14,7 @@ interface NavbarProps {
 export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleOpenAlert = () => {
       setIsOpen(true);
@@ -26,9 +28,14 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
       dispatch(clearCart());
     }
 
+  
+    const handleGoBack = () => {
+      navigate(-1);
+    };
+
     return (
       <div className={`h-11 px-3.5 flex justify-between items-center ${show === "True" ? 'bg-greenCyan text-white' : 'bg-white'}`}>
-        <div className="flex items-center">
+        <div onClick={handleGoBack} className="flex items-center cursor-pointer">
           <button className="text-custom-empty-title">
           {show === "True" ? <GoBack fillColor="white" /> : <GoBack fillColor='#4C4D4F' /> }
             </button>
