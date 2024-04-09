@@ -148,9 +148,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
   const handleCloseOtpModal = (action: string) => {
     if (action === "otp") {
-      orderDetailsMutate(); 
+      handleCreateOrder();
     } else if (action === "cross") {
-      // console.log("RELOADING FROM SHAURYA SIDE")
       window.location.reload();
     }
   }

@@ -9,8 +9,10 @@ import Loader from "@/atomicComponents/Loader";
 
 export const TrackRequestPage = () => {
   const [status,setStatus]  = useState('0')
+  const location = useLocation();
+  const { Order } = location.state || {};
 
-  const { data = [], isLoading } = useGetComplimentaryProductData();
+  const { data = [], isLoading } = useGetComplimentaryProductData(Order!);
   console.log(data);
 
   useEffect(()=>{

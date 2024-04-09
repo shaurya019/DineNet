@@ -20,10 +20,10 @@ export class Alpine {
       url: generateUrl(BASE_URL, "products/client_products/" + clientId),
     });
   };
-  getComplimentaryProductData = (clientId:string) => {
+  getComplimentaryProductData = (id:string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "complimentary_order/find_order/" + clientId),
+      url: generateUrl(BASE_URL, "complimentary_order/find_order/" + id),
     });
   };
   getClientProductsTax = (items:any) => {
@@ -63,10 +63,10 @@ export class Alpine {
       url: generateUrl(BASE_URL,"orders/customer_orders"),
     });
   };
-  getOrderedDetails = (clientId:any) => {
+  getOrderedDetails = (id:any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"orders/" + clientId),
+      url: generateUrl(BASE_URL,"orders/" + id),
     });
   };
   getComplimenatryProductHistory = (page:any) => {
