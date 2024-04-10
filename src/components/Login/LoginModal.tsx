@@ -107,7 +107,6 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const otpVerification = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">
       <div className="flex gap-2 items-center">
-        <LeftArrow className="fill-green" />
         <h4 className="text-green font-bold">Verify</h4>
       </div>
       <h6 className="text-grey-dark text-xs font-normal">

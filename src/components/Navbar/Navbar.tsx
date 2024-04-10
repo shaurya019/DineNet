@@ -1,7 +1,6 @@
 import React,{useState,} from 'react'
 import CustomAlert from '../CustomAlert';
 import { clearCart } from "@/service/Slice/cartSlice";
-import { BackArrow } from '../../assets/icons/BackArrow';
 import { useSelector, useDispatch } from "react-redux";
 import GoBack from '../GoBack';
 import { useNavigate } from 'react-router-dom';

@@ -103,10 +103,11 @@ export class Alpine {
     });
   };
   postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,roomNo:any) => {
+    console.log("ROOM",roomNo);
     const formData = new FormData();
     formData.append('product_id',productId ?? 0);
     formData.append('text', textRequest ?? '');
-    formData.append('source',roomNo ?? "1");
+    formData.append('source',roomNo);
     if (imageFile) {
       console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);
