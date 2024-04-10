@@ -10,14 +10,16 @@ export const OrderHistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
-  console.log("data", data, "Page", page);
+  const [entry,setEntry] = useState(true);
   const observer = useRef<IntersectionObserver>();
-  
 
   useEffect(() => {
-    if (data.results && data.results.length > 0) {
-      setShowData(prevData => [...prevData, ...data.results]);
-      setTotalPages(data.total_pages);
+    if (data.results) {
+      if(data.results.length > 0){
+        setShowData(prevData => [...prevData, ...data.results]);
+        setTotalPages(data.total_pages);
+      }
+      setEntry(false);
     }
   }, [data]);
 
@@ -39,7 +41,7 @@ export const OrderHistoryPage = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [page, totalPages]);
 
-  if (isLoading || data === null) {
+  if (isLoading || data === null || entry) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
@@ -50,7 +52,7 @@ export const OrderHistoryPage = () => {
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
-      {showData.length === 0 ? (
+      {showData.length === 0 && !isLoading && !entry ? (
         <EmptyOrderPage />
       ) : (
         <>

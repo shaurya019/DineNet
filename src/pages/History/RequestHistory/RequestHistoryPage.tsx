@@ -10,13 +10,17 @@ export const RequestHistoryPage = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
-  const { data, isLoading, error } = useGetComplimenatryProductHistory(page)
+  const { data, isLoading, error } = useGetComplimenatryProductHistory(page);
+  const [entry,setEntry] = useState(true);
 
   useEffect(() => {
     console.log(data);
-    if (data && data.orders && data.orders.length > 0) {
-      setShowData(prevData => [...prevData, ...data.orders]);
-      setTotalPages(data.totalCount); // Assuming totalCount is the correct property
+    if (data && data.orders) {
+if(data.orders.length > 0){
+  setShowData(prevData => [...prevData, ...data.orders]);
+  setTotalPages(data.totalCount); 
+}
+setEntry(false);
     }
   }, [data]);
   
@@ -40,7 +44,7 @@ export const RequestHistoryPage = () => {
   }, [page, totalPages]);
 
   
-  if (isLoading || data === null) return (
+  if (isLoading || data === null || entry) return (
     <div className="flex flex-1 items-center justify-center h-screen">
       <Loader />
     </div>
@@ -56,7 +60,7 @@ export const RequestHistoryPage = () => {
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False"/> 
-      {showData.length === 0 ? (
+      {showData.length === 0 && !isLoading && !entry ? (
        <EmptyRequestPage />
       ) : (
         <>
