@@ -79,22 +79,26 @@ export const Request = () => {
                             <div className="w-full text-left px-4 py-2 text-grey-dark text-xs" onClick={() => handleItemClick(productName)}>
                                 {productName}
                             </div>
-                            {/* <hr className='bg-grey-sixtysix' /> */}
                         </button>
                     )}
                 </div>
                 {value === 'NotDisclosed' && RequestSubmit && (
-                    <h5 className="text-[10px] text-red-dark">Please select a category before proceeding</h5>
+                    <h5 className="text-[10px] text-red-dark">Please select a category before proceeding.</h5>
                 )}
                 {isOpen && (
                     <textarea
                         ref={textareaRef}
-                        className="w-full min-h-[117px] resize-none border border-green-willam rounded p-2 mt-2 text-[11px] text-green-willam font-light"
+                        className={`w-full min-h-[117px] resize-none border ${area === '' && RequestSubmit ? 'border-red-dark' : 'border-green-willam'} rounded p-2 mt-2 text-[11px] text-green-willam font-light`}
                         value={area}
                         onChange={handleChange}
                         placeholder='Tell us what you need'
                     />
                 )}
+                  {isOpen && (
+                    area === '' && RequestSubmit && (
+                        <h5 className="text-[10px] text-red-dark">Please tell us what you need.</h5>
+                    )
+                  )}
                 {isOpen && !image && <UploadImage setImage={setImage} />}
                 {isOpen && image && (
                     <img src={URL.createObjectURL(image)} alt="" className='w-[86px] h-[79px] mt-3  rounded' />

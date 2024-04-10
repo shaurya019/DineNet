@@ -18,6 +18,7 @@ interface BottomSubmitComponentProps {
   textRequest?: string;
   path: string;
   category?: string;
+  areaValue?:string;
   requestText?: string;
   ChooseOption?: string | null;
   phone?: string;
@@ -26,7 +27,7 @@ interface BottomSubmitComponentProps {
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, requestText, ChooseOption, phone, name, setFinal, instruction}) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue,requestText, ChooseOption, phone, name, setFinal, instruction}) => {
   const clientId = localStorage.getItem("clientId");
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const { items, } = useSelector((state: RootState) => state.cart);
