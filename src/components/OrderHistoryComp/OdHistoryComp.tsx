@@ -36,7 +36,6 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
       id:item.id.toString()
     };
 
-    // Navigate to the target route with data
     navigate('/trackOrder', { state: requestData });
   };
 
@@ -51,7 +50,7 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
   return (
     <>
       <div className="flex flex-col m-1 ">
-        <div className="h-[79px] rounded-t-[20px] bg-grey-gallery border border-solid border-grey-gallery px-[18px]">
+        <div className="h-[79px] rounded-t-[20px] bg-grey-gallery border border-solid border-grey-gallery px-[18px]" onClick={toggleExpansion}>
           <div className="flex-col justify-center items-center">
             <div className="flex flex-row justify-between mt-3">
               <div className="flex flex-col">
@@ -84,11 +83,11 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
                   {item.payment_source === "OFFLINE" ? "Cash at Counter" : item.payment_source}
                 </h4>
                 {expanded === true ? (
-                  <button onClick={toggleExpansion}>
+                  <button>
                     <Down />
                   </button>
                 ) : (
-                  <button onClick={toggleExpansion}>
+                  <button>
                     <Up />
                   </button>
                 )}
