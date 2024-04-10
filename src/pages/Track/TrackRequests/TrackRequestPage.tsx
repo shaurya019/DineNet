@@ -18,11 +18,11 @@ export const TrackRequestPage = () => {
   useEffect(()=>{
     if(data!=null  && data.length > 0){
       console.log(data);
-      if(data[0].status!==null){
-        console.log(data[0].status);
-        if(data[0].status==="PLACED"){
+      if(data.status!==null){
+        console.log(data.status);
+        if(data.status==="PLACED"){
           setStatus("0");
-        } else if(data[0].status==="COMPLETED"){
+        } else if(data.status==="COMPLETED"){
           setStatus("2");
         }else{
           setStatus("1");
@@ -49,11 +49,11 @@ export const TrackRequestPage = () => {
        <div className="h-12 border-l border-gray-300"></div>
        <div className='flex-col'>
        <h3 className='font-bold text-xl'>STATUS</h3>
-       <h3 className='font-semibold text-xl'>{data[0].status}</h3>
+       <h3 className='font-semibold text-xl'>{data.status}</h3>
     </div>  
     </div>
     <div className='mt-7'>
-    <RequestStatusComp message={data[0].description} title={data[0].product_name ? data[0].product_name : "category"} />
+    <RequestStatusComp message={data.description} title={data.product_name ? data.product_name : "category"} />
 
     </div>
     <div className='mt-7 mb-20'>
