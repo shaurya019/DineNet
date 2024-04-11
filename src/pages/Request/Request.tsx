@@ -72,7 +72,7 @@ export const Request = () => {
                                 <UpwardArrow />
                             </div>
                             <div className="w-full text-left py-2 text-grey-dark text-xs max-h-[50vh] overflow-y-auto">
-                                {data.map((x: any, index: number) => (
+                                {data.map((x: any , index: number) => (
                                     <>
                                         <div className="px-4" key={x.id} onClick={() => handleItemClick(x.product_name, x.id)}>
                                             {x.product_name}
