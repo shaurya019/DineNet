@@ -15,11 +15,10 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
-  const roomNo = localStorage.getItem("roomNo");
+  const source = localStorage.getItem("source");
   
   const handleCloseOtpModal = () => {
     setisLoginModalOpen(false)
-    console.log("RELOADING FROM SINGH SIDE")
       window.location.reload();
   }
 
@@ -27,6 +26,8 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   useEffect(() => {
     dispatch(fetchUserLoginStatus());
   }, []);
+
+
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
       {isLoginModalOpen && (
@@ -38,7 +39,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
       <div className="flex-1 flex flex-col">
         <h3 className="text-grey-dark font-bold">Welcome to the {clientName}!</h3>
         <p className="text-grey-dark text-xs">
-          You have checked in into room no. {roomNo}
+          You have checked in into room no. {source}
         </p>
       </div>
       <div className="ml-auto">
