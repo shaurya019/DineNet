@@ -48,21 +48,20 @@ export const OrderHistoryPage = () => {
   }, [page, totalPages]);
 
   useEffect(() => {
+    setInitialLoading(false);
     if (loggedIn) {
-      setInitialLoading(false);
       setEntry(false);
     }
   }, [loggedIn]);
 
   useEffect(() => {
-    // Check if data fetching is complete
     if (!isLoading && data && Object.keys(data).length !== 0) {
       setInitialLoading(false);
     }
   }, [isLoading, data]);
 
-  // Render loader while initial loading is true
-  if (initialLoading) {
+
+  if (initialLoading || isLoading || data === null || entry) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
