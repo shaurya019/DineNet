@@ -4,7 +4,7 @@ import { useComplimenatryProductCategory } from "@/hooks/useComplimenatryProduct
 import Nav from '@/components/Navbar';
 import DownArrow from '@/assets/icons/DownArrow';
 import UpwardArrow from '@/assets/icons/UpwardArrow';
-import UploadImage from '@/atomicComponents/ImageUploader'; 
+import UploadImage from '@/atomicComponents/ImageUploader';
 import Loader from "@/atomicComponents/Loader";
 
 export const Request = () => {
@@ -17,12 +17,12 @@ export const Request = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [value, setValue] = useState('NotDisclosed');
     const [submit, setSubmit] = useState(false);
-    const[productId,setProductId] =useState(0);
+    const [productId, setProductId] = useState(0);
     const [area, setArea] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    console.log("data",data);
+    console.log("data", data);
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -37,7 +37,7 @@ export const Request = () => {
         setArea(event.target.value);
     };
 
-    const handleItemClick = (value: string,id:number) => {
+    const handleItemClick = (value: string, id: number) => {
         setValue(value);
         setProductId(id);
         setIsOpen(false);
@@ -45,9 +45,9 @@ export const Request = () => {
 
     if (isLoading) return (
         <div className="flex flex-1 items-center justify-center h-screen">
-          <Loader />
+            <Loader />
         </div>
-      ); 
+    );
 
     return (
         <>
@@ -72,19 +72,17 @@ export const Request = () => {
                                 <UpwardArrow />
                             </div>
                             <div className="w-full text-left py-2 text-grey-dark text-xs max-h-[50vh] overflow-y-auto">
-                                {data.map((x:any) => (
-                                  <>
-                                    <div className="px-4" key={x.id} onClick={() => handleItemClick(x.product_name, x.id)}>
-                                        {x.product_name}
-                                    </div>
-                                    <div>
-                                         {x.id !== data.length  && <hr className="my-1" />}
-                                         </div>
-                                         </>
+                                {data.map((x: any, index: number) => (
+                                    <>
+                                        <div className="px-4" key={x.id} onClick={() => handleItemClick(x.product_name, x.id)}>
+                                            {x.product_name}
+                                        </div>
+                                        {index !== data.length-1 && <hr className="my-1" />}
+                                    </>
                                 ))}
                             </div>
                         </button>
-                    )}                    
+                    )}
                 </div>
                 {value === 'NotDisclosed' && RequestSubmit && (
                     <h5 className="text-[10px] text-red-dark">Please select a category before proceeding.</h5>
@@ -98,11 +96,11 @@ export const Request = () => {
                         placeholder='Tell us what you need'
                     />
                 )}
-                  {isOpen && (
+                {isOpen && (
                     area === '' && RequestSubmit && (
                         <h5 className="text-[10px] text-red-dark">Please tell us what you need.</h5>
                     )
-                  )}
+                )}
                 {isOpen && !image && <UploadImage setImage={setImage} />}
                 {isOpen && image && (
                     <img src={URL.createObjectURL(image)} alt="" className='w-[86px] h-[79px] mt-3  rounded' />
