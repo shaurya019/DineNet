@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 
 interface ReqHistoryComProps {
     Request: string;
-    // Room: string;
     Order: string;
     Subject:string
     Status: string;
@@ -44,7 +43,7 @@ interface ReqHistoryComProps {
         </div>
         <div className='h-11 rounded-b-[20px] items-center border border-t-none border-solid border-gallery flex flex-row px-5 justify-between'>
         <h4 className='text-[10px] font-medium text-grey'>{Date} at {Time}</h4>
-        <button onClick={handleTrackRequest} className='text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 py-1 items-center'>Track Request</button>
+        <button onClick={handleTrackRequest} className='text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 py-1 items-center'> {Status === "completed" ? "Show Details" : "Track Request"}</button>
         </div> 
         </div>
     </div>

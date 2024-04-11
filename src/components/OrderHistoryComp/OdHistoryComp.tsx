@@ -33,14 +33,14 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
 
   const trackOrderDetails = () => {
     const requestData = {
-      id:item.id.toString()
+      id: item.id.toString()
     };
 
     navigate('/trackOrder', { state: requestData });
   };
 
   const downloadOrderDetails = () => {
-    
+
   };
 
 
@@ -108,9 +108,11 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
         </div>
         {expanded === true ? (
           <div className="h-16 rounded-b-[20px] items-center border border-t-none border-solid border-grey-gallery flex flex-row px-5 justify-between">
-            <button onClick={trackOrderDetails} className="text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 py-1 items-center">
-              Track Order
-            </button>
+            {item.status === "PLACED" && (
+              <button onClick={trackOrderDetails} className="text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 py-1 flex items-center justify-center">
+                Track Order
+              </button>
+            )}
             <button onClick={downloadOrderDetails} className="text-[10px] border border-solid rounded-md bg-greenCyan text-white px-4 py-1 items-center">
               Download Invoice
             </button>
@@ -133,7 +135,7 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
                     key={orderIndex}
                   >
                     <div className="w-1/3 flex flex-row">
-                     {orderItem.product.non_veg ? <Veg color="#E8505B"/> : <Veg color="#4CAF50"/>}
+                      {orderItem.product.non_veg ? <Veg color="#E8505B" /> : <Veg color="#4CAF50" />}
                       <h4 className="text-[10px] text-left ml-2">
                         {orderItem.product.name}
                       </h4>
@@ -203,15 +205,9 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
             </div>
 
             <div className="mb-7 w-full flex flex-row px-5 items-center justify-between">
-              {/* {item.payment_source !== "OFFLINE" ? (
-                <h4 className="text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 py-1 items-center">
-    
-                Track Request
-              </h4>
-              )} */}
-              <button onClick={trackOrderDetails} className="h-8 text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 flex items-center justify-center">
+            {item.status === "PLACED" && <button onClick={trackOrderDetails} className="h-8 text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 flex items-center justify-center">
                 Track Order
-              </button>
+              </button>}
               <button onClick={downloadOrderDetails} className="h-8 text-[10px] border border-solid rounded-md bg-greenCyan text-white px-4 flex items-center justify-center">
                 Download Invoice
               </button>
