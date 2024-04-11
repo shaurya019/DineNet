@@ -1,6 +1,7 @@
 import React from "react";
 import { createBrowserRouter } from "react-router-dom";
 import RestaurantLandingPage from "./pages/RestaurantLandingPage";
+import KitchenTimePage from "./pages/KitchenTime"
 import Request from "./pages/Request";
 import Cart from "./pages/Cart";
 import OrderPage from "./pages/Confirmation/OrderConfirmation";
@@ -17,6 +18,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <RestaurantLandingPage />,
+  },
+  {
+    path: "/KitchenTimePage",
+    element: <KitchenTimePage />,
   },
   {
     path: "/cart",
