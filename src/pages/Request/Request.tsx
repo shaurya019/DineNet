@@ -78,7 +78,7 @@ export const Request = () => {
                                         {x.product_name}
                                     </div>
                                     <div>
-                                         {x.id !== data.length - 1 && <hr className="my-1" />}
+                                         {x.id !== data.length  && <hr className="my-1" />}
                                          </div>
                                          </>
                                 ))}
