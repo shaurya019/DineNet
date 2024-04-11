@@ -18,6 +18,9 @@ export const OrderHistoryPage = () => {
   const [entry, setEntry] = useState(true);
   const navigate = useNavigate();
 
+  // Initial loading state to prevent rendering before data fetch
+  const [initialLoading, setInitialLoading] = useState(true);
+
   useEffect(() => {
     if (data.results) {
       if (data.results.length > 0) {
@@ -46,11 +49,20 @@ export const OrderHistoryPage = () => {
 
   useEffect(() => {
     if (loggedIn) {
+      setInitialLoading(false);
       setEntry(false);
     }
   }, [loggedIn]);
 
-  if (isLoading || data === null || entry) {
+  useEffect(() => {
+    // Check if data fetching is complete
+    if (!isLoading && data && Object.keys(data).length !== 0) {
+      setInitialLoading(false);
+    }
+  }, [isLoading, data]);
+
+  // Render loader while initial loading is true
+  if (initialLoading) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
