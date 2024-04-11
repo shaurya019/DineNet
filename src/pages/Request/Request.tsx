@@ -17,25 +17,19 @@ export const Request = () => {
     const [isOpen, setIsOpen] = useState(true);
     const [value, setValue] = useState('NotDisclosed');
     const [submit, setSubmit] = useState(false);
-    const [productName, setProductName] = useState('');
-    const[productId,setProductId] = useState(0);
+    const[productId,setProductId] =useState(0);
     const [area, setArea] = useState('');
     const [image, setImage] = useState<File | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    console.log("data",data);
+
     useEffect(() => {
-        const names = data.map((product: any) => product.product_name);
-        setProductName(names);
-        const id = data.map((product: any) => product.id);
-        setProductId(id);
-        if (value !== 'NotDisclosed') {
-            setSubmit(true);
-        }
         if (textareaRef.current) {
             textareaRef.current.style.height = '117px';
             textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
         }
-    }, [area,data,value]);
+    }, [area]);
 
 
 
@@ -43,8 +37,9 @@ export const Request = () => {
         setArea(event.target.value);
     };
 
-    const handleItemClick = (newValue: string) => {
-        setValue(newValue);
+    const handleItemClick = (value: string,id:number) => {
+        setValue(value);
+        setProductId(id);
         setIsOpen(false);
     };
 
@@ -71,16 +66,25 @@ export const Request = () => {
                             </div>
                         </button>
                     ) : (
-                        <button className={`h-[105px] mt-0 w-full border ${value === 'NotDisclosed' && RequestSubmit ? 'border-red-dark' : 'border-green-willam'} rounded`} onClick={() => setIsOpen(!isOpen)}>
-                            <div className='flex flex-row items-center justify-between text-xs text-green-willam  px-[10px] mb-6'>
+                        <button className={`h-auto mt-0 w-full border ${value === 'NotDisclosed' && RequestSubmit ? 'border-red-dark' : 'border-green-willam'} rounded`} onClick={() => setIsOpen(!isOpen)}>
+                            <div className='flex flex-row items-center justify-between text-xs text-green-willam py-2 px-[10px]'>
                                 Select Category
                                 <UpwardArrow />
                             </div>
-                            <div className="w-full text-left px-4 py-2 text-grey-dark text-xs" onClick={() => handleItemClick(productName)}>
-                                {productName}
+                            <div className="w-full text-left py-2 text-grey-dark text-xs max-h-[50vh] overflow-y-auto">
+                                {data.map((x:any) => (
+                                  <>
+                                    <div className="px-4" key={x.id} onClick={() => handleItemClick(x.product_name, x.id)}>
+                                        {x.product_name}
+                                    </div>
+                                    <div>
+                                         {x.id !== data.length - 1 && <hr className="my-1" />}
+                                         </div>
+                                         </>
+                                ))}
                             </div>
                         </button>
-                    )}
+                    )}                    
                 </div>
                 {value === 'NotDisclosed' && RequestSubmit && (
                     <h5 className="text-[10px] text-red-dark">Please select a category before proceeding.</h5>
