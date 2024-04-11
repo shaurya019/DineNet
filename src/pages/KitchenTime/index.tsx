@@ -1,0 +1,1 @@
+export { KitchenTimePage as default } from "./KitchenTimePage";

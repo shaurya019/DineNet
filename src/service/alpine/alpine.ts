@@ -42,7 +42,7 @@ export class Alpine {
   complimenatryProductCategory = (clientId:string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "complimentary_products/" + clientId),
+      url: generateUrl(BASE_URL, "complimentary_products/client_products/" + clientId),
     });
   };
   getOrderHistory = (page: any) => {
@@ -75,18 +75,20 @@ export class Alpine {
       url: generateUrl(BASE_URL,"complimentary_order/customer_orders?page=" + page + "&size=10"),
     });
   };
-  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any,clientId:any,roomNo:any) => {
+  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any,clientId:any,source:any) => {
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
       product_id: item.id,
       campaign_name: 'TEST'
     }));
+    const x = parseInt(clientId);
+    console.log("x",typeof x,x);
     const body = {
       customer_name: name,
       customer_phone: phone,
-      client_id: clientId,
-      source: roomNo,
+      client_id: x,
+      source: source,
       customization: instruction ?? "Need spicy",
       order_items: orderItems,
       payment_source: paymentSource,
@@ -102,12 +104,12 @@ export class Alpine {
       data: body,
     });
   };
-  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,roomNo:any) => {
-    console.log("ROOM",roomNo);
+  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,source:any) => {
+    console.log("source",source);
     const formData = new FormData();
     formData.append('product_id',productId ?? 0);
     formData.append('text', textRequest ?? '');
-    formData.append('source',roomNo);
+    formData.append('source',source);
     if (imageFile) {
       console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);

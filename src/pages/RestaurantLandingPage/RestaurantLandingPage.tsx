@@ -21,25 +21,18 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId") || "1";
-  const roomNo = getQueryParam(location.search, "roomNo") || "1";
+  const source = getQueryParam(location.search, "source") || "1";
   const { data = [], isLoading } = useGetClientProducts(clientId);
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
-  // useEffect(() => {
-  //   if (data && data.client && data.category_map) {
-  //     console.log("Data incoming", data, data.category_map);
-  //     setClientName(data.client.client_name);
-  //     setFilteredData(data.category_map);
-  //   }
-  // }, [data]);
 
   useEffect(() => {
     localStorage.setItem("clientId", clientId || "1");
-    localStorage.setItem("roomNo", roomNo || "1");
-  }, [clientId, roomNo]);
+    localStorage.setItem("source", source || "1");
+  }, [clientId, source]);
 
   useEffect(() => {
     const testFilter = (product: any): boolean => {
