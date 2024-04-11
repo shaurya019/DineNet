@@ -53,7 +53,7 @@ export const Request = () => {
         <>
             <Nav title="Request" show="True" showEmpty="False" />
             <div className='flex flex-col mt-3 mx-2.5'>
-                <h3 className='text-green-mineral text-base mb-2'>We're delighted to assist you!</h3>
+                <h3 className='text-green-mineral  text-base mb-2'>We're delighted to assist you!</h3>
                 <h5 className='text-[10px] text-grey-dark mb-[22px]'>Kindly fill out the following details to submit your request and experience seamless assistance.</h5>
                 <div className="relative">
                     {isOpen ? (
