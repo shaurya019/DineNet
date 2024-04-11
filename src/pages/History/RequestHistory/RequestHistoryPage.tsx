@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from '@/components/Navbar';
 import EmptyRequestPage from './EmptyRequestPage';
 import RequestHistoryComp from '@/components/RequestHistoryCom';
@@ -6,24 +6,26 @@ import Loader from "@/atomicComponents/Loader";
 import { useGetComplimenatryProductHistory } from "@/hooks/useGetComplimenatryProductHistory";
 
 export const RequestHistoryPage = () => {
-
+  const persistUserData = localStorage.getItem("persist:user");
+  const userData = JSON.parse(persistUserData!);
+  const loggedIn = userData?.loggedIn;
+  
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data, isLoading, error } = useGetComplimenatryProductHistory(page);
-  const [entry,setEntry] = useState(true);
+  const [entry, setEntry] = useState(true);
 
   useEffect(() => {
     console.log(data);
     if (data && data.orders) {
-if(data.orders.length > 0){
-  setShowData(prevData => [...prevData, ...data.orders]);
-  setTotalPages(data.totalCount); 
-}
-setEntry(false);
+      if(data.orders.length > 0){
+        setShowData(prevData => [...prevData, ...data.orders]);
+        setTotalPages(data.totalCount); 
+      }
+      setEntry(false);
     }
   }, [data]);
-  
 
   useEffect(() => {
     const handleScroll = (e: any) => {
@@ -43,7 +45,18 @@ setEntry(false);
     return () => window.removeEventListener("scroll", handleScroll);
   }, [page, totalPages]);
 
-  
+  useEffect(() => {
+    if (loggedIn) {
+      setEntry(false);
+    }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    if (!isLoading && showData.length > 0) {
+      window.scrollTo(0, document.body.scrollHeight);
+    }
+  }, [isLoading, showData]);
+
   if (isLoading || data === null || entry) return (
     <div className="flex flex-1 items-center justify-center h-screen">
       <Loader />
@@ -53,9 +66,6 @@ setEntry(false);
   if (error) {
     return <div>Error: {error.message}</div>;
   }
-
-
-
 
   return (
     <>

@@ -19,33 +19,36 @@ module.exports = {
         white: "#ffffff",
         grey: {
           light: "#D9D9D9",
-          approxLight:'#D5D5D5',
+          approxLight: "#D5D5D5",
           DEFAULT: "#4C4D4F",
           dark: "#757575",
           border: "#B8B8B8",
-          granite:'#5D5D5D',
-          gallery:"#EBEBEB",
-          matterhorn:"#4D4949",
-          sixtysix:"#A8A8A8",
-          cadet:"#9EA3AD",
+          granite: "#5D5D5D",
+          gallery: "#EBEBEB",
+          matterhorn: "#4D4949",
+          sixtysix: "#A8A8A8",
+          cadet: "#9EA3AD",
+          cross:"#5E5E5E",
+          darkish:"#565656",
+
         },
-        blue:{
-          bright:"#1565C0",
+        blue: {
+          bright: "#1565C0",
           dark: "#082338CC",
           oxford: "#263238",
-          pantone:"#216287"
+          pantone: "#216287",
         },
         green: {
           DEFAULT: "#4F7066",
           light: "#F3F7F5",
-          mintcream:'#F3F7F5',
-          mineral:"#3B544C",
-          willam:"#4f7065",
-          japanese:"#60A563",
-          arapawa:"#2E6154",
-          arapawashade:"#2E615470",
-          salad:"#4CAF5021",
-          finn:"#8EB6AA66",
+          mintcream: "#F3F7F5",
+          mineral: "#3B544C",
+          willam: "#4f7065",
+          japanese: "#60A563",
+          arapawa: "#2E6154",
+          arapawashade: "#2E615470",
+          salad: "#4CAF5021",
+          finn: "#8EB6AA66",
         },
         greenCyan: {
           DEFAULT: "#4E7065",
@@ -54,22 +57,24 @@ module.exports = {
           DEFAULT: "#c4c4c4",
           light: "#D8D8D8",
         },
-        whiteSmoke:{
+        whiteSmoke: {
           DEFAULT: "#F5F5F5",
         },
-        whiteSmoking:{
+        whiteSmoking: {
           DEFAULT: "#F6F1F1",
         },
-        firefly:{
+        firefly: {
           DEFAULT: "#334841",
         },
-        laurel:{
+        laurel: {
           DEFAULT: "#668E82",
         },
-        red:{
-          light:'#F6F6F6',
-          dark:'#C70202',
-          warm:'#E8505B',
+        red: {
+          light: "#F6F6F6",
+          dark: "#C70202",
+          warm: "#E8505B",
+          bright: "#E62F2F",
+          cream:'#FFE8E8',
         },
       },
     },

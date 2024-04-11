@@ -1,45 +1,54 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "@/components/Navbar";
 import { useGetOrderHistory } from "@/hooks/useGetOrderHistory";
 import OrderHistoryComp from "@/components/OrderHistoryComp";
 import EmptyOrderPage from "./EmptyOrderPage";
 import Loader from "@/atomicComponents/Loader";
+import { useNavigate } from "react-router-dom";
 
 export const OrderHistoryPage = () => {
+  const persistUserData = localStorage.getItem("persist:user");
+  const userData = JSON.parse(persistUserData!);
+  const loggedIn = userData?.loggedIn;
+
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
-  const [entry,setEntry] = useState(true);
-  const observer = useRef<IntersectionObserver>();
+  const [entry, setEntry] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (data.results) {
-      if(data.results.length > 0){
+      if (data.results.length > 0) {
         setShowData(prevData => [...prevData, ...data.results]);
         setTotalPages(data.total_pages);
       }
       setEntry(false);
+      // Scroll to the bottom after new data is loaded
+      window.scrollTo(0, document.body.scrollHeight);
     }
-  }, [data]);
+  }, [data, loggedIn]);
 
   useEffect(() => {
-    const handleScroll = (e: any) => {
-      const scrollHeight = e.target.documentElement.scrollHeight;
-      const scrollTop = e.target.documentElement.scrollTop;
-      const clientHeight = e.target.documentElement.clientHeight;
-
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        if (page + 1 <= totalPages) {
-          setPage(prevPage => prevPage + 1);
-        }
+    const handleScroll = () => {
+      const bottom =
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight;
+      if (bottom && page < totalPages) {
+        setPage(page + 1);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, [page, totalPages]);
+
+  useEffect(() => {
+    if (loggedIn) {
+      setEntry(false);
+    }
+  }, [loggedIn]);
 
   if (isLoading || data === null || entry) {
     return (
