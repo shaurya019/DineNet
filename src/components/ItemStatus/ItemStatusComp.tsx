@@ -6,40 +6,35 @@ interface ItemStatusProps {
 
 export const ItemStatusComp = ({ item }: ItemStatusProps) => {
   return (
-    <div className="bg-white mx-5 mb-4 h-52 px-0 pt-3 items-center  rounded-md shadow-lg text-blue-dark">
+    <div className="bg-white mx-5 mb-4 p-3 rounded-md shadow-lg text-blue-dark">
       <div className="flex flex-col">
-        <h4 className="mx-3 font-semibold text-green-mineral text-xs">
+        <h4 className="font-semibold text-green-mineral text-xs mb-2">
           Item Details
         </h4>
-        <hr className="bg-silver  mx-3 my-3" />
-        <div>
+        <hr className="bg-silver my-2" />
+        <div className="overflow-x-auto ml-6 mr-10">
           {item.order_items ? (
-            item.order_items.map((orderItem: any, orderIndex: any) => (
-              <div className="flex flex-row justify-between ml-3 mr-10 mb-3">
-                <h5 className="w-1/3 font-medium text-grey text-xs text-left">
-                {orderItem.product.name}
-                </h5>
-                <h5 className="w-1/3 font-medium text-grey text-xs text-center">
-                  {orderItem.quantity}
-                </h5>
-                <h5 className="w-1/3 font-semibold text-grey text-xs text-right">
-                  <span>&#8377;</span>
-                  {orderItem.price}
-                </h5>
-              </div>
-            ))
+            <table className="w-full mb-6">
+              <tbody>
+                {item.order_items.map((orderItem: any, orderIndex: any) => (
+                  <tr key={orderIndex}>
+                    <td className="text-xs py-2">{orderItem.product.name}</td>
+                    <td className="text-center text-xs py-2">{orderItem.quantity}</td>
+                    <td className="text-right text-xs  py-2"><span>&#8377;</span> {orderItem.price}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             <p></p>
           )}
         </div>
 
-        <h4 className="mx-3 mt-2 font-semibold text-green-mineral text-xs">
+        <h4 className="font-semibold text-green-mineral text-xs mt-4">
           Customization
         </h4>
-        <hr className="bg-silver  mx-3 my-3" />
-        <h4 className="mx-3 font-medium text-grey text-xs">
-          {item.customization}
-        </h4>
+        <hr className="bg-silver my-2" />
+        <p className="text-xs">{item.customization}</p>
       </div>
     </div>
   );
