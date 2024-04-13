@@ -52,6 +52,7 @@ module.exports = {
         },
         greenCyan: {
           DEFAULT: "#4E7065",
+          light:"#4E706580"
         },
         silver: {
           DEFAULT: "#c4c4c4",
