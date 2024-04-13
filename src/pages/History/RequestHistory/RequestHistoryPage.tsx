@@ -15,6 +15,7 @@ export const RequestHistoryPage = () => {
   const [showData, setShowData] = useState<any[]>([]);
   const { data, isLoading, error } = useGetComplimenatryProductHistory(page);
   const [entry, setEntry] = useState(true);
+  const source = window.localStorage.getItem("source") || "1";
 
   // Initial loading state to prevent rendering before data fetch
   const [initialLoading, setInitialLoading] = useState(true);
@@ -95,6 +96,7 @@ export const RequestHistoryPage = () => {
                 Status="Received"
                 Date={date}
                 Time={time}
+                Source={source}
               />
             );
           })}
