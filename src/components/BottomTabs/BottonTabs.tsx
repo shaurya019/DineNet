@@ -9,9 +9,9 @@ import './BottomTabs.css'
 import { useNavigate } from "react-router-dom";
 
 export const BottonTabs = () => {
-  const clientId = localStorage.getItem("clientId") || "1";
-  const sourceId = localStorage.getItem("sourceId") || "1";
-  const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]?.totalCartItems);
+  const clientId = window.localStorage.getItem("clientId") || "1";
+  const source = window.localStorage.getItem("source") || "1";
+  const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
   const navigate = useNavigate()
   const handleNavigateCart = () => {
     navigate('/cart')

@@ -12,7 +12,7 @@ interface CartItem {
 interface CartState {
   carts: {
     [clientId: string]: {
-      [sourceId: string]: {
+      [source: string]: {
         items: { [id: string]: CartItem };
         totalPrice: number;
         clearedItems: { [id: string]: CartItem };
@@ -39,15 +39,15 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<{ clientId: string; sourceId: string; item: CartItem }>) {
-      const { clientId, sourceId, item } = action.payload;
+    addToCart(state, action: PayloadAction<{ clientId: string; source: string; item: CartItem }>) {
+      const { clientId, source, item } = action.payload;
       const { id, price, tags, nonVeg } = item;
 
       if (!state.carts[clientId]) {
         state.carts[clientId] = {};
       }
-      if (!state.carts[clientId][sourceId]) {
-        state.carts[clientId][sourceId] = {
+      if (!state.carts[clientId][source]) {
+        state.carts[clientId][source] = {
           items: {},
           totalPrice: 0,
           clearedItems: {},
@@ -56,7 +56,7 @@ const cartSlice = createSlice({
         };
       }
 
-      const clientCart = state.carts[clientId][sourceId];
+      const clientCart = state.carts[clientId][source];
       if (clientCart.items[id]) {
         clientCart.items[id].qty++;
       } else {
@@ -72,9 +72,9 @@ const cartSlice = createSlice({
       clientCart.totalPrice += price;
       clientCart.totalCartItems = calculateTotalCartItems(clientCart.items);
     },
-    removeFromCart(state, action: PayloadAction<{ clientId: string; sourceId: string; itemId: string }>) {
-      const { clientId, sourceId, itemId } = action.payload;
-      const clientCart = state.carts[clientId]?.[sourceId];
+    removeFromCart(state, action: PayloadAction<{ clientId: string; source: string; itemId: string }>) {
+      const { clientId, source, itemId } = action.payload;
+      const clientCart = state.carts[clientId]?.[source];
       if (clientCart && clientCart.items[itemId]) {
         const item = clientCart.items[itemId];
         if (item.qty > 1) {
@@ -100,20 +100,20 @@ const cartSlice = createSlice({
         }
       }
     },
-    clearCart(state, action: PayloadAction<{ clientId: string; sourceId: string }>) {
-      const { clientId, sourceId } = action.payload;
-      if (state.carts[clientId]?.[sourceId]) {
-        state.carts[clientId][sourceId].clearedItems = { ...state.carts[clientId][sourceId].items };
-        state.carts[clientId][sourceId].items = {};
-        state.carts[clientId][sourceId].totalPrice = 0;
-        state.carts[clientId][sourceId].cartTags = [];
-        state.carts[clientId][sourceId].totalCartItems = 0;
+    clearCart(state, action: PayloadAction<{ clientId: string; source: string }>) {
+      const { clientId, source } = action.payload;
+      if (state.carts[clientId]?.[source]) {
+        state.carts[clientId][source].clearedItems = { ...state.carts[clientId][source].items };
+        state.carts[clientId][source].items = {};
+        state.carts[clientId][source].totalPrice = 0;
+        state.carts[clientId][source].cartTags = [];
+        state.carts[clientId][source].totalCartItems = 0;
       }
     },
-    emptyCartItems(state, action: PayloadAction<{ clientId: string; sourceId: string }>) {
-      const { clientId, sourceId } = action.payload;
-      if (state.carts[clientId]?.[sourceId]) {
-        state.carts[clientId][sourceId].clearedItems = {};
+    emptyCartItems(state, action: PayloadAction<{ clientId: string; source: string }>) {
+      const { clientId, source } = action.payload;
+      if (state.carts[clientId]?.[source]) {
+        state.carts[clientId][source].clearedItems = {};
       }
     },
   },

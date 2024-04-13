@@ -15,7 +15,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
-  const sourceId = localStorage.getItem("sourceId");
+  const source = window.localStorage.getItem("source");
   
   const handleCloseOtpModal = () => {
     setisLoginModalOpen(false)
@@ -39,7 +39,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
       <div className="flex-1 flex flex-col">
         <h3 className="text-grey-dark font-bold">Welcome to the {clientName}!</h3>
         <p className="text-grey-dark text-xs">
-          You have checked in into room no. {sourceId}
+          You have checked in into room no. {source}
         </p>
       </div>
       <div className="ml-auto">

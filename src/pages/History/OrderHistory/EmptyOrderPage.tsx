@@ -3,7 +3,7 @@ import EmptyOrder from '@/assets/icons/EmptyOrder';
 import ToastMessage from '@/atomicComponents/Toast';
 
 const EmptyOrderPage = () => {
-  const persistUserData = localStorage.getItem("persist:user");
+  const persistUserData = window.localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!);
   const loggedIn = userData?.loggedIn;
 

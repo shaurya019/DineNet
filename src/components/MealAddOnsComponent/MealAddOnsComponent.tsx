@@ -10,15 +10,15 @@ interface MealAddOnsProps {
 }
 
 export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, setRefresh }) => {
-  const clientId = localStorage.getItem("clientId") || "1";
-  const sourceId = localStorage.getItem("sourceId") || "1";
+  const clientId = window.localStorage.getItem("clientId") || "1";
+  const source = window.localStorage.getItem("source") || "1";
   const dispatch = useDispatch();
   const addThings = () => {
     setRefresh(true);
     dispatch(
       addToCart({
         clientId,
-        sourceId,
+        source,
         item: {
           id: meal.id,
           name: meal.product_name,

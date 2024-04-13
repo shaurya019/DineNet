@@ -11,8 +11,8 @@ interface NavbarProps {
     showEmpty: string;
   }
 export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
-  const clientId = localStorage.getItem("clientId") || "1"; 
-  const sourceId = localStorage.getItem("sourceId") || "1";
+  const clientId = window.localStorage.getItem("clientId") || "1"; 
+  const source = window.localStorage.getItem("source") || "1";
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -26,7 +26,7 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
     };
   
     const clearCartFunction = () => {
-      dispatch(clearCart({ clientId, sourceId }));
+      dispatch(clearCart({ clientId, source }));
     }
 
   

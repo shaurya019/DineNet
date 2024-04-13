@@ -21,7 +21,7 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId") || "1";
-  const sourceId = getQueryParam(location.search, "sourceId") || "1";
+  const source = getQueryParam(location.search, "source") || "1";
   const { data = [], isLoading } = useGetClientProducts(clientId);
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");
@@ -30,9 +30,9 @@ export const RestaurantLandingPage = () => {
 
 
   useEffect(() => {
-    localStorage.setItem("clientId", clientId || "1");
-    localStorage.setItem("sourceId", sourceId || "1");
-  }, [clientId, sourceId]);
+    window.localStorage.setItem("clientId", clientId || "1");
+    window.localStorage.setItem("source", source || "1");
+  }, [clientId, source]);
 
   useEffect(() => {
     const testFilter = (product: any): boolean => {

@@ -19,11 +19,11 @@ interface JwtPayload {
 
 
 export const PaymentMadePage = () => {
-  const clientId = localStorage.getItem("clientId") || "1";
-  const sourceId = localStorage.getItem("sourceId") || "1";
+  const clientId = window.localStorage.getItem("clientId") || "1";
+  const source = window.localStorage.getItem("source") || "1";
   // Redux Cart Data
   const { carts } = useSelector((state: RootState) => state.cart);
-  const clientCart = carts[clientId]?.[sourceId];
+  const clientCart = carts[clientId]?.[source];
   const totalPrice = clientCart ? clientCart.totalPrice : 0;
   // Redux User Data
   const { phone, firebaseToken } = useSelector((state: RootState) => state.user);

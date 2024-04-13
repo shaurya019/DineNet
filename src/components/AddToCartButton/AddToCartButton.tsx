@@ -9,16 +9,16 @@ interface IAddToCartButton {
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
-  const clientId = localStorage.getItem("clientId") || "1";
-  const sourceId = localStorage.getItem("sourceId") || "1";
-  const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]?.totalCartItems);
-  const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]?.items[item.id]?.qty);
+  const clientId = window.localStorage.getItem("clientId") || "1";
+  const source = window.localStorage.getItem("source") || "1";
+  const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
+  const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items[item.id]?.qty);
   const dispatch = useDispatch();
   const handleAddItem = () =>
     dispatch(
       addToCart({
         clientId,
-        sourceId,
+        source,
         item: {
           id: item.id,
           name: item.product_name,
@@ -36,7 +36,7 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
     dispatch(
       removeFromCart({
         clientId,
-        sourceId,
+        source,
         itemId: item.id, // Pass the id of the item to be removed
       })
     );
