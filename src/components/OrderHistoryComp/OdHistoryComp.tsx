@@ -55,19 +55,19 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
             <div className="flex flex-row justify-between mt-3">
               <div className="flex flex-col">
                 <h4 className="text-xs text-green-willam font-medium">
-                  {Request}
+                  {item.client.client_name}
                 </h4>
                 <div className="flex flex-row">
                   <h4 className="text-[8px] font-normal text-grey-fortysix">
-                    Room No.:
-                    <span className="text-[10px] text-grey font-medium">
-                      112
+                    Room No. :
+                    <span className="text-[10px] pl-1 text-grey font-medium">
+                      {item.source}
                     </span>
                   </h4>
                   <h4 className="text-[8px] mx-1">|</h4>
                   <h4 className="text-[8px] text-grey-dark">
                     Order No.:
-                    <span className="text-[10px] text-grey font-medium">
+                    <span className="text-[10px] pl-1 text-grey font-medium">
                       {item.id}
                     </span>
                   </h4>
@@ -96,9 +96,10 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
 
             <div className="flex flex-row justify-between mt-2">
               {expanded === true ? (
-                <h4 className="text-[10px] text-greenCyan px-2 mr-[10px] bg-white border border-solid rounded">
+                <h4 className={`text-[10px] px-2 mr-[10px]  border border-solid rounded ${item.status === 'Cancelled' ? 'bg-red-warm' : 'bg-white'} ${item.status === 'Cancelled' ? 'text-white' : 'text-greenCyan'}`}>
                   {item.status}
                 </h4>
+
               ) : null}
               <h4 className="text-[10px] font-medium text-grey">
                 {Dates} at {Time}
@@ -108,12 +109,16 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
         </div>
         {expanded === true ? (
           <div className="h-16 rounded-b-[20px] items-center border border-t-none border-solid border-grey-gallery flex flex-row px-5 justify-between">
-            {item.status === "PLACED" && (
-              <button onClick={trackOrderDetails} className="text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 py-1 flex items-center justify-center">
-                Track Order
-              </button>
-            )}
-            <button onClick={downloadOrderDetails} className="text-[10px] border border-solid rounded-md bg-greenCyan text-white px-4 py-1 items-center">
+            <button
+              onClick={item.status === 'PLACED' ? trackOrderDetails : undefined}
+              className={`text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 py-1 flex items-center justify-center`}>
+              Track Order
+            </button>
+            <button
+              onClick={item.status !== 'Cancelled' ? downloadOrderDetails : undefined}
+              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'Cancelled' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+                }`}
+            >
               Download Invoice
             </button>
           </div>
@@ -131,7 +136,7 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
               {item.order_items ? (
                 item.order_items.map((orderItem: any, orderIndex: any) => (
                   <div
-                    className="flex flex-row justify-between mx-[18px]"
+                    className="flex flex-row justify-between mx-[18px] mb-2"
                     key={orderIndex}
                   >
                     <div className="w-1/3 flex flex-row">
@@ -173,9 +178,9 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
                 if (key !== "amount") {
                   console.log(key, item.total_amount_breakup[key]);
                   return (
-                    <div className="flex flex-row justify-between" key={i}>
-                      <h5 className="ml-6 font-normal text-xs">{key} :</h5>
-                      <h5 className="mr-6 font-normal font-semibold text-grey text-xs">
+                    <div className="flex flex-row justify-between mb-3" key={i}>
+                      <h5 className="ml-6 font-normal text-[10px]">{key} :</h5>
+                      <h5 className="mr-6 font-semibold text-grey text-[12px]">
                         <span>&#8377;</span>
                         {item.total_amount_breakup[key]}
                       </h5>
@@ -205,10 +210,16 @@ export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
             </div>
 
             <div className="mb-7 w-full flex flex-row px-5 items-center justify-between">
-            {item.status === "PLACED" && <button onClick={trackOrderDetails} className="h-8 text-[10px] border border-solid rounded-md bg-grey-matterhorn text-white px-4 flex items-center justify-center">
+              <button
+                onClick={item.status === 'PLACED' ? trackOrderDetails : undefined}
+                className={`h-8 text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 flex items-center justify-center`}>
                 Track Order
-              </button>}
-              <button onClick={downloadOrderDetails} className="h-8 text-[10px] border border-solid rounded-md bg-greenCyan text-white px-4 flex items-center justify-center">
+              </button>
+              <button
+                onClick={downloadOrderDetails}
+                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status === 'Cancelled' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+                  }`}
+              >
                 Download Invoice
               </button>
             </div>
