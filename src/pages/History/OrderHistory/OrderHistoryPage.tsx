@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef ,useEffect, useState } from "react";
 import Nav from "@/components/Navbar";
 import { useGetOrderHistory } from "@/hooks/useGetOrderHistory";
 import OrderHistoryComp from "@/components/OrderHistoryComp";
 import EmptyOrderPage from "./EmptyOrderPage";
 import Loader from "@/atomicComponents/Loader";
+
 
 export const OrderHistoryPage = () => {
   const persistUserData = localStorage.getItem("persist:user");
@@ -14,10 +15,11 @@ export const OrderHistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
-  const [entry, setEntry] = useState(true);
+  const listRef = useRef<HTMLDivElement>(null);
 
-  // Initial loading state to prevent rendering before data fetch
-  const [initialLoading, setInitialLoading] = useState(true);
+  const handleButtonClick = () => {
+    setPage(page + 1);
+  };
 
   useEffect(() => {
     if (data.results) {
@@ -25,41 +27,18 @@ export const OrderHistoryPage = () => {
         setShowData(prevData => [...prevData, ...data.results]);
         setTotalPages(data.total_pages);
       }
-      setEntry(false);
-      // Scroll to the bottom after new data is loaded
-      window.scrollTo(0, document.body.scrollHeight);
     }
   }, [data, loggedIn]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const bottom =
-        Math.ceil(window.innerHeight + window.scrollY) >=
-        document.documentElement.scrollHeight;
-      if (bottom && page < totalPages) {
-        setPage(page + 1);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [page, totalPages]);
-
-  useEffect(() => {
-    setInitialLoading(false);
-    if (loggedIn) {
-      setEntry(false);
+    if (listRef.current) {
+      const itemsPerPage = 10;
+      const scrollToIndex = (page - 1) * itemsPerPage;
+      listRef.current.children[scrollToIndex]?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [loggedIn]);
+  }, [showData]);
 
-  useEffect(() => {
-    if (!isLoading && data && Object.keys(data).length !== 0) {
-      setInitialLoading(false);
-    }
-  }, [isLoading, data]);
-
-
-  if (initialLoading || isLoading || data === null || entry) {
+  if (isLoading || data === null) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
@@ -70,14 +49,16 @@ export const OrderHistoryPage = () => {
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading && !entry ? (
+      {showData.length === 0 && !isLoading ? (
         <EmptyOrderPage />
       ) : (
         <>
-          {showData.map((item: any, index: any) => (
-            <OrderHistoryComp key={index} Request="Hotel Name" item={item} />
-          ))}
-          {isLoading && <Loader />}
+          <div ref={listRef}>
+            {showData.map((item: any, index: any) => (
+              <OrderHistoryComp key={index} item={item} />
+            ))}
+          </div>
+          {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
         </>
       )}
     </>

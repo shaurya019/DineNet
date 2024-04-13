@@ -5,11 +5,10 @@ import Up from "../../assets/icons/UpwardArrow";
 import Veg from "../../assets/icons/Veg";
 
 interface OdHistoryCompProps {
-  Request: string;
   item: any;
 }
 
-export const OdHistoryComp = ({ Request, item }: OdHistoryCompProps) => {
+export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
   const navigate = useNavigate();
   const createdAt = new Date(item.created_at);
   const dateFormatOptions: Intl.DateTimeFormatOptions = {
