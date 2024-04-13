@@ -38,7 +38,7 @@ export const OrderHistoryPage = () => {
       const scrollToIndex = (page - 1) * 10;
       listRef.current.children[scrollToIndex]?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [showData]);
+  }, [page, showData]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -57,7 +57,7 @@ export const OrderHistoryPage = () => {
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading && !entry? (
+      {showData.length === 0 && !isLoading && !entry ? (
         <EmptyOrderPage />
       ) : (
         <>

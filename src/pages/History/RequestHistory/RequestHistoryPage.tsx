@@ -55,7 +55,7 @@ export const RequestHistoryPage = () => {
 
 
 
-  if (isLoading || data === null || showData.length === 0 || entry) {
+  if (isLoading || data === null || entry) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
@@ -63,9 +63,6 @@ export const RequestHistoryPage = () => {
     );
   }
 
-  if (error) {
-    return <div>Error: {error.message}</div>;
-  }
 
   return (
     <>
