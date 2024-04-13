@@ -6,9 +6,9 @@ import Loader from "@/atomicComponents/Loader";
 import { useGetComplimenatryProductHistory } from "@/hooks/useGetComplimenatryProductHistory";
 
 export const RequestHistoryPage = () => {
-  const persistUserData = window.localStorage.getItem("persist:user");
-  const userData = JSON.parse(persistUserData!);
-  const loggedIn = userData?.loggedIn;
+  const persistUserData = localStorage.getItem("persist:user");
+  const userData = JSON.parse(persistUserData!)?.loggedIn;
+
 
   const [page, setPage] = useState(1);
   const [entry, setEntry] = useState(true);
@@ -32,7 +32,7 @@ export const RequestHistoryPage = () => {
       }
       setEntry(false);
     }
-  }, [data,loggedIn]);
+  }, [data,userData]);
 
 
   
@@ -47,10 +47,10 @@ export const RequestHistoryPage = () => {
 
 
   useEffect(() => {
-    if (loggedIn) {
+    if (userData) {
       setEntry(false);
     }
-  }, [loggedIn]);
+  }, [userData]);
 
 
 

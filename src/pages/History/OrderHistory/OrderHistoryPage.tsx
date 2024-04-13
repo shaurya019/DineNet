@@ -8,12 +8,12 @@ import Loader from "@/atomicComponents/Loader";
 
 export const OrderHistoryPage = () => {
   const persistUserData = localStorage.getItem("persist:user");
-  const userData = JSON.parse(persistUserData!);
-  const loggedIn = userData?.loggedIn;
+  const userData = JSON.parse(persistUserData!)?.loggedIn;
 
   const [page, setPage] = useState(1);
   const [entry, setEntry] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
+  const [showLoader, setShowLoader] = useState(true);
   const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
   const listRef = useRef<HTMLDivElement>(null);
@@ -31,7 +31,7 @@ export const OrderHistoryPage = () => {
       }
       setEntry(false);
     }
-  }, [data, loggedIn]);
+  }, [data, userData]);
 
   useEffect(() => {
     if (listRef.current) {
@@ -41,25 +41,41 @@ export const OrderHistoryPage = () => {
   }, [page, showData]);
 
   useEffect(() => {
-    if (loggedIn) {
+    if (userData) {
       setEntry(false);
     }
-  }, [loggedIn]);
+  }, [userData]);
 
-  if (isLoading || data === null || entry) {
+
+useEffect(() => {
+  const loaderTimeout = setTimeout(() => {
+    setShowLoader(false);
+  }, 2000); 
+
+  return () => clearTimeout(loaderTimeout); // Clear the timeout on component unmount
+
+}, []);
+
+if (isLoading || data === null || entry) {
+  return (
+    <div className="flex flex-1 items-center justify-center h-screen">
+      {showLoader && <Loader />}
+    </div>
+  );
+}
+
+  if (!isLoading && showData.length === 0) {
     return (
-      <div className="flex flex-1 items-center justify-center h-screen">
-        <Loader />
-      </div>
+      <>
+        <Nav title="Order History" show="True" showEmpty="False" />
+        <EmptyOrderPage />
+      </>
     );
   }
 
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading && !entry ? (
-        <EmptyOrderPage />
-      ) : (
         <>
           <div ref={listRef}>
             {showData.map((item: any, index: any) => (
@@ -68,7 +84,6 @@ export const OrderHistoryPage = () => {
           </div>
           {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
         </>
-      )}
     </>
   );
 };
