@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef,useEffect, useState } from "react";
 import Nav from '@/components/Navbar';
 import EmptyRequestPage from './EmptyRequestPage';
 import RequestHistoryComp from '@/components/RequestHistoryCom';
@@ -6,7 +6,7 @@ import Loader from "@/atomicComponents/Loader";
 import { useGetComplimenatryProductHistory } from "@/hooks/useGetComplimenatryProductHistory";
 
 export const RequestHistoryPage = () => {
-  const persistUserData = localStorage.getItem("persist:user");
+  const persistUserData = window.localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!);
   const loggedIn = userData?.loggedIn;
 
@@ -14,57 +14,47 @@ export const RequestHistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data, isLoading, error } = useGetComplimenatryProductHistory(page);
-  const [entry, setEntry] = useState(true);
   const source = window.localStorage.getItem("source") || "1";
+  const listRef = useRef<HTMLDivElement>(null);
 
-  // Initial loading state to prevent rendering before data fetch
-  const [initialLoading, setInitialLoading] = useState(true);
+  const handleButtonClick = () => {
+    setPage(page + 1);
+  };
+
 
   useEffect(() => {
     console.log(data);
     if (data && data.orders) {
       if (data.orders.length > 0) {
         setShowData(prevData => [...prevData, ...data.orders]);
-        setTotalPages(data.totalCount);
+        setTotalPages(data.total_pages);
       }
-      setEntry(false);
+      // setEntry(false);
     }
-  }, [data]);
+  }, [data,loggedIn]);
+
+
+  
 
   useEffect(() => {
-    const handleScroll = (e: any) => {
-      const scrollHeight = e.target.documentElement.scrollHeight;
-      const scrollTop = e.target.documentElement.scrollTop;
-      const clientHeight = e.target.documentElement.clientHeight;
-
-      if (scrollTop + clientHeight >= scrollHeight - 20) {
-        if (page + 1 <= totalPages) {
-          setPage(prevPage => prevPage + 1);
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [page, totalPages]);
-
-  useEffect(() => {
-    setInitialLoading(false);
-    if (loggedIn) {
-      setEntry(false);
+    if (listRef.current) {
+      const scrollToIndex = (page - 1) * 10;
+      listRef.current.children[scrollToIndex]?.scrollIntoView({ behavior: "smooth" });
     }
-  }, [loggedIn]);
+  }, [page, showData]);
 
-  useEffect(() => {
-    if (!isLoading && showData.length > 0) {
-      setInitialLoading(false);
-      window.scrollTo(0, document.body.scrollHeight);
-    }
-  }, [isLoading, showData]);
 
-  // Render loader while initial loading is true
-  if (initialLoading || isLoading || data === null || entry) {
+
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     // setEntry(false);
+  //   }
+  // }, [loggedIn]);
+
+
+
+
+  if (isLoading || data === null || showData.length === 0) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
@@ -79,10 +69,10 @@ export const RequestHistoryPage = () => {
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading && !entry ? (
+      {showData.length === 0 && !isLoading  ? (
         <EmptyRequestPage />
       ) : (
-        <>
+        <div ref={listRef}>
           {showData.map((item: any, index: any) => {
             const createdAt = new Date(item.created_at);
             const date = createdAt.toISOString().split('T')[0];
@@ -100,8 +90,8 @@ export const RequestHistoryPage = () => {
               />
             );
           })}
-          {isLoading && <Loader />}
-        </>
+          {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
+        </div>
       )}
     </>
   );

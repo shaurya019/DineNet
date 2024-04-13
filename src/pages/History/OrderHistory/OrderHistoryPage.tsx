@@ -23,6 +23,7 @@ export const OrderHistoryPage = () => {
 
   useEffect(() => {
     if (data.results) {
+      console.log(data.results)
       if (data.results.length > 0) {
         setShowData(prevData => [...prevData, ...data.results]);
         setTotalPages(data.total_pages);
@@ -32,8 +33,7 @@ export const OrderHistoryPage = () => {
 
   useEffect(() => {
     if (listRef.current) {
-      const itemsPerPage = 10;
-      const scrollToIndex = (page - 1) * itemsPerPage;
+      const scrollToIndex = (page - 1) * 10;
       listRef.current.children[scrollToIndex]?.scrollIntoView({ behavior: "smooth" });
     }
   }, [showData]);
