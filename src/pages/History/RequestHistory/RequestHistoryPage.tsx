@@ -11,6 +11,7 @@ export const RequestHistoryPage = () => {
   const loggedIn = userData?.loggedIn;
 
   const [page, setPage] = useState(1);
+  const [entry, setEntry] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data, isLoading, error } = useGetComplimenatryProductHistory(page);
@@ -29,7 +30,7 @@ export const RequestHistoryPage = () => {
         setShowData(prevData => [...prevData, ...data.orders]);
         setTotalPages(data.total_pages);
       }
-      // setEntry(false);
+      setEntry(false);
     }
   }, [data,loggedIn]);
 
@@ -45,16 +46,16 @@ export const RequestHistoryPage = () => {
 
 
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     // setEntry(false);
-  //   }
-  // }, [loggedIn]);
+  useEffect(() => {
+    if (loggedIn) {
+      setEntry(false);
+    }
+  }, [loggedIn]);
 
 
 
 
-  if (isLoading || data === null || showData.length === 0) {
+  if (isLoading || data === null || showData.length === 0 || entry) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
@@ -69,7 +70,7 @@ export const RequestHistoryPage = () => {
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading  ? (
+      {showData.length === 0 && !isLoading && !entry ? (
         <EmptyRequestPage />
       ) : (
         <div ref={listRef}>

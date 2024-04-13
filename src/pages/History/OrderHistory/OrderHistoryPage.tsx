@@ -12,6 +12,7 @@ export const OrderHistoryPage = () => {
   const loggedIn = userData?.loggedIn;
 
   const [page, setPage] = useState(1);
+  const [entry, setEntry] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
@@ -28,6 +29,7 @@ export const OrderHistoryPage = () => {
         setShowData(prevData => [...prevData, ...data.results]);
         setTotalPages(data.total_pages);
       }
+      setEntry(false);
     }
   }, [data, loggedIn]);
 
@@ -38,7 +40,13 @@ export const OrderHistoryPage = () => {
     }
   }, [showData]);
 
-  if (isLoading || data === null) {
+  useEffect(() => {
+    if (loggedIn) {
+      setEntry(false);
+    }
+  }, [loggedIn]);
+
+  if (isLoading || data === null || entry) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
         <Loader />
@@ -49,7 +57,7 @@ export const OrderHistoryPage = () => {
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading ? (
+      {showData.length === 0 && !isLoading && !entry? (
         <EmptyOrderPage />
       ) : (
         <>
