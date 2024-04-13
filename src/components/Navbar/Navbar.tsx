@@ -31,7 +31,11 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
 
   
     const handleGoBack = () => {
-      navigate(-1);
+      if(title === 'Home'){
+        navigate(`/?clientId=${clientId}`, { replace: true });
+      }else{
+        navigate(-1);
+      }
     };
 
     return (
