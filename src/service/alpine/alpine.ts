@@ -75,7 +75,7 @@ export class Alpine {
       url: generateUrl(BASE_URL,"complimentary_order/customer_orders?page=" + page + "&size=10"),
     });
   };
-  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any,clientId:any,source:any) => {
+  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any,clientId:any,sourceId:any) => {
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
@@ -88,7 +88,7 @@ export class Alpine {
       customer_name: name,
       customer_phone: phone,
       client_id: x,
-      source: source,
+      source: sourceId,
       customization: instruction ?? "Need spicy",
       order_items: orderItems,
       payment_source: paymentSource,
@@ -104,12 +104,11 @@ export class Alpine {
       data: body,
     });
   };
-  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,source:any) => {
-    console.log("source",source);
+  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,sourceId:any) => {
     const formData = new FormData();
     formData.append('product_id',productId ?? 0);
     formData.append('text', textRequest ?? '');
-    formData.append('source',source);
+    formData.append('source',sourceId);
     if (imageFile) {
       console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);

@@ -28,9 +28,10 @@ interface BottomSubmitComponentProps {
 }
 
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue,requestText, ChooseOption, phone, name, setFinal, instruction}) => {
-  const clientId = localStorage.getItem("clientId");
+  const clientId = localStorage.getItem("clientId") || "1";
+  const sourceId = localStorage.getItem("sourceId") || "1";
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
-  const { items, } = useSelector((state: RootState) => state.cart);
+  const items = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]?.items);
   const { loggedIn,firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
@@ -64,7 +65,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
   // Dispatch and navigate after the redirection is complete
   const handleRedirectComplete = (Id: any) => {
-    dispatch(clearCart());
+    dispatch(clearCart({ clientId, sourceId }));
     const Order = {
       id: Id,
     };
@@ -82,7 +83,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
           let url = orderDetailsData.payment_info.url;
           window.location.replace(url);
         }
-        dispatch(clearCart());
+        dispatch(clearCart({ clientId, sourceId }));
       }
     };
 

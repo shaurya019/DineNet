@@ -6,23 +6,25 @@ interface CartItem {
   price: number;
   qty: number;
   tags: string[];
-  nonVeg:boolean;
+  nonVeg: boolean;
 }
 
 interface CartState {
-  items: { [id: string]: CartItem };
-  totalPrice: number;
-  clearedItems: { [id: string]: CartItem };
-  cartTags: string[];
-  totalCartItems: number;
+  carts: {
+    [clientId: string]: {
+      [sourceId: string]: {
+        items: { [id: string]: CartItem };
+        totalPrice: number;
+        clearedItems: { [id: string]: CartItem };
+        cartTags: string[];
+        totalCartItems: number;
+      };
+    };
+  };
 }
 
 const initialState: CartState = {
-  items: {},
-  totalPrice: 0,
-  clearedItems: {},
-  cartTags: [],
-  totalCartItems: 0,
+  carts: {}
 };
 
 const calculateTotalCartItems = (items: { [id: string]: CartItem }) => {
@@ -37,61 +39,85 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState,
   reducers: {
-    addToCart(state, action: PayloadAction<CartItem>) {
-      const { id, name, price,tags,nonVeg } = action.payload;
-      if (state.items[id]) {
-        state.items[id].qty++;
+    addToCart(state, action: PayloadAction<{ clientId: string; sourceId: string; item: CartItem }>) {
+      const { clientId, sourceId, item } = action.payload;
+      const { id, price, tags, nonVeg } = item;
+
+      if (!state.carts[clientId]) {
+        state.carts[clientId] = {};
+      }
+      if (!state.carts[clientId][sourceId]) {
+        state.carts[clientId][sourceId] = {
+          items: {},
+          totalPrice: 0,
+          clearedItems: {},
+          cartTags: [],
+          totalCartItems: 0
+        };
+      }
+
+      const clientCart = state.carts[clientId][sourceId];
+      if (clientCart.items[id]) {
+        clientCart.items[id].qty++;
       } else {
-        state.items[id] = { id, name, price, qty: 1,tags,nonVeg };
+        clientCart.items[id] = { ...item, qty: 1 };
         if (tags && typeof tags !== "string") {
-          console.log(typeof tags,tags);
-          tags.forEach((tag: string) => state.cartTags.push(tag));
+          tags.forEach((tag: string) => {
+            if (!clientCart.cartTags.includes(tag)) {
+              clientCart.cartTags.push(tag);
+            }
+          });
         }
       }
-      state.totalPrice += price;
-      state.totalCartItems = calculateTotalCartItems(state.items);
+      clientCart.totalPrice += price;
+      clientCart.totalCartItems = calculateTotalCartItems(clientCart.items);
     },
-    removeFromCart(state, action: PayloadAction<{ id: string }>) {
-      const { id } = action.payload;
-      if (state.items[id]) {
-        const item = state.items[id];
+    removeFromCart(state, action: PayloadAction<{ clientId: string; sourceId: string; itemId: string }>) {
+      const { clientId, sourceId, itemId } = action.payload;
+      const clientCart = state.carts[clientId]?.[sourceId];
+      if (clientCart && clientCart.items[itemId]) {
+        const item = clientCart.items[itemId];
         if (item.qty > 1) {
-          item.qty -= 1;
-          state.totalPrice -= item.price; 
+          item.qty--;
+          clientCart.totalPrice -= item.price;
         } else {
-          if(typeof item.tags !== "string"){
+          if (typeof item.tags !== "string") {
             item.tags.forEach(tag => {
-              const index = state.cartTags.indexOf(tag);
+              const index = clientCart.cartTags.indexOf(tag);
               if (index !== -1) {
-                state.cartTags.splice(index, 1); 
+                clientCart.cartTags.splice(index, 1);
               }
             });
           }
-          
-          
-          state.totalPrice -= item.price; 
-          delete state.items[id];
+          clientCart.totalPrice -= item.price;
+          delete clientCart.items[itemId];
         }
       }
-      state.totalCartItems = calculateTotalCartItems(state.items);
-      // If the cart becomes empty, set totalPrice to 0
-      if (Object.keys(state.items).length === 0) {
-        state.totalPrice = 0;
+      if (clientCart) {
+        clientCart.totalCartItems = calculateTotalCartItems(clientCart.items);
+        if (Object.keys(clientCart.items).length === 0) {
+          clientCart.totalPrice = 0;
+        }
       }
     },
-    clearCart(state) {
-      state.clearedItems = { ...state.items };
-      state.items = {};
-      state.totalPrice = 0;
-      state.cartTags = [];
-      state.totalCartItems = 0;
+    clearCart(state, action: PayloadAction<{ clientId: string; sourceId: string }>) {
+      const { clientId, sourceId } = action.payload;
+      if (state.carts[clientId]?.[sourceId]) {
+        state.carts[clientId][sourceId].clearedItems = { ...state.carts[clientId][sourceId].items };
+        state.carts[clientId][sourceId].items = {};
+        state.carts[clientId][sourceId].totalPrice = 0;
+        state.carts[clientId][sourceId].cartTags = [];
+        state.carts[clientId][sourceId].totalCartItems = 0;
+      }
     },
-    emptyCartItems(state) {
-      state.clearedItems = {}; 
+    emptyCartItems(state, action: PayloadAction<{ clientId: string; sourceId: string }>) {
+      const { clientId, sourceId } = action.payload;
+      if (state.carts[clientId]?.[sourceId]) {
+        state.carts[clientId][sourceId].clearedItems = {};
+      }
     },
   },
 });
 
-
-export const { addToCart, removeFromCart, clearCart,emptyCartItems } = cartSlice.actions;
+export const { addToCart, removeFromCart, clearCart, emptyCartItems } = cartSlice.actions;
 export default cartSlice.reducer;

@@ -17,10 +17,11 @@ interface OrderDetailsProps {
 }
 
 export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
-  const clientId = localStorage.getItem("clientId");
-  const {
-    cart: { items },
-  } = useSelector((state: RootState) => state);
+  const clientId = localStorage.getItem("clientId") || "1";
+  const sourceId = localStorage.getItem("sourceId") || "1";
+  const { carts } = useSelector((state: RootState) => state.cart);
+  const clientCart = carts[clientId]?.[sourceId];
+  const items = clientCart ? clientCart.items : {};
 
  
 

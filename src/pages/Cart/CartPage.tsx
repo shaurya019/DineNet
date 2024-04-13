@@ -16,9 +16,10 @@ import Loader from "@/atomicComponents/Loader";
 
 export const CartPage = () => {
 
-  const clientId = localStorage.getItem("clientId");
+  const clientId = localStorage.getItem("clientId") || "1";
+  const sourceId = localStorage.getItem("sourceId") || "1";
 
-  const { items, totalPrice, cartTags } = useSelector((state: RootState) => state.cart);
+  const { items, totalPrice, cartTags } = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]);
 
   const itemCount = Object.keys(items).length;
 

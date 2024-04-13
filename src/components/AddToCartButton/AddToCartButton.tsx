@@ -9,20 +9,24 @@ interface IAddToCartButton {
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
-  const { totalCartItems } = useSelector((state: RootState) => state.cart);
-  const itemCount = useSelector(
-    (state: RootState) => state.cart.items[item.id]?.qty
-  );
+  const clientId = localStorage.getItem("clientId") || "1";
+  const sourceId = localStorage.getItem("sourceId") || "1";
+  const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]?.totalCartItems);
+  const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[sourceId]?.items[item.id]?.qty);
   const dispatch = useDispatch();
   const handleAddItem = () =>
     dispatch(
       addToCart({
-        id: item.id,
-        name: item.product_name,
-        price: item.price,
-        qty: 0,
-        tags:item.tags,
-        nonVeg:item.non_veg
+        clientId,
+        sourceId,
+        item: {
+          id: item.id,
+          name: item.product_name,
+          price: item.price,
+          qty: 1, // Add new item with quantity 1
+          tags: item.tags,
+          nonVeg: item.non_veg,
+        },
       })
     );
   const handleRemoveItem = () => {
@@ -31,7 +35,9 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
     }
     dispatch(
       removeFromCart({
-        id: item.id,
+        clientId,
+        sourceId,
+        itemId: item.id, // Pass the id of the item to be removed
       })
     );
     if(setRefresh!=null){

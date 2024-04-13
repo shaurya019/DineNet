@@ -4,7 +4,11 @@ import { useSelector } from "react-redux";
 import { useGetClientProductsTax } from "@/hooks/useGetClientProductsTax";
 
 const useTaxCalculation = () => {
-  const { items} = useSelector((state: RootState) => state.cart);
+  const clientId = localStorage.getItem("clientId") || "1";
+  const sourceId = localStorage.getItem("sourceId") || "1";
+  const { carts } = useSelector((state: RootState) => state.cart);
+  const clientCart = carts[clientId]?.[sourceId];
+  const items = clientCart ? clientCart.items : {};
   const itemCount = Object.keys(items).length;
     const [totalTax, setTotalTax] = useState(0);
     const [taxList, setTaxList] = useState<{ key: string; value: any; }[]>([]);
