@@ -13,8 +13,10 @@ export default class Axios implements IAxios {
     this.client.interceptors.request.use(async (request) => {
       const authToken = await window.localStorage.getItem("authToken");
       if (authToken) {
-        let token=authToken.split(' ').at(-1)
+        let token = authToken.split(' ').at(-1);
         request.headers.set("authorization", "Bearer " + token);
+      } else {
+        request.headers.set("authorization", "");
       }
       return request;
     });
@@ -30,7 +32,7 @@ export default class Axios implements IAxios {
       const authToken = response?.headers?.getAuthorization();
       window.localStorage.removeItem('persist:root');
       if (authToken)
-      window.localStorage.setItem("authToken", authToken.split(" ").at(-1));
+        window.localStorage.setItem("authToken", authToken.split(" ").at(-1));
       return response;
     });
   }

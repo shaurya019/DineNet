@@ -27,7 +27,7 @@ export const Request = () => {
     useEffect(() => {
         if (textareaRef.current) {
             textareaRef.current.style.height = '117px';
-            textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
+            textareaRef.current.style.height = `${textareaRef.current?.scrollHeight}px`;
         }
     }, [area]);
 

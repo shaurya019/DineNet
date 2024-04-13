@@ -6,6 +6,7 @@ import { RootState } from "@/service/store/cartStore";
 import { useNavigate } from "react-router-dom";
 import { signOutUser } from "@/service/Slice/userSlice";
 import { useSignOut } from "@/hooks/useSignOut";
+import { clearCart } from "@/service/Slice/cartSlice";
 
 type UserProfileProps = {
   targetRef: React.RefObject<HTMLElement | SVGSVGElement>;
@@ -16,12 +17,16 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { mutateAsync: signOut } = useSignOut();
+  
   const handleLogout = () => {
-    console.log("handleSignout");
     signOut().then(() => {
+      const clientId = window.localStorage.getItem("clientId") || "1";
+      const source = window.localStorage.getItem("source") || "1";
       window.localStorage.removeItem("authToken");
       window.localStorage.removeItem("firebaseToken");
+      dispatch(clearCart({ clientId, source }));
       dispatch(signOutUser());
+      navigate('/')
     });
   };
   return (
