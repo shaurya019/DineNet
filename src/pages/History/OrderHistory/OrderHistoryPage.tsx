@@ -4,7 +4,6 @@ import { useGetOrderHistory } from "@/hooks/useGetOrderHistory";
 import OrderHistoryComp from "@/components/OrderHistoryComp";
 import EmptyOrderPage from "./EmptyOrderPage";
 import Loader from "@/atomicComponents/Loader";
-import { useNavigate } from "react-router-dom";
 
 export const OrderHistoryPage = () => {
   const persistUserData = localStorage.getItem("persist:user");
@@ -16,7 +15,6 @@ export const OrderHistoryPage = () => {
   const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
   const [entry, setEntry] = useState(true);
-  const navigate = useNavigate();
 
   // Initial loading state to prevent rendering before data fetch
   const [initialLoading, setInitialLoading] = useState(true);
