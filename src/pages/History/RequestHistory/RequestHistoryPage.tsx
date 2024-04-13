@@ -95,7 +95,6 @@ export const RequestHistoryPage = () => {
                 Status="Received"
                 Date={date}
                 Time={time}
-                Source=""
               />
             );
           })}
