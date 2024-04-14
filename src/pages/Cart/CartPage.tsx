@@ -17,7 +17,12 @@ export const CartPage = () => {
   const clientId = window.localStorage.getItem("clientId") || "1";
   const source = window.localStorage.getItem("source") || "1";
 
-  const { items, totalPrice, cartTags } = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]);
+  const cartData = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]);
+
+const items = cartData ? cartData.items : {};
+const totalPrice = cartData ? cartData.totalPrice : 0;
+const cartTags = cartData ? cartData.cartTags : [];
+
 
   const itemCount = Object.keys(items).length;
 
