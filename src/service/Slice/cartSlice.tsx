@@ -63,9 +63,7 @@ const cartSlice = createSlice({
         clientCart.items[id] = { ...item, qty: 1 };
         if (tags && typeof tags !== "string") {
           tags.forEach((tag: string) => {
-            if (!clientCart.cartTags.includes(tag)) {
-              clientCart.cartTags.push(tag);
-            }
+            clientCart.cartTags.push(tag);
           });
         }
       }
@@ -77,6 +75,7 @@ const cartSlice = createSlice({
       const clientCart = state.carts[clientId]?.[source];
       if (clientCart && clientCart.items[itemId]) {
         const item = clientCart.items[itemId];
+        console.log("item",item);
         if (item.qty > 1) {
           item.qty--;
           clientCart.totalPrice -= item.price;
@@ -87,6 +86,7 @@ const cartSlice = createSlice({
               if (index !== -1) {
                 clientCart.cartTags.splice(index, 1);
               }
+              console.log("*",tag);
             });
           }
           clientCart.totalPrice -= item.price;

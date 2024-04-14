@@ -34,13 +34,16 @@ export const CartPage = () => {
   useEffect(()=>{
     if (data && data.category_map) {
     const filteredData = data.category_map.flatMap((category: any) => category.products);
+    console.log("filteredData",filteredData);
     const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
-  const filteredProducted = filteredProducts.filter((product:any) =>
+    console.log("filteredProducts",filteredProducts);
+  const MealProducts = filteredProducts.filter((product:any) =>
     product.tags.some((tag:any) => cartTags.includes(tag))
   );
-  setMeal(filteredProducted);
+  console.log("MealProducts",MealProducts);
+  setMeal(MealProducts);
     }
-  },[cartTags, data,]);
+  },[cartTags, data, items]);
 
   if(refresh || isLoading) return (
     <div className="flex flex-1 items-center justify-center h-screen">
@@ -62,8 +65,8 @@ export const CartPage = () => {
             instruction={instruction} 
             setInstruction={setInstruction} 
           />
-          <StripeComponent title="Complete meal with add ons" />
-          <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />
+          {meal.length>0 &&<StripeComponent title="Complete meal with add ons" />}
+          {meal.length>0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}
           <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList}/>
           <BottomSubmit Heading="Proceed" path="PaymentMade"instruction={instruction}/>
         </>
