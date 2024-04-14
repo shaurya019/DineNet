@@ -17,11 +17,8 @@ export const TrackOrderPage = () => {
   const { data = [], isLoading } = useGetOrderedDetails(id);
 
   useEffect(()=>{
-    console.log(data);
     if(data!=null  && data.length > 0){
-      console.log(data);
       if(data[0].status!==null){
-        console.log(data[0].status);
         if(data[0].status==="PLACED"){
           setStatus("0");
         } else if(data[0].status==="COMPLETED"){

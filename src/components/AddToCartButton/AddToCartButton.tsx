@@ -23,7 +23,7 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
           id: item.id,
           name: item.product_name,
           price: item.price,
-          qty: 1, // Add new item with quantity 1
+          qty: 1,
           tags: item.tags,
           nonVeg: item.non_veg,
         },
@@ -37,7 +37,7 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
       removeFromCart({
         clientId,
         source,
-        itemId: item.id, // Pass the id of the item to be removed
+        itemId: item.id, 
       })
     );
     if(setRefresh!=null){

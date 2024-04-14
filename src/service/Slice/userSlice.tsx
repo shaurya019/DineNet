@@ -45,6 +45,7 @@ const userSlice = createSlice({
       state.phone = "";
       state.name = "";
       state.loggedIn = false;
+      // window.localStorage.setItem("phone", "");
     },
   },
   extraReducers: (builder) => {

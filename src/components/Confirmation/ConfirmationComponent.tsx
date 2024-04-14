@@ -18,11 +18,9 @@ interface ConfirmationComponentProps {
   export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({title,message1,message2,message3,message4,buttonName,Order,svg}) => {
     const navigate=useNavigate();
     const handleButtonClick = () => {
-      console.log(buttonName);
       if(buttonName==="Track Request"){
         navigate('/trackRequest', {replace: true ,state:{Order}});
       } else{
-        console.log("OrderId",Order);
         let id = Order;
         navigate('/trackOrder',{replace: true ,state:{id}});
       }

@@ -103,10 +103,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       case "OrderPage":
       case "RequestCart":
         if (loggedIn || ChooseOption === 'ONLINE') {
-          console.log("WHY",loggedIn," ",firebaseToken,)
           handleCreateOrder();
         } else {
-          console.log("HAPPY");
           setShowOtpModal(true)
         }
         break;

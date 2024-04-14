@@ -83,7 +83,6 @@ export class Alpine {
       campaign_name: 'TEST'
     }));
     const x = parseInt(clientId);
-    console.log("x",typeof x,x);
     const body = {
       customer_name: name,
       customer_phone: phone,
@@ -110,7 +109,6 @@ export class Alpine {
     formData.append('text', textRequest ?? '');
     formData.append('source',source);
     if (imageFile) {
-      console.log('imageFilehere', imageFile)
       formData.append('image', imageFile);
     }
 

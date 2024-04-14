@@ -33,7 +33,6 @@ export const Popover: React.FC<PopoverProps> = ({ targetRef, children }) => {
   }, []);
 
   const handleTargetClick = () => {
-    console.log('target')
     setOpen((open) => !open);
   };
 

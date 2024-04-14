@@ -28,7 +28,6 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
 
   useEffect(()=>{
     if(phone?.length && phone?.length>=10 && !phoneNumber){
-      console.log("Number Change")
       setPhoneNumberError(false); 
       setPhoneNumber(phone);
       handleLogin(phone);
@@ -48,6 +47,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       const token = await response.user.getIdToken();
       alpine.userLogin(phoneNumber, token).then(() => {
         window.localStorage.setItem("firebaseToken", token);
+        // window.localStorage.setItem("phone", phoneNumber);
         dispatch(signInUser({ phone: phoneNumber, firebaseToken: token }));
         dispatch(
           showAlert({

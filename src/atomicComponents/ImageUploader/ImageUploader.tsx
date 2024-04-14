@@ -12,7 +12,6 @@ export const UploadImage: React.FC<UploadImageProps> = ({ setImage }) => {
         const files = event.target.files;
         if (files && files.length > 0) {
             const file = files[0];
-            console.log(file);
             setImage(file);
         }
     };

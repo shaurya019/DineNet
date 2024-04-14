@@ -13,13 +13,10 @@ export const TrackRequestPage = () => {
   const { Order } = location.state || {};
 
   const { data = [], isLoading } = useGetComplimentaryProductData(Order!);
-  console.log(data);
 
   useEffect(()=>{
     if(data!=null  && data.length > 0){
-      console.log(data);
       if(data.status!==null){
-        console.log(data.status);
         if(data.status==="PLACED"){
           setStatus("0");
         } else if(data.status==="COMPLETED"){

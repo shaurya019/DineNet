@@ -10,8 +10,6 @@ import MealAddOns from '@/components/MealAddOns'
 import StripeComponent from '@/components/ContainerCart'
 import useTaxCalculation from '@/hooks/useTaxCustom'
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
-import { useLocation } from "react-router";
-import { getQueryParam } from "@/utils/routerUtils";
 import Loader from "@/atomicComponents/Loader";
 
 export const CartPage = () => {
@@ -26,13 +24,12 @@ export const CartPage = () => {
   const { totalTax, taxList } = useTaxCalculation();
 
   const [meal, setMeal] = useState<any[]>([]);
-  const [res, setRes] = useState<any[]>([]);
+  // const [res, setRes] = useState<any[]>([]);
   const [refresh,setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const [instruction, setInstruction] = useState('');
   const { data = [], isLoading } = useGetClientProducts(clientId,cartTags);
-
 
   useEffect(()=>{
     if (data && data.category_map) {

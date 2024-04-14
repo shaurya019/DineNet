@@ -22,7 +22,6 @@ export const Request = () => {
     const [image, setImage] = useState<File | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-    console.log("data", data);
 
     useEffect(() => {
         if (textareaRef.current) {
