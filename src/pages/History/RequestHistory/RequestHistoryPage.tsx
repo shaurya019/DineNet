@@ -9,41 +9,38 @@ export const RequestHistoryPage = () => {
   const persistUserData = localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!)?.loggedIn;
 
-
   const [page, setPage] = useState(1);
+  const { data, isLoading, } = useGetComplimenatryProductHistory(page);
+
   const [entry, setEntry] = useState(true);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
-  const { data, isLoading, error } = useGetComplimenatryProductHistory(page);
-  const source = window.localStorage.getItem("source") || "1";
   const listRef = useRef<HTMLDivElement>(null);
+  const source = window.localStorage.getItem("source") || "1";
 
   const handleButtonClick = () => {
-    setPage(page + 1);
+    setPage((prevPage) => prevPage + 1); 
   };
-
-
-  useEffect(() => {
-    console.log(data);
-    if (data && data.orders) {
-      if (data.orders.length > 0) {
-        setShowData(prevData => [...prevData, ...data.orders]);
-        setTotalPages(data.total_pages);
-      }
-      setEntry(false);
-    }
-  }, [data,userData]);
-
-
-  
 
   useEffect(() => {
     if (listRef.current) {
       const scrollToIndex = (page - 1) * 10;
-      listRef.current.children[scrollToIndex]?.scrollIntoView({ behavior: "smooth" });
+      listRef.current.children[scrollToIndex]?.scrollIntoView({
+        behavior: "smooth",
+      });
     }
-  }, [page, showData]);
+  }, [page,showData]);
 
+
+
+
+  useEffect(() => {
+    if (data && data.orders && data.orders.length > 0) {
+      console.log("data",data);
+      setShowData((prevData) => [...prevData, ...data.orders]); 
+      setTotalPages(data.total_pages);
+    }
+  }, [isLoading, data]);
 
 
   useEffect(() => {
@@ -54,12 +51,20 @@ export const RequestHistoryPage = () => {
 
 
 
-
   if (isLoading || data === null || entry) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
-        <Loader />
+       <Loader />
       </div>
+    );
+  }
+
+  if (!isLoading && data && data.results && data.results.length === 0) {
+    return (
+      <>
+        <Nav title="Request History" show="True" showEmpty="False" />
+        <EmptyRequestPage />
+      </>
     );
   }
 
@@ -67,9 +72,6 @@ export const RequestHistoryPage = () => {
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False" />
-      {showData.length === 0 && !isLoading && !entry ? (
-        <EmptyRequestPage />
-      ) : (
         <div ref={listRef}>
           {showData.map((item: any, index: any) => {
             const createdAt = new Date(item.created_at);
@@ -90,7 +92,6 @@ export const RequestHistoryPage = () => {
           })}
           {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
         </div>
-      )}
     </>
   );
 };

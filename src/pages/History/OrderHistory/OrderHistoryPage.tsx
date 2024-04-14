@@ -11,34 +11,31 @@ export const OrderHistoryPage = () => {
   const userData = JSON.parse(persistUserData!)?.loggedIn;
 
   const [page, setPage] = useState(1);
-  const [entry, setEntry] = useState(true);
-  const [totalPages, setTotalPages] = useState(1);
-  const [showLoader, setShowLoader] = useState(true);
-  const [showData, setShowData] = useState<any[]>([]);
   const { data = {}, isLoading } = useGetOrderHistory(page);
+
+  const [entry, setEntry] = useState(true);
+  const [totalPages, setTotalPages] = useState(data.total_pages);
+  const [showData, setShowData] = useState<any[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
 
   const handleButtonClick = () => {
-    setPage(page + 1);
+    setPage((prevPage) => prevPage + 1); 
   };
 
   useEffect(() => {
-    if (data.results) {
-      console.log(data.results)
-      if (data.results.length > 0) {
-        setShowData(prevData => [...prevData, ...data.results]);
-        setTotalPages(data.total_pages);
-      }
-      setEntry(false);
-    }
-  }, [data, userData]);
-
-  useEffect(() => {
     if (listRef.current) {
+      console.log("listRef.current:", listRef.current);
       const scrollToIndex = (page - 1) * 10;
-      listRef.current.children[scrollToIndex]?.scrollIntoView({ behavior: "smooth" });
+      console.log("scrollToIndex:", scrollToIndex);
+      const elementToScroll = listRef.current.children[scrollToIndex];
+      console.log("elementToScroll:", elementToScroll);
+      if (elementToScroll) {
+        console.log("elementToScroll is not null or undefined");
+        elementToScroll.scrollIntoView({ behavior: "smooth" });
+      }
     }
-  }, [page, showData]);
+  }, [page,showData]);
+  
 
   useEffect(() => {
     if (userData) {
@@ -47,24 +44,22 @@ export const OrderHistoryPage = () => {
   }, [userData]);
 
 
-useEffect(() => {
-  const loaderTimeout = setTimeout(() => {
-    setShowLoader(false);
-  }, 2000); 
+  useEffect(() => {
+    if (data && data.results && data.results.length > 0) {
+      setShowData((prevData) => [...prevData, ...data.results]);
+      setTotalPages(data.total_pages);
+    }
+  }, [data]);
 
-  return () => clearTimeout(loaderTimeout); // Clear the timeout on component unmount
+  if (isLoading || data === null || entry) {
+    return (
+      <div className="flex flex-1 items-center justify-center h-screen">
+       <Loader />
+      </div>
+    );
+  }
 
-}, []);
-
-if (isLoading || data === null || entry) {
-  return (
-    <div className="flex flex-1 items-center justify-center h-screen">
-      {showLoader && <Loader />}
-    </div>
-  );
-}
-
-  if (!isLoading && showData.length === 0) {
+  if (!isLoading && data && data.results.length === 0) {
     return (
       <>
         <Nav title="Order History" show="True" showEmpty="False" />
@@ -76,14 +71,16 @@ if (isLoading || data === null || entry) {
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
-        <>
-          <div ref={listRef}>
-            {showData.map((item: any, index: any) => (
-              <OrderHistoryComp key={index} item={item} />
-            ))}
-          </div>
-          {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
-        </>
+      <>
+        <div ref={listRef}>
+          {showData.map((item: any, index: any) => (
+            <OrderHistoryComp key={index} item={item} />
+          ))}
+        </div>
+        {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
+      </>
     </>
   );
 };
+
+
