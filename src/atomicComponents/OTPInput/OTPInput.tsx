@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 interface IOTPInput {
   onChange: Function;
+  wrongOtp: boolean
 }
-export const OTPInput = ({ onChange }: IOTPInput) => {
+export const OTPInput = ({ onChange,wrongOtp }: IOTPInput) => {
   const [otp, setOtp] = useState<string[]>(["", "", "", "", "", ""]);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([
     null,
@@ -53,7 +54,7 @@ export const OTPInput = ({ onChange }: IOTPInput) => {
       {otp.map((digit, index) => (
         <input
           key={index}
-          className="h-9 w-9 rounded border border-green text-center text-grey text-xs"
+          className={`h-9 w-9 rounded border ${wrongOtp ? 'border-red-warm' : 'border-green'} text-center text-grey text-xs`}
           ref={(ref) => (inputRefs.current[index] = ref)}
           type="text"
           maxLength={1}
