@@ -3,7 +3,6 @@ import { usePhoneAuth } from "../../service/firebase/phoneAuth";
 import alpine from "../../service/alpine";
 import OTPInput from "@/atomicComponents/OTPInput";
 import LabelledTextField from "@/atomicComponents/LabelledTextField";
-import { LeftArrow } from "@/assets/icons/LeftArrow";
 import { Cross } from "@/assets/icons/Cross";
 import { UserCredential } from "firebase/auth";
 import { useDispatch } from "react-redux";
@@ -14,6 +13,7 @@ interface ILoginModal {
   closeModal?: (action: string) => void;
   phone?: string;
 }
+
 export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
   const [otp, setOtp] = useState<string>("");
@@ -23,7 +23,8 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [showOtp, setShowOtp] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [errorType, setErrorType] = useState<string>("");
-  const { sendOTP, confirmOTP } = usePhoneAuth();
+  const [resendTimer, setResendTimer] = useState<number>(60);
+  const { sendOTP, confirmOTP,clearApp } = usePhoneAuth();
   
   const dispatch = useDispatch();
 
@@ -34,10 +35,23 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       handleLogin(phone);
     }
   },[phone])
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (resendTimer > 0 ) {
+      timer = setTimeout(() => {
+        setResendTimer(prevTimer => prevTimer - 1);
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [resendTimer]);
   
   const handleLogin = (phoneNumber:string) => {
     setIsLoadingOtp(true);
-    sendOTP("+91" + phoneNumber).then(() => setShowOtp(true)).finally(() => {
+    setResendTimer(60); 
+    sendOTP("+91" + phoneNumber).then(() => {
+      setShowOtp(true);
+    }).finally(() => {
       setIsLoadingOtp(false);
     });
   };
@@ -122,9 +136,13 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         {isIncorrectOTP && <p className="text-red-warm text-xs">Wrong Otp Entered</p>}
         <div className="flex gap-1 item-center mt-1">
           <p className="text-grey-dark text-xs">Didn’t Received OTP?</p>
-          <button className="text-xs text-blue-600 font-semibold">
-            RESEND
-          </button>
+          {resendTimer === 0 ? (
+            <button onClick={() => handleLogin(phoneNumber)} className="text-xs text-blue-600 font-semibold">
+              RESEND
+            </button>
+          ) : (
+            <p className="text-xs">{`Resend in ${resendTimer} seconds`}</p>
+          )}
         </div>
       </div>
       <button
@@ -142,6 +160,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       </button>
     </div>
   );
+
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-grey bg-opacity-50 z-30 flex place-items-center">
       <div
@@ -151,7 +170,9 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         }}
       >
         <div className="absolute right-2 top-2 w-fit z-20">
-          <button onClick={ () => closeModal("cross")}>
+          <button onClick={ () => {clearApp();
+            console.log("**")
+            closeModal("cross")}}>
             <Cross className="fill-green" />
           </button>
         </div>

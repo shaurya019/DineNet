@@ -16,10 +16,11 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
   const source = window.localStorage.getItem("source");
+  // const { sendOTP, confirmOTP,clearApp } = usePhoneAuth();
   
   const handleCloseOtpModal = () => {
     setisLoginModalOpen(false)
-      window.location.reload();
+      // window.location.reload();
   }
 
 

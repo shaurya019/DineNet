@@ -8,11 +8,16 @@ export const initializeFirebase = () => {
   initializeApp(firebaseConfig);
 };
 
-export const getRecaptchaVerifier = () => {
-  const app = getApp();
-  const auth = getAuth(app);
+let recaptchaVerifier:RecaptchaVerifier;
 
-  return new RecaptchaVerifier(auth, "recaptcha-container", {
-    size: "invisible",
-  });
-};
+export const getRecaptchaVerifier = () => {
+  if (!recaptchaVerifier) {
+    const app = getApp();
+    const auth = getAuth(app);
+    recaptchaVerifier = new RecaptchaVerifier(auth, "recaptcha-container", {
+      size: "invisible",
+    });
+    recaptchaVerifier.render().catch((e) => console.error("Error rendering recaptcha:", e));
+  }
+  return recaptchaVerifier;
+}
