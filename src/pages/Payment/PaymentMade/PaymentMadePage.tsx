@@ -32,7 +32,7 @@ export const PaymentMadePage = () => {
 
   // Hooks
   const [phonex, setPhonex] = useState(phone ?? '');
-  const [namex, setNamex] = useState<any | null>(null);
+  const [namex, setNamex] = useState<any | null>('');
   const [submit, setSubmit] = useState(false);
   const [final, setFinal] = useState(false);
   const [selectedOption, setSelectedOption] = useState<string>('Option3');
