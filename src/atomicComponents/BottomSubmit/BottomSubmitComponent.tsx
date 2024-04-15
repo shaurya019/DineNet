@@ -149,8 +149,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const handleCloseOtpModal = (action: string) => {
     if (action === "otp") {
       handleCreateOrder();
-    } else if (action === "cross") {
-      window.location.reload();
+    } else {
+      setShowOtpModal(false);
     }
   }
 
@@ -176,7 +176,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       <div className="bg-greenCyan text-center py-3 rounded-2xl"
         onClick={handleOnSubmit}
       >
-        {textRequest !== '' && category !== 'NotDisclosed' && isLoading ? (
+        {(textRequest !== '' && category !== 'NotDisclosed') && isLoading ? (
           <div className="flex justify-center items-center text-white">
             <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>

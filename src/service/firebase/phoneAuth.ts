@@ -33,14 +33,8 @@ export const usePhoneAuth = () => {
     return confirmationResult?.confirm?.(otp);
   };
 
-  const clearApp = () => {
-    console.log("app",app)
-    // app?.clear();
-  }
-
   return {
     sendOTP,
     confirmOTP,
-    clearApp
   };
 };

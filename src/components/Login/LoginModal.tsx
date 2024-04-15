@@ -24,7 +24,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
   const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [errorType, setErrorType] = useState<string>("");
   const [resendTimer, setResendTimer] = useState<number>(60);
-  const { sendOTP, confirmOTP,clearApp } = usePhoneAuth();
+  const { sendOTP, confirmOTP } = usePhoneAuth();
   
   const dispatch = useDispatch();
 
@@ -170,9 +170,7 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
         }}
       >
         <div className="absolute right-2 top-2 w-fit z-20">
-          <button onClick={ () => {clearApp();
-            console.log("**")
-            closeModal("cross")}}>
+          <button onClick={ () => closeModal("cross")}>
             <Cross className="fill-green" />
           </button>
         </div>
