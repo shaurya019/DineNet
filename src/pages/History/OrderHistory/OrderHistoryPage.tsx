@@ -10,6 +10,7 @@ export const OrderHistoryPage = () => {
   const persistUserData = localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!)?.loggedIn;
 
+  console.log(userData);
   const [page, setPage] = useState(1);
   const { data = {}, isLoading } = useGetOrderHistory(page);
 
@@ -18,24 +19,11 @@ export const OrderHistoryPage = () => {
   const [showData, setShowData] = useState<any[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
 
+
   const handleButtonClick = () => {
     setPage((prevPage) => prevPage + 1); 
   };
 
-  useEffect(() => {
-    if (listRef.current) {
-      console.log("listRef.current:", listRef.current);
-      const scrollToIndex = (page - 1) * 10;
-      console.log("scrollToIndex:", scrollToIndex);
-      const elementToScroll = listRef.current.children[scrollToIndex];
-      console.log("elementToScroll:", elementToScroll);
-      if (elementToScroll) {
-        console.log("elementToScroll is not null or undefined");
-        elementToScroll.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [page,showData]);
-  
 
   useEffect(() => {
     if (userData) {
@@ -44,12 +32,25 @@ export const OrderHistoryPage = () => {
   }, [userData]);
 
 
+
+  useEffect(() => {
+    if (listRef.current) {
+      const scrollToIndex = (page - 1) * 10;
+      const elementToScroll = listRef.current.children[scrollToIndex];
+      if (elementToScroll) {
+        elementToScroll.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, [page,showData]);
+  
+
   useEffect(() => {
     if (data && data.results && data.results.length > 0) {
       setShowData((prevData) => [...prevData, ...data.results]);
       setTotalPages(data.total_pages);
     }
   }, [data]);
+
 
   if (isLoading || data === null || entry) {
     return (
@@ -59,7 +60,18 @@ export const OrderHistoryPage = () => {
     );
   }
 
-  if (!isLoading && data && data.results.length === 0) {
+
+  if (!isLoading && userData === false) {
+    return (
+      <>
+        <Nav title="Order History" show="True" showEmpty="False" />
+        <EmptyOrderPage />
+      </>
+    );
+  }
+  
+
+  if (!isLoading && data && data.results && data.results?.length === 0) {
     return (
       <>
         <Nav title="Order History" show="True" showEmpty="False" />
@@ -68,6 +80,7 @@ export const OrderHistoryPage = () => {
     );
   }
 
+  console.log("userData:", userData);
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />

@@ -59,7 +59,7 @@ export const RequestHistoryPage = () => {
     );
   }
 
-  if (!isLoading && data && data.results && data.results.length === 0) {
+  if (!isLoading && data && data.results && data.results?.length === 0) {
     return (
       <>
         <Nav title="Request History" show="True" showEmpty="False" />
