@@ -80,7 +80,7 @@ export class Alpine {
     const orderItems = Object.values(items).map((item:any) => ({
       quantity: item.qty,
       product_id: item.id,
-      campaign_name: 'TEST'
+      campaign_name: item.campaignName ? 'TEST' : ' '
     }));
     const x = parseInt(clientId);
     const body = {
@@ -88,7 +88,7 @@ export class Alpine {
       customer_phone: phone,
       client_id: x,
       source: source,
-      customization: instruction ?? "Need spicy",
+      customization: instruction ?? ' ',
       order_items: orderItems,
       payment_source: paymentSource,
       firebase_token: firebaseToken,

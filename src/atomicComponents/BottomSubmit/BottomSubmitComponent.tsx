@@ -98,7 +98,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         navigate(`/?clientId=${clientId}`, { replace: true });
         break;
       case "PaymentMade":
-        navigate('/paymentMade');
+        navigate('/paymentMade', { state: { instruction: instruction ?? " " } });
         break;
       case "OrderPage":
       case "RequestCart":
@@ -169,6 +169,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       }
     }
   }
+
+
 
   return (
     <div className='fixed bottom-0 w-full bg-white border-t-whiteSmoke mt-10 py-3 px-2.5' style={{ boxShadow: '0 -4px 4px 0px rgba(0, 0, 0, 0.07)', minHeight: '60px' }}>

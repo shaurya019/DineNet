@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 import Nav from '@/components/Navbar';
@@ -21,6 +22,12 @@ interface JwtPayload {
 export const PaymentMadePage = () => {
   const clientId = window.localStorage.getItem("clientId") || "1";
   const source = window.localStorage.getItem("source") || "1";
+
+  const location = useLocation();
+  
+  const instruction = location.state && location.state.instruction;
+
+
   // Redux Cart Data
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
@@ -67,7 +74,7 @@ export const PaymentMadePage = () => {
       <PaymentMethodChoose submit={submit} final={final} setSubmit={setSubmit} Option={selectedOption} SelectedOption={setSelectedOption} />
       <BillDetailsComp totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
       <BottomNoteComp />
-      <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} ChooseOption={selectedOption} path="OrderPage" />
+      <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} instruction={instruction} ChooseOption={selectedOption} path="OrderPage" />
     </>
   )
 }

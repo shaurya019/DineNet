@@ -30,11 +30,15 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
           )}
         </div>
 
-        <h4 className="font-semibold text-green-mineral text-xs mt-4">
-          Customization
-        </h4>
-        <hr className="bg-silver my-2" />
-        <p className="text-xs">{item.customization}</p>
+        {item.customization !== ' ' && (
+  <div>
+    <h4 className="font-semibold text-green-mineral text-xs mt-4">
+      Customization
+    </h4>
+    <hr className="bg-silver my-2" />
+    <p className="text-xs">{item.customization}</p>
+  </div>
+)}
       </div>
     </div>
   );
