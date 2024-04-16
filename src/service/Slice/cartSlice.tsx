@@ -7,6 +7,7 @@ interface CartItem {
   qty: number;
   tags: string[];
   nonVeg: boolean;
+  campaignName: boolean ;
 }
 
 interface CartState {
@@ -41,7 +42,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<{ clientId: string; source: string; item: CartItem }>) {
       const { clientId, source, item } = action.payload;
-      const { id, price, tags, nonVeg } = item;
+      const { id, price, tags, nonVeg,campaignName } = item;
 
       if (!state.carts[clientId]) {
         state.carts[clientId] = {};

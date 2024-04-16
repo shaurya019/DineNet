@@ -26,7 +26,8 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, s
           price: meal.price,
           qty: 0,
           tags: meal.tags,
-          nonVeg:meal.non_veg
+          nonVeg:meal.non_veg,
+          campaignName:true,
         },
       })
     );

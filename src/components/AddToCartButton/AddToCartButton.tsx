@@ -26,6 +26,7 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
           qty: 1,
           tags: item.tags,
           nonVeg: item.non_veg,
+          campaignName:false
         },
       })
     );

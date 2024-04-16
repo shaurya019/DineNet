@@ -56,6 +56,7 @@ const cartTags = cartData ? cartData.cartTags : [];
     </div>
   ); 
 
+  console.log("Instruction",instruction);
   return (
     <div>
       <Nav title="Cart" show={itemCount !== 0 ? "True" : "False"} showEmpty={itemCount !== 0 ? "True" : "False"} />
