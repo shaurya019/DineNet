@@ -30,8 +30,8 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
           )}
         </div>
 
-        {item.customization !== ' ' && (
-  <div>
+        {item.customization !== "" && (
+     <div>
     <h4 className="font-semibold text-green-mineral text-xs mt-4">
       Customization
     </h4>
