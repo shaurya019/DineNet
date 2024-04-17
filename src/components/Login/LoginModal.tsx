@@ -74,7 +74,10 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
       });
     }).catch(() => {
       setIsIncorrectOTP(true);
-    }).finally(()=>{setIsLoadingLogin(false)});
+    }).finally(()=>{
+      closeModal("cross")
+      setIsLoadingLogin(false);
+    });
   };
   
   const phoneInput = (
