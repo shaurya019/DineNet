@@ -12,6 +12,7 @@ export const OrderHistoryPage = () => {
 
   console.log(userData);
   const [page, setPage] = useState(1);
+  
   const { data = {}, isLoading } = useGetOrderHistory(page);
 
   const [entry, setEntry] = useState(true);
@@ -86,9 +87,9 @@ export const OrderHistoryPage = () => {
       <Nav title="Order History" show="True" showEmpty="False" />
       <>
         <div ref={listRef}>
-          {showData.map((item: any, index: any) => (
+          {(showData && showData[0]) ? showData?.map((item: any, index: any) => (
             <OrderHistoryComp key={index} item={item} />
-          ))}
+          )) :  <EmptyOrderPage />}
         </div>
         {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
       </>

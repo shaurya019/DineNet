@@ -34,10 +34,7 @@ export const ReqHistoryCom = ({ Request, Order, Status, Subject, Date, Time, Sou
             <h4 className='text-sm text-green-willam font-medium'>{Request}</h4>
             <div className='flex flex-row'>
               <h4 className="text-[8px] font-normal text-grey-fortysix">
-                Room No. :
-                <span className="text-[10px] pl-1 text-grey font-medium">
-                  {Source}
-                </span>
+              {Source}
               </h4>
               <h4 className="text-[8px] mx-1">|</h4>
               <h4 className='text-[8px] text-grey-dark'>Order No.: <span className='text-[10px] text-grey font-medium'>{Order}</span></h4>

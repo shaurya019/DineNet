@@ -35,8 +35,7 @@ export const RequestHistoryPage = () => {
 
 
   useEffect(() => {
-    if (data && data.orders && data.orders.length > 0) {
-      console.log("data",data);
+    if (data && data?.orders && data.orders?.length > 0) {
       setShowData((prevData) => [...prevData, ...data.orders]); 
       setTotalPages(data.total_pages);
     }
@@ -73,7 +72,7 @@ export const RequestHistoryPage = () => {
     <>
       <Nav title="Request History" show="True" showEmpty="False" />
         <div ref={listRef}>
-          {showData.map((item: any, index: any) => {
+          {(showData && showData[0]) ? showData.map((item: any, index: any) => {
             const createdAt = new Date(item.created_at);
             const date = createdAt.toISOString().split('T')[0];
             const time = createdAt.toTimeString().split(' ')[0];
@@ -89,7 +88,7 @@ export const RequestHistoryPage = () => {
                 Source={source}
               />
             );
-          })}
+          }) :  <EmptyRequestPage />}
           {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
         </div>
     </>

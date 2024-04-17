@@ -58,10 +58,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 </h4>
                 <div className="flex flex-row">
                   <h4 className="text-[8px] font-normal text-grey-fortysix">
-                    Room No. :
-                    <span className="text-[10px] pl-1 text-grey font-medium">
-                      {item.source}
-                    </span>
+                  {item.source}
                   </h4>
                   <h4 className="text-[8px] mx-1">|</h4>
                   <h4 className="text-[8px] text-grey-dark">
@@ -95,7 +92,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
 
             <div className="flex flex-row justify-between mt-2">
               {expanded === true ? (
-                <h4 className={`text-[10px] px-2 mr-[10px]  border border-solid rounded ${item.status === 'Cancelled' ? 'bg-red-warm' : 'bg-white'} ${item.status === 'Cancelled' ? 'text-white' : 'text-greenCyan'}`}>
+                <h4 className={`text-[10px] px-2 mr-[10px]  border border-solid rounded ${item.status === 'CANCELLED' ? 'bg-red-warm' : 'bg-white'} ${item.status === 'CANCELLED' ? 'text-white' : 'text-greenCyan'}`}>
                   {item.status}
                 </h4>
 
@@ -114,8 +111,8 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               Track Order
             </button>
             <button
-              onClick={item.status !== 'Cancelled' ? downloadOrderDetails : undefined}
-              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'Cancelled' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+              onClick={item.status !== 'CANCELLED' ? downloadOrderDetails : undefined}
+              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
                 }`}
             >
               Download Invoice
@@ -194,20 +191,20 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 <span>&#8377;</span>{total}
               </h4>
             </div>
-            <div className="w-full h-6 bg-red-light flex items-center">
+           {item.customization !== "" && <div className="w-full h-6 bg-red-light flex items-center">
               <h4 className="text-[10px] font-semibold text-greenCyan ml-5">
                 Customization
               </h4>
-            </div>
-            <div className="w-full">
-              <div className="mx-3 h-16 bg-white border border-solid border-whiteSmoking flex mt-1 mb-4 rounded">
+            </div>}
+          { item.customization !== "" &&  <div className="w-full">
+              <div className="mx-3 h-16 bg-white border border-solid border-whiteSmoking flex mt-1  rounded">
                 <h4 className="text-[10px] text-left font-semibold text-grey ml-1 mt-1">
                   {item.customization}
                 </h4>
               </div>
-            </div>
+            </div>}
 
-            <div className="mb-7 w-full flex flex-row px-5 items-center justify-between">
+            <div className="mb-7 mt-4 w-full flex flex-row px-5 items-center justify-between">
               <button
                 onClick={item.status === 'PLACED' ? trackOrderDetails : undefined}
                 className={`h-8 text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 flex items-center justify-center`}>
@@ -215,7 +212,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               </button>
               <button
                 onClick={downloadOrderDetails}
-                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status === 'Cancelled' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
                   }`}
               >
                 Download Invoice

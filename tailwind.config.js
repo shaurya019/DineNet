@@ -40,6 +40,7 @@ module.exports = {
         },
         green: {
           DEFAULT: "#4F7066",
+          dull:"#4F706580",
           light: "#F3F7F5",
           mintcream: "#F3F7F5",
           mineral: "#3B544C",

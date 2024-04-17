@@ -34,18 +34,16 @@ const cartTags = cartData ? cartData.cartTags : [];
   const [add, setAdd] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const [instruction, setInstruction] = useState('');
+
   const { data = [], isLoading } = useGetClientProducts(clientId,cartTags);
 
   useEffect(()=>{
     if (data && data.category_map) {
-    const filteredData = data.category_map.flatMap((category: any) => category.products);
-    console.log("filteredData",filteredData);
+    const filteredData = data.category_map?.flatMap((category: any) => category.products);
     const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
-    console.log("filteredProducts",filteredProducts);
-  const MealProducts = filteredProducts.filter((product:any) =>
-    product.tags.some((tag:any) => cartTags.includes(tag))
+    const MealProducts = filteredProducts.filter((product:any) =>
+    product.tags?.some((tag:any) => cartTags.includes(tag))
   );
-  console.log("MealProducts",MealProducts);
   setMeal(MealProducts);
     }
   },[cartTags, data, items]);
