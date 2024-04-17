@@ -7,8 +7,9 @@ import { useSelector, useDispatch } from "react-redux";
 interface IAddToCartButton {
   item: any;
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
+  kitchenSetup?:any;
 }
-export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
+export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButton) => {
   const clientId = window.localStorage.getItem("clientId") || "1";
   const source = window.localStorage.getItem("source") || "1";
   const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
@@ -58,8 +59,12 @@ export const AddToCartButton = ({ item,setRefresh }: IAddToCartButton) => {
       </div>
     </div>
   ) : (
-    <button className="bg-white border-2 border-green text-green px-6 py-1 rounded" onClick={handleAddItem}>
-      ADD
-    </button>
+    <button
+  className={`bg-white border-2 ${kitchenSetup ? 'border-green-dull text-green-dull' : 'border-green text-green'} px-6 py-1 rounded`}
+  onClick={handleAddItem}
+  disabled={kitchenSetup}
+>
+  ADD
+</button>
   );
 };

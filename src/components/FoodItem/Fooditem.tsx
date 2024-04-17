@@ -6,8 +6,9 @@ import Veg from '../../assets/icons/Veg';
 
 interface IFooditem {
   data: any;
+  kitchenSetup:any;
 }
-export const Fooditem = ({ data }: IFooditem) => {
+export const Fooditem = ({ data,kitchenSetup }: IFooditem) => {
   const ref = useRef<HTMLImageElement>(null);
   return (
     <div className="flex flex-row gap-2 border-b p-1 py-2 mb-2">
@@ -40,7 +41,7 @@ export const Fooditem = ({ data }: IFooditem) => {
         </h4>
       </div>
       <div className="ml-auto flex items-end">
-        <AddToCartButton item={data}/>
+        <AddToCartButton item={data} kitchenSetup={kitchenSetup}/>
       </div>
     </div>
   );
