@@ -152,16 +152,25 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     } else {
       setShowOtpModal(false);
     }
+     setIsLoading(false);
   }
 
   const handleOnSubmit = () => {
-    if (ChooseOption !== null) {
+    if (ChooseOption) {
       if (ChooseOption !== "Option3" && phone !== '' && name !== '') {
         proceedWithOrder();
       } else {
         processOfOrder();
       }
-    } else {
+    }
+    else if (textRequest !== null && category !== null) {
+      if (textRequest !== '' && category !== 'NotDisclosed') {
+        proceedWithOrder();
+      } else {
+        processOfOrder();
+      }
+    }
+    else {
       if (submit) {
         proceedWithOrder();
       } else {
@@ -178,7 +187,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       <div className="bg-greenCyan text-center py-3 rounded-2xl"
         onClick={handleOnSubmit}
       >
-        {(textRequest !== '' && category !== 'NotDisclosed') && isLoading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center text-white">
             <svg className="animate-spin h-5 w-5 mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
