@@ -25,13 +25,15 @@ export const RestaurantLandingPage = () => {
   const { data = [], isLoading } = useGetClientProducts(clientId);
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [kitchenSetup,setKitchenSetup] = useState(false);
+  const [openTime,setOpenTime] = useState("0000");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
-
   useEffect(() => {
     window.localStorage.setItem("clientId", clientId || "1");
-    window.localStorage.setItem("source", source || "1");
+    window.localStorage.setItem("source", source || "Room No. 1");
   }, [clientId, source]);
 
   useEffect(() => {
@@ -58,7 +60,37 @@ export const RestaurantLandingPage = () => {
     }
     setFilteredData(updatedFilteredData);
   }, [searchQuery, data.category_map, filter]);
-  
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000); // Update every second
+
+    return () => clearInterval(intervalId); 
+  }, []);
+
+  useEffect(() => {
+    const hours = parseInt(data.client?.open_time.substring(0, 2));
+    const minutes = parseInt(data.client?.open_time.substring(2, 4));
+    const meridiem = hours >= 12 ? 'PM' : 'AM';
+    const formattedHours = hours % 12 || 12;
+    const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${meridiem}`;
+    setOpenTime(formattedTime);
+  },[data]);
+
+  useEffect(() => {
+    const kitchenOpenTime = data.client?.open_time
+    const kitchenCloseTime = data.client?.close_time
+    const time = (currentTime.getHours())*100+currentTime.getMinutes();
+    console.log("Timing",kitchenOpenTime," ",kitchenCloseTime," ",time);
+
+    if(parseInt(kitchenOpenTime) <= time && parseInt(kitchenCloseTime) > time){
+      setKitchenSetup(false);
+    }else{
+      setKitchenSetup(true);
+    }
+
+  },[data,currentTime]);
 
   const toggleFilter = (value: FilterValue) => {
     if (filter !== FilterValue.none) setFilter(FilterValue.none);
@@ -86,7 +118,7 @@ export const RestaurantLandingPage = () => {
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data.category_map} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
-        <LandingHeader clientName={data.client.client_name} />
+        <LandingHeader clientName={data.client?.client_name} />
         <div>
           <SearchField onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
         </div>
@@ -104,9 +136,10 @@ export const RestaurantLandingPage = () => {
             selectedColor="bg-orange-700"
           />
         </div>
+        {kitchenSetup &&  <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
       </div>
       <div className="flex flex-col overflow-auto max-h-full mb-12">
-        {filteredData?.map?.((category: any, index: number) => (
+        {(filteredData && filteredData[0])? filteredData.map?.((category: any, index: number) => (
           <AccordionItem
             key={category.id}
             defaultState={true}
@@ -114,12 +147,13 @@ export const RestaurantLandingPage = () => {
             color="green"
           >
             {category.products.map((item: any) => (
-              <Fooditem key={item.id} data={item} />
+              <Fooditem key={item.id} data={item} kitchenSetup={kitchenSetup} />
             ))}
           </AccordionItem>
-        ))}
+        )) : <h1>Data Not found</h1>}
       </div>
-      <BottonTabs />
+      <BottonTabs kitchenSetup={kitchenSetup}/>
     </div>
   );
 };
+
