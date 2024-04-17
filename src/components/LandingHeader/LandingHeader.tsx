@@ -40,7 +40,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
       <div className="flex-1 flex flex-col">
         <h3 className="text-grey-dark font-bold">Welcome to the {clientName}</h3>
         <p className="text-grey-dark text-xs">
-          You have checked in into room no. {source}
+          You have checked in into {source}
         </p>
       </div>
       <div className="ml-auto">
