@@ -11,6 +11,7 @@ import { useLocation } from "react-router";
 import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
+import useGetKitchenTiming from "@/hooks/useGetKitchenTiming";
 
 enum FilterValue {
   none,
@@ -23,18 +24,21 @@ export const RestaurantLandingPage = () => {
   const clientId = getQueryParam(location.search, "clientId") || "1";
   const source = getQueryParam(location.search, "source") || "1";
   const { data = [], isLoading } = useGetClientProducts(clientId);
+  
+  const { kitchenSetup, openTime, closeTime } = useGetKitchenTiming({ open_Time: data.client?.open_time, close_Time: data.client?.close_time });
+
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [kitchenSetup,setKitchenSetup] = useState(false);
-  const [openTime,setOpenTime] = useState("0000");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
+
 
   useEffect(() => {
     window.localStorage.setItem("clientId", clientId || "1");
     window.localStorage.setItem("source", source || "Room No. 1");
   }, [clientId, source]);
+
+
 
   useEffect(() => {
     const testFilter = (product: any): boolean => {
@@ -61,36 +65,7 @@ export const RestaurantLandingPage = () => {
     setFilteredData(updatedFilteredData);
   }, [searchQuery, data.category_map, filter]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000); // Update every second
 
-    return () => clearInterval(intervalId); 
-  }, []);
-
-  useEffect(() => {
-    const hours = parseInt(data.client?.open_time.substring(0, 2));
-    const minutes = parseInt(data.client?.open_time.substring(2, 4));
-    const meridiem = hours >= 12 ? 'PM' : 'AM';
-    const formattedHours = hours % 12 || 12;
-    const formattedTime = `${formattedHours}:${minutes.toString().padStart(2, '0')} ${meridiem}`;
-    setOpenTime(formattedTime);
-  },[data]);
-
-  useEffect(() => {
-    const kitchenOpenTime = data.client?.open_time
-    const kitchenCloseTime = data.client?.close_time
-    const time = (currentTime.getHours())*100+currentTime.getMinutes();
-    console.log("Timing",kitchenOpenTime," ",kitchenCloseTime," ",time);
-
-    if(parseInt(kitchenOpenTime) <= time && parseInt(kitchenCloseTime) > time){
-      setKitchenSetup(false);
-    }else{
-      setKitchenSetup(true);
-    }
-
-  },[data,currentTime]);
 
   const toggleFilter = (value: FilterValue) => {
     if (filter !== FilterValue.none) setFilter(FilterValue.none);
@@ -106,6 +81,7 @@ export const RestaurantLandingPage = () => {
       });
     }
   };
+
 
   if (isLoading)
     return (
