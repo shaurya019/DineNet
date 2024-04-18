@@ -87,7 +87,7 @@ export const OrderHistoryPage = () => {
       <Nav title="Order History" show="True" showEmpty="False" />
       <>
         <div ref={listRef}>
-          {(showData && showData[0]) ? showData?.map((item: any, index: any) => (
+          {(data?.results && data.results?.length!==0 && data.results[0]) ? showData?.map((item: any, index: any) => (
             <OrderHistoryComp key={index} item={item} />
           )) :  <EmptyOrderPage />}
         </div>

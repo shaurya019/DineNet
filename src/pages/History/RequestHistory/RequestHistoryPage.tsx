@@ -72,7 +72,7 @@ export const RequestHistoryPage = () => {
     <>
       <Nav title="Request History" show="True" showEmpty="False" />
         <div ref={listRef}>
-          {(showData && showData[0]) ? showData.map((item: any, index: any) => {
+          {(data && data?.orders && data?.orders[0] && data.orders?.length > 0) ? showData.map((item: any, index: any) => {
             const createdAt = new Date(item.created_at);
             const date = createdAt.toISOString().split('T')[0];
             const time = createdAt.toTimeString().split(' ')[0];
