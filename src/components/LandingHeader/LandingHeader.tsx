@@ -6,6 +6,7 @@ import { fetchUserLoginStatus } from "@/service/Slice/userSlice";
 import { Profile } from "@/assets/icons/Profile";
 import UserProfile from "../UserProfilePopover";
 
+
 export interface LandingHeaderProps {
   clientName?: string;
 }
@@ -20,8 +21,8 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   
   const handleCloseOtpModal = () => {
     setisLoginModalOpen(false)
-      // window.location.reload();
   }
+
 
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
       </div>
       <div className="flex-1 flex flex-col">
         <h3 className="text-grey-dark font-bold">Welcome to the {clientName}</h3>
-        <p className="text-grey-dark text-xs">
+       <p className="text-grey-dark text-xs">
           You have checked in into {source}
         </p>
       </div>

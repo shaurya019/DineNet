@@ -1,0 +1,1 @@
+export {KitchenAlert as default} from './KitchenAlert'

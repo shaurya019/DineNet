@@ -53,4 +53,4 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
         </div>
       </div>
     );
-  };
+  }

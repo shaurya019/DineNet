@@ -7,12 +7,9 @@ interface CustomAlertProps {
 }
 
 export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, message, onClose, clearCart }) => {
-  // const {
-  //   cart: { items },
-  // } = useSelector((state: RootState) => state);
-  // const itemCount = Object.keys(items).length;
-  // console.log(itemCount);
+
   if (!isOpen) return null;
+  
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div className="bg-white px-3.5 mx-10 rounded-lg max-w-md">
