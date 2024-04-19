@@ -21,7 +21,7 @@ const useGetKitchenTiming = ({ open_Time, close_Time }: useGetKitchenTimingProps
     useEffect(() => {
         const intervalId = setInterval(() => {
             setCurrentTime(new Date());
-        }, 1000); // Update every second
+        }, 1000); 
 
         return () => clearInterval(intervalId);
     }, []);
@@ -51,7 +51,7 @@ const useGetKitchenTiming = ({ open_Time, close_Time }: useGetKitchenTimingProps
             }
         } else {
             setOpenTime("0000");
-            setCloseTime("0000");
+            setCloseTime("2359");
             setKitchenSetup(false);
         }
 

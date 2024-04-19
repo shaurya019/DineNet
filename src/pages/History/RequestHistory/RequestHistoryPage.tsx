@@ -58,6 +58,16 @@ export const RequestHistoryPage = () => {
     );
   }
 
+  if (!isLoading && userData === false) {
+    return (
+      <>
+        <Nav title="Request History" show="True" showEmpty="False" />
+        <EmptyRequestPage />
+      </>
+    );
+  }
+
+
   if (!isLoading && data && data.results && data.results?.length === 0) {
     return (
       <>

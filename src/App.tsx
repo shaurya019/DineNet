@@ -26,6 +26,16 @@ interface KitchenTimingData {
 export default function App() {
   const [kitchenTimingData, setKitchenTimingData] = useState<KitchenTimingData | null>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [once,setOnce] = useState(false);
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+        setCurrentTime(new Date());
+    }, 1000); 
+
+    return () => clearInterval(intervalId);
+}, []);
 
   useEffect(() => {
     const storedData = window.localStorage.getItem('kitchenTimingData');
@@ -33,13 +43,15 @@ export default function App() {
       const data = JSON.parse(storedData) as KitchenTimingData; 
       if ('openTime' in data && 'closeTime' in data) {
         setKitchenTimingData(data);
+        if(!once)
         setIsOpen(data.kitchenSetup);
       }
     }
-  }, []);
+  }, [currentTime]);
 
   const handleCloseAlert = () => {
     setIsOpen(false);
+    setOnce(true);
   };
 
   return (
