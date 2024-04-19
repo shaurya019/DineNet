@@ -93,7 +93,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
             <div className="flex flex-row justify-between mt-2">
               {expanded === true ? (
                 <h4 className={`text-[10px] px-2 mr-[10px]  border border-solid rounded ${(item.status === 'AWAITING_PAYMENT' || item.status === 'CANCELLED') ? 'bg-red-warm' : 'bg-white'} ${(item.status === 'AWAITING_PAYMENT' || item.status === 'CANCELLED') ? 'text-white' : 'text-greenCyan'}`}>
-                  {item.status === 'AWAITING_PAYMENT' ? 'PENDING...' : item.status}
+                  {item.status === 'AWAITING_PAYMENT' ? 'PENDING' : item.status}
                 </h4>
 
               ) : null}
