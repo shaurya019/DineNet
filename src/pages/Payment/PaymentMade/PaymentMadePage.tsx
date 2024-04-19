@@ -21,7 +21,7 @@ interface JwtPayload {
 
 export const PaymentMadePage = () => {
   const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";
 
   const location = useLocation();
   

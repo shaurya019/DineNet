@@ -29,7 +29,7 @@ interface BottomSubmitComponentProps {
 
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue,requestText, ChooseOption, phone, name, setFinal, instruction}) => {
   const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const items = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items);
   const { loggedIn,firebaseToken } = useSelector((state: RootState) => state.user);

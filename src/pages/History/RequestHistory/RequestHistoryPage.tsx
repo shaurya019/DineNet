@@ -16,7 +16,7 @@ export const RequestHistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";
 
   const handleButtonClick = () => {
     setPage((prevPage) => prevPage + 1); 

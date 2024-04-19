@@ -21,7 +21,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   const handleLogout = () => {
     signOut().then(() => {
       const clientId = window.localStorage.getItem("clientId") || "1";
-      const source = window.localStorage.getItem("source") || "1";
+      const source = window.localStorage.getItem("source") || "Room No. 1";
       window.localStorage.removeItem("authToken");
       window.localStorage.removeItem("firebaseToken");
       dispatch(clearCart({ clientId, source }));

@@ -22,7 +22,7 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId") || "1";
-  const source = getQueryParam(location.search, "source") || "1";
+  const source = getQueryParam(location.search, "source") || "Room No. 1";
   const { data = [], isLoading } = useGetClientProducts(clientId);
   
   const { kitchenSetup, openTime, closeTime } = useGetKitchenTiming({ open_Time: data.client?.open_time, close_Time: data.client?.close_time });

@@ -16,7 +16,8 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
-  const source = window.localStorage.getItem("source");
+  const source = window.localStorage.getItem("source") || "Room No. 1";
+  console.log(source);
   // const { sendOTP, confirmOTP,clearApp } = usePhoneAuth();
   
   const handleCloseOtpModal = () => {

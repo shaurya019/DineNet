@@ -15,7 +15,7 @@ import Loader from "@/atomicComponents/Loader";
 export const CartPage = () => {
 
   const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";;
 
   const cartData = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]);
 

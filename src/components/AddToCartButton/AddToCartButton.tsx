@@ -11,7 +11,7 @@ interface IAddToCartButton {
 }
 export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButton) => {
   const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";
   const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
   const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items[item.id]?.qty);
   const dispatch = useDispatch();

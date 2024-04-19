@@ -12,7 +12,7 @@ interface NavbarProps {
   }
 export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
   const clientId = window.localStorage.getItem("clientId") || "1"; 
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
 
   
     const handleGoBack = () => {
-      if(title === 'Home'){
+      if(title === 'Home' || title === 'Track Order'){
         navigate(`/?clientId=${clientId}`, { replace: true });
       }else{
         navigate(-1);

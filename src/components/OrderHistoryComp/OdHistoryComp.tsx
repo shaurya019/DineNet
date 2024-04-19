@@ -58,7 +58,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 </h4>
                 <div className="flex flex-row">
                   <h4 className="text-[8px] font-normal text-grey-fortysix">
-                  {item.source}
+                    {item.source}
                   </h4>
                   <h4 className="text-[8px] mx-1">|</h4>
                   <h4 className="text-[8px] text-grey-dark">
@@ -92,8 +92,8 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
 
             <div className="flex flex-row justify-between mt-2">
               {expanded === true ? (
-                <h4 className={`text-[10px] px-2 mr-[10px]  border border-solid rounded ${item.status === 'CANCELLED' ? 'bg-red-warm' : 'bg-white'} ${item.status === 'CANCELLED' ? 'text-white' : 'text-greenCyan'}`}>
-                  {item.status}
+                <h4 className={`text-[10px] px-2 mr-[10px]  border border-solid rounded ${(item.status === 'AWAITING_PAYMENT' || item.status === 'CANCELLED') ? 'bg-red-warm' : 'bg-white'} ${(item.status === 'AWAITING_PAYMENT' || item.status === 'CANCELLED') ? 'text-white' : 'text-greenCyan'}`}>
+                  {item.status === 'AWAITING_PAYMENT' ? 'PENDING...' : item.status}
                 </h4>
 
               ) : null}
@@ -191,12 +191,12 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 <span>&#8377;</span>{total}
               </h4>
             </div>
-           {item.customization !== "" && <div className="w-full h-6 bg-red-light flex items-center">
+            {item.customization !== "" && <div className="w-full h-6 bg-red-light flex items-center">
               <h4 className="text-[10px] font-semibold text-greenCyan ml-5">
                 Customization
               </h4>
             </div>}
-          { item.customization !== "" &&  <div className="w-full">
+            {item.customization !== "" && <div className="w-full">
               <div className="mx-3 h-16 bg-white border border-solid border-whiteSmoking flex mt-1  rounded">
                 <h4 className="text-[10px] text-left font-semibold text-grey ml-1 mt-1">
                   {item.customization}

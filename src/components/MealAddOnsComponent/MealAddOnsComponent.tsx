@@ -11,7 +11,7 @@ interface MealAddOnsProps {
 
 export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, setRefresh }) => {
   const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "1";
+  const source = window.localStorage.getItem("source") || "Room No. 1";
   const dispatch = useDispatch();
   const addThings = () => {
     console.log("meal",meal);
