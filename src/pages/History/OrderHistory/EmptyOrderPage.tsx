@@ -6,6 +6,7 @@ const EmptyOrderPage = () => {
   const persistUserData = window.localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!);
   const loggedIn = userData?.loggedIn;
+  console.log("loggedIn",loggedIn,typeof loggedIn);
 
   return (
     <>
@@ -15,7 +16,7 @@ const EmptyOrderPage = () => {
         <h5 className='text-xs font-semibold mt-[26px] text-center text-grey-dark'>No orders at the moment<br /><span className='text-sm text-blue-pantone'>We're ready whenever you place an order.</span></h5>
       </div>
      <div>
-     {!loggedIn && <ToastMessage head1='Please Login' delay={5000} />}
+     {!!loggedIn && <ToastMessage head1='Please Login' delay={5000} />}
      </div>
     </>
   )

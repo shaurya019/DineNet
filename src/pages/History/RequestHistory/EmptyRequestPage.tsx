@@ -13,7 +13,7 @@ const EmptyRequestPage = () => {
     <EmptyRequest />
     <h5  className='text-xs font-semibold mt-[26px] text-center text-grey-dark'>Currently, there are no requests at the moment.<br /><span  className='text-sm text-blue-pantone'>Feel free to check back later!</span></h5>
     <div>
-     {!loggedIn && <ToastMessage head1='Please Login' delay={5000} />}
+     {!!loggedIn && <ToastMessage head1='Please Login' delay={5000} />}
      </div>
   </div>
   )
