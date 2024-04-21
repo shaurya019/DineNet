@@ -3,6 +3,7 @@ import { Plus } from "@/assets/icons/Plus";
 import { addToCart, removeFromCart } from "@/service/Slice/cartSlice";
 import { RootState } from "@/service/store/cartStore";
 import { useSelector, useDispatch } from "react-redux";
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 
 interface IAddToCartButton {
   item: any;
@@ -16,7 +17,7 @@ export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButt
   const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items[item.id]?.qty);
   const dispatch = useDispatch();
   const handleAddItem = () =>
-    dispatch(
+  {  dispatch(
       addToCart({
         clientId,
         source,
@@ -31,6 +32,11 @@ export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButt
         },
       })
     );
+    dispatch(showAlert({
+      message: item.product_name+" added to your cart",
+      type: AlertType.success,
+  }));
+}
   const handleRemoveItem = () => {
     if(totalCartItems>1 && item.qty===1 && setRefresh!=null){
       setRefresh(true);

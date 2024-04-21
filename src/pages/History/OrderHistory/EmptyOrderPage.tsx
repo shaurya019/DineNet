@@ -1,12 +1,25 @@
 import React, { useEffect, useState } from 'react';
+import { AlertType, clearAlert, showAlert } from "@/service/Slice/alertSlice";
 import EmptyOrder from '@/assets/icons/EmptyOrder';
-import ToastMessage from '@/atomicComponents/Toast';
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from '@/service/store/cartStore';
 
 const EmptyOrderPage = () => {
   const persistUserData = window.localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!);
   const loggedIn = userData?.loggedIn;
-  console.log("loggedIn",loggedIn,typeof loggedIn);
+  const [first,setFirst] = useState(true);
+  const dispatch = useDispatch();
+  
+  useEffect(()=>{
+    if(loggedIn && first){
+      dispatch(showAlert({
+        message: "",
+        type: AlertType.login,
+      }));
+      setFirst(false);
+    }
+  },[loggedIn])
 
   return (
     <>
@@ -15,9 +28,6 @@ const EmptyOrderPage = () => {
         <EmptyOrder />
         <h5 className='text-xs font-semibold mt-[26px] text-center text-grey-dark'>No orders at the moment<br /><span className='text-sm text-blue-pantone'>We're ready whenever you place an order.</span></h5>
       </div>
-     <div>
-     {!!loggedIn && <ToastMessage head1='Please Login' delay={5000} />}
-     </div>
     </>
   )
 }

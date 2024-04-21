@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { store } from "../store/cartStore";
+
 export enum AlertType {
   error,
   warning,
   info,
   success,
+  login,
 }
 interface AlertState {
   showAlert: boolean;
@@ -30,6 +31,7 @@ export const alertSlice = createSlice({
       state.showAlert = false;
       state.message = initialState.message;
       state.type = initialState.type;
+      localStorage.removeItem('error');
     },
   },
 });

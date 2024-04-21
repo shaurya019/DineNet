@@ -25,7 +25,10 @@ export const RestaurantLandingPage = () => {
   const source = getQueryParam(location.search, "source") || "Room No. 1";
   const { data = [], isLoading } = useGetClientProducts(clientId);
   
-  const { kitchenSetup, openTime, closeTime } = useGetKitchenTiming({ open_Time: data.client?.open_time, close_Time: data.client?.close_time });
+  const { kitchenSetup, openTime, closeTime } = useGetKitchenTiming({ 
+    open_Time: data.client?.open_time || "1000", 
+    close_Time: data.client?.close_time || "2359", 
+   });
 
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");

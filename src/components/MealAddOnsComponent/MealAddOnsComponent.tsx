@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Plus } from '../../assets/icons/Plus';
 import { addToCart } from "@/service/Slice/cartSlice";
 import { useDispatch } from "react-redux";
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 
 interface MealAddOnsProps {
   meal: any,
@@ -31,6 +32,10 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, s
         },
       })
     );
+    dispatch(showAlert({
+      message: meal.product_name+" added to your cart",
+      type: AlertType.success,
+  }));
       setTimeout(() => {
         setRefresh(false);
       }, 300);

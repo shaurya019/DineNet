@@ -1,17 +1,21 @@
 import axios, { AxiosInstance } from "axios";
 import { store } from "./store/cartStore";
 import { signOutUser } from "./Slice/userSlice";
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
+import { useDispatch } from "react-redux";
+import { Console } from "console";
+
 interface IAxios {
   client: AxiosInstance;
 }
+
 export default class Axios implements IAxios {
   client: AxiosInstance;
-
   constructor() {
     this.client = axios.create();
-
     this.client.interceptors.request.use(async (request) => {
       const authToken = await window.localStorage.getItem("authToken");
+
       if (authToken) {
         let token = authToken.split(' ').at(-1);
         request.headers.set("authorization", "Bearer " + token);
@@ -21,8 +25,11 @@ export default class Axios implements IAxios {
       return request;
     });
 
-    this.client.interceptors.response.use((response) => {
+    this.client.interceptors.response.use(
+      (response) => {
+        console.log("user!",response.status);
       if (response.status === 401) {
+        console.log("user",response.status);
         window.localStorage.removeItem("authToken");
         window.localStorage.removeItem("firebaseToken");
         store.dispatch(signOutUser())
@@ -34,6 +41,24 @@ export default class Axios implements IAxios {
       if (authToken)
         window.localStorage.setItem("authToken", authToken.split(" ").at(-1));
       return response;
-    });
+    },
+     (error) => {
+      if (error.response && error.message) {
+        console.log("Response data:", error.response.data);
+        console.log("Response status:", error.response.status);
+        console.log("Response message:", error.message);
+        if (error.response.status === 401) {
+          console.log("user",error.response.status);
+          window.localStorage.removeItem("authToken");
+          window.localStorage.removeItem("firebaseToken");
+          store.dispatch(signOutUser())
+          return error.response
+        }
+      }
+    
+      window.localStorage.setItem("error",JSON.stringify({type:"error",message:error.message}) as any);
+    
+    }
+    );
   }
 }

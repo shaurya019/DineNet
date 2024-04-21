@@ -56,29 +56,69 @@ export const LoginModal = ({ closeModal = () => {}, phone }: ILoginModal) => {
     });
   };
 
-  const handleConfirmOtp: MouseEventHandler = (e) => {
-    setIsLoadingLogin(true);
-    setIsIncorrectOTP(false);
-    confirmOTP(otp)?.then(async (response: UserCredential) => {
-      const token = await response.user.getIdToken();
-      alpine.userLogin(phoneNumber, token).then(() => {
-        window.localStorage.setItem("firebaseToken", token);
-        dispatch(signInUser({ phone: phoneNumber, firebaseToken: token }));
-        dispatch(
-          showAlert({
-            message: "Successfully Logged In",
+  const handleConfirmOtp = async (e:any) => {
+    e.preventDefault();
+    setIsLoadingLogin(true); 
+    try {
+        const response = await confirmOTP(otp);  
+        const token = await response!.user.getIdToken();  
+        await alpine.userLogin(phoneNumber, token);
+        window.localStorage.setItem("firebaseToken", token);  
+        dispatch(signInUser({ phone: phoneNumber, firebaseToken: token })); 
+        dispatch(showAlert({
+            message: "Congratulations! You have successfully logged In",
             type: AlertType.success,
-          })
-        );
-        closeModal("otp");
-      });
-    }).catch(() => {
-      setIsIncorrectOTP(true);
-    }).finally(()=>{
-      closeModal("cross")
-      setIsLoadingLogin(false);
-    });
-  };
+        }));   
+        
+        closeModal("otp");  
+    } catch (error) {
+        console.error("Failed to confirm OTP:", error); 
+        setIsIncorrectOTP(true);
+        console.log("Value 1",isIncorrectOTP)
+        return;  
+    } finally {
+       console.log("Value 2",isIncorrectOTP)
+        // closeModal("cross");
+        setIsLoadingLogin(false); 
+    } 
+};
+
+
+
+  // const handleConfirmOtp: MouseEventHandler = (e) => {
+  //   e.preventDefault();
+  //   setIsLoadingLogin(true);
+  //   confirmOTP(otp)?.then(async (response: UserCredential) => {
+  //     const token = await response.user.getIdToken();
+  //     alpine.userLogin(phoneNumber, token).then(() => {
+  //       window.localStorage.setItem("firebaseToken", token);
+  //       dispatch(signInUser({ phone: phoneNumber, firebaseToken: token }));
+  //       dispatch(
+  //         showAlert({
+  //           message: "Successfully Logged In",
+  //           type: AlertType.success,
+  //         })
+  //       );
+  //       closeModal("otp");
+  //     });
+  //   }).catch(() => {
+  //     setIsIncorrectOTP(true);
+  //   }).finally(()=>{
+  //     console.log("Model",isIncorrectOTP);
+  //     //  closeModal("cross");
+  //     setIsLoadingLogin(false);
+  //   });
+  // };
+
+
+
+
+  // e.preventDefault();
+  
+
+
+  
+
   
   const phoneInput = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">

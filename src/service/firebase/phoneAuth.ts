@@ -16,11 +16,9 @@ export const usePhoneAuth = () => {
     useState<ConfirmationResult | null>(null);
 
   const sendOTP = async (phoneNumber: string) => {
-    console.log("!@#$%RT");
     const appVerifier = getRecaptchaVerifier();
-    console.log("appVerifier",appVerifier);
+
     setApp(appVerifier);
-    console.log("app",app);
     const confirmationResult = await signInWithPhoneNumber(
       auth,
       phoneNumber,
