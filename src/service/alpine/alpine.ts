@@ -114,7 +114,7 @@ export class Alpine {
 
     return requestHandler({
       method: "post",
-      url: generateUrl(BASE_URL, "complimentary_"),
+      url: generateUrl(BASE_URL, "complimentary_order"),
       headers: {
         'Content-Type': 'application/multipart/form-data'
       },
