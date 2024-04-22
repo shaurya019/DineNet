@@ -34,7 +34,7 @@ export const LabelledTextField = ({
         </label>
       )}
       <input
-        type="text"
+       type="text"
         onFocus={toggleShowLabel}
         onBlur={toggleShowLabel}
         placeholder={placeholder}
