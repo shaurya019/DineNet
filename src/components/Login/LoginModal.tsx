@@ -4,7 +4,7 @@ import alpine from "../../service/alpine";
 import OTPInput from "@/atomicComponents/OTPInput";
 import LabelledTextField from "@/atomicComponents/LabelledTextField";
 import { Cross } from "@/assets/icons/Cross";
-import { UserCredential } from "firebase/auth";
+import { LeftArrow } from "@/assets/icons/LeftArrow";
 import { useDispatch } from "react-redux";
 import { signInUser } from "@/service/Slice/userSlice";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
@@ -182,6 +182,7 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
   const otpVerification = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">
       <div className="flex gap-2 items-center">
+      <LeftArrow onClick={()=>setShowOtp(false)} className="fill-green" />
         <h4 className="text-green font-bold">Verify</h4>
       </div>
       <h6 className="text-grey-dark text-xs font-normal">
