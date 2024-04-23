@@ -7,7 +7,7 @@ import { RootState } from "@/service/store/cartStore";
 import { usePostOrderDetails } from '@/hooks/usePostOrderDetails'
 import { usePostComplimentaryOrder } from '@/hooks/usePostComplimentaryOrder'
 import LoginModal from '@/components/Login';
-
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 
 interface BottomSubmitComponentProps {
   Heading: string;
@@ -35,8 +35,8 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const { loggedIn,firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
-  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
+  const { data: orderDetailsData, mutate: orderDetailsMutate} = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
+  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate} = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
 
   // React Hooks
@@ -147,6 +147,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   }
 
   const handleCloseOtpModal = (action: string) => {
+    // ,close: boolean
     if (action === "otp") {
       handleCreateOrder();
     } else {
@@ -154,6 +155,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
      setIsLoading(false);
   }
+
 
   const handleOnSubmit = () => {
     if (ChooseOption) {
@@ -179,6 +181,15 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
   }
 
+  // if(complimentaryOrderError){
+  //   console.log("Error is Here",complimentaryOrderError);
+  //   dispatch(showAlert({
+  //     message: "Successfully Logged In",
+  //     type: AlertType.success,
+  // }));   
+  // return;
+  // setIsLoading(false);
+  // }
 
 
   return (
