@@ -151,21 +151,21 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
       <button
         disabled={isLoadingOtp}
         onClick={() => {
+          let errorType = '';
           if (phoneNumber === "") {
-            setPhoneNumberError(true);
-            setErrorType('empty');
-            return;
+              errorType = 'empty';
           } else if (phoneNumber.length < 10) {
-            setPhoneNumberError(true);
-            setErrorType('length');
-            return;
-          } else if (!(/^[0-9]*$/.test(phoneNumber))) {
-            setPhoneNumberError(true);
-            setErrorType('Invalid');
-            return;
+              errorType = 'length';
+          } else if (!/^[0-9]*$/.test(phoneNumber)) {
+              errorType = 'invalid';
+          }
+          if (errorType) {
+              setPhoneNumberError(true);
+              setErrorType(errorType);
+              return;
           }
           handleLogin(phoneNumber);
-        }}
+      }}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
       >
         {isLoadingOtp ?
@@ -189,12 +189,16 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
         We have sent OTP on given mobile number.
       </h6>
       <LabelledTextField label="Phone Number" value={phoneNumber} disabled />
+      
       <div className="flex flex-col gap-2 items-start">
         <p className="text-xs font-medium text-green">OTP</p>
         <OTPInput wrongOtp={isIncorrectOTP} onChange={(otp: string) => setOtp(otp)} />
+
         {isIncorrectOTP && <p className="text-red-warm text-xs">Wrong Otp Entered</p>}
+
         <div className="flex gap-1 item-center mt-1">
           <p className="text-grey-dark text-xs">Didn’t Received OTP?</p>
+
           {resendTimer === 0 ? (
             <button onClick={() => handleLogin(phoneNumber)} className="text-xs text-blue-600 font-semibold">
               RESEND
@@ -202,6 +206,7 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
           ) : (
             <p className="text-xs">{`Resend in ${resendTimer} seconds`}</p>
           )}
+
         </div>
       </div>
       <button

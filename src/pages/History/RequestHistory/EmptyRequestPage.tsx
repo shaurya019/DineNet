@@ -7,16 +7,16 @@ const EmptyRequestPage = () => {
   const persistUserData = window.localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!);
   const loggedIn = userData?.loggedIn;
-  const [first,setFirst] = useState(true);
+  const [isFirstRender,setIsFirstRender] = useState(true);
   const dispatch = useDispatch();
   
   useEffect(()=>{
-    if(loggedIn && first){
+    if(loggedIn && isFirstRender){
       dispatch(showAlert({
         message: "",
         type: AlertType.login,
       }));
-      setFirst(false);
+      setIsFirstRender(false);
     }
   },[loggedIn])
 

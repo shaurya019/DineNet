@@ -1,23 +1,22 @@
 import React, { useEffect, useState } from 'react';
-import { AlertType, clearAlert, showAlert } from "@/service/Slice/alertSlice";
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 import EmptyOrder from '@/assets/icons/EmptyOrder';
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from '@/service/store/cartStore';
+import { useDispatch } from "react-redux";
 
 const EmptyOrderPage = () => {
   const persistUserData = window.localStorage.getItem("persist:user");
   const userData = JSON.parse(persistUserData!);
   const loggedIn = userData?.loggedIn;
-  const [first,setFirst] = useState(true);
+  const [isFirstRender,setIsFirstRender] = useState(true);
   const dispatch = useDispatch();
   
   useEffect(()=>{
-    if(loggedIn && first){
+    if(loggedIn && isFirstRender){
       dispatch(showAlert({
         message: "",
         type: AlertType.login,
       }));
-      setFirst(false);
+      setIsFirstRender(false);
     }
   },[loggedIn])
 
