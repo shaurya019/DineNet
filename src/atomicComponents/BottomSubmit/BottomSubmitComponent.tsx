@@ -146,11 +146,13 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     }
   }
 
-  const handleCloseOtpModal = (action: string) => {
+  const handleCloseOtpModal = (action: string,phone: string,timer:number) => {
     // ,close: boolean
     if (action === "otp") {
+      window.localStorage.removeItem("loginCredentials");
       handleCreateOrder();
     } else {
+      window.localStorage.setItem("loginCredentials",JSON.stringify({PhoneNumber:phone,timer:timer.toString}) as any);
       setShowOtpModal(false);
     }
      setIsLoading(false);
