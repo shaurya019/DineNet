@@ -42,14 +42,12 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    console.log("error",error);
     if (error && error !== "") {
       const e = JSON.parse(error);
       dispatch(showAlert({
         message: e?.message,
         type: AlertType.error,
       }));
-      console.log("Dispatch");
     }
   }, [error]);
   

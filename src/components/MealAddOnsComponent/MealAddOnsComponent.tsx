@@ -3,6 +3,7 @@ import { Plus } from '../../assets/icons/Plus';
 import { addToCart } from "@/service/Slice/cartSlice";
 import { useDispatch } from "react-redux";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 interface MealAddOnsProps {
   meal: any,
@@ -10,12 +11,9 @@ interface MealAddOnsProps {
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, setRefresh }) => {
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";
+export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal, refresh, setRefresh }) => {
   const dispatch = useDispatch();
   const addThings = () => {
-    console.log("meal",meal);
     setRefresh(true);
     dispatch(
       addToCart({
@@ -27,25 +25,25 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal,refresh, s
           price: meal.price,
           qty: 0,
           tags: meal.tags,
-          nonVeg:meal.non_veg,
-          campaignName:true,
+          nonVeg: meal.non_veg,
+          campaignName: true,
         },
       })
     );
     dispatch(showAlert({
-      message: meal.product_name+" added to your cart",
+      message: meal.product_name + " added to your cart",
       type: AlertType.success,
-  }));
-      setTimeout(() => {
-        setRefresh(false);
-      }, 300);
+    }));
+    setTimeout(() => {
+      setRefresh(false);
+    }, 300);
   };
   const ref = useRef<HTMLImageElement>(null);
 
   return (
     <div className="flex-col">
-       <div className="bg-gray-200 w-28 h-32">
-       <img
+      <div className="bg-gray-200 w-28 h-32">
+        <img
           ref={ref}
           className="w-28 h-32"
           src={meal.thumbnail_url}

@@ -12,6 +12,7 @@ import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
 import useGetKitchenTiming from "@/hooks/useGetKitchenTiming";
+import { defaultClientId, defaultSource } from "@/utils/constants";
 
 enum FilterValue {
   none,
@@ -21,14 +22,14 @@ enum FilterValue {
 
 export const RestaurantLandingPage = () => {
   const location = useLocation();
-  const clientId = getQueryParam(location.search, "clientId") || "1";
-  const source = getQueryParam(location.search, "source") || "Room No. 1";
+  const clientId = getQueryParam(location.search, "clientId") || defaultClientId;
+  const source = getQueryParam(location.search, "source") || defaultSource;
   const { data = [], isLoading } = useGetClientProducts(clientId);
-  
-  const { kitchenSetup, openTime, closeTime } = useGetKitchenTiming({ 
-    open_Time: data.client?.open_time || "1000", 
-    close_Time: data.client?.close_time || "2359", 
-   });
+
+  const { kitchenSetup, openTime } = useGetKitchenTiming({
+    open_Time: data.client?.open_time,
+    close_Time: data.client?.close_time,
+  });
 
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");
@@ -37,8 +38,8 @@ export const RestaurantLandingPage = () => {
 
 
   useEffect(() => {
-    window.localStorage.setItem("clientId", clientId || "1");
-    window.localStorage.setItem("source", source || "Room No. 1");
+    window.localStorage.setItem("clientId", clientId);
+    window.localStorage.setItem("source", source);
   }, [clientId, source]);
 
 
@@ -53,7 +54,7 @@ export const RestaurantLandingPage = () => {
       }
       return true;
     };
-  
+
     let updatedFilteredData: any[] = [];
     if (searchQuery || filter) {
       updatedFilteredData = data.category_map.map((category: any) => ({
@@ -115,10 +116,10 @@ export const RestaurantLandingPage = () => {
             selectedColor="bg-orange-700"
           />
         </div>
-        {kitchenSetup &&  <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
+        {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
       </div>
       <div className="flex flex-col overflow-auto max-h-full mb-12">
-        {(filteredData && filteredData[0])? filteredData.map?.((category: any, index: number) => (
+        {(filteredData && filteredData[0]) ? filteredData.map?.((category: any, index: number) => (
           <AccordionItem
             key={category.id}
             defaultState={true}
@@ -131,7 +132,7 @@ export const RestaurantLandingPage = () => {
           </AccordionItem>
         )) : <h1>Data Not found</h1>}
       </div>
-      <BottonTabs kitchenSetup={kitchenSetup}/>
+      <BottonTabs kitchenSetup={kitchenSetup} />
     </div>
   );
 };

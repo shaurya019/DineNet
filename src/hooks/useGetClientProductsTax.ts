@@ -2,10 +2,9 @@ import Alpine from "@/service/alpine";
 import { RootState } from "@/service/store/cartStore";
 import { useSelector } from "react-redux";
 import { useQuery } from "@tanstack/react-query";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 export const useGetClientProductsTax = () => {
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
   const items = clientCart ? clientCart.items : {};

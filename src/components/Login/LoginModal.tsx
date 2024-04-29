@@ -85,51 +85,11 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
       }));
       console.error("Failed to confirm OTP:", error);
       setIsIncorrectOTP(true);
-      console.log("Value 1", isIncorrectOTP)
       return;
     } finally {
-      console.log("Value 2", isIncorrectOTP)
-      // closeModal("cross");
       setIsLoadingLogin(false);
     }
   };
-
-
-
-  // const handleConfirmOtp: MouseEventHandler = (e) => {
-  //   e.preventDefault();
-  //   setIsLoadingLogin(true);
-  //   confirmOTP(otp)?.then(async (response: UserCredential) => {
-  //     const token = await response.user.getIdToken();
-  //     alpine.userLogin(phoneNumber, token).then(() => {
-  //       window.localStorage.setItem("firebaseToken", token);
-  //       dispatch(signInUser({ phone: phoneNumber, firebaseToken: token }));
-  //       dispatch(
-  //         showAlert({
-  //           message: "Successfully Logged In",
-  //           type: AlertType.success,
-  //         })
-  //       );
-  //       closeModal("otp");
-  //     });
-  //   }).catch(() => {
-  //     setIsIncorrectOTP(true);
-  //   }).finally(()=>{
-  //     console.log("Model",isIncorrectOTP);
-  //     //  closeModal("cross");
-  //     setIsLoadingLogin(false);
-  //   });
-  // };
-
-
-
-
-  // e.preventDefault();
-
-
-
-
-
 
   const phoneInput = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">
@@ -153,19 +113,19 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
         onClick={() => {
           let errorType = '';
           if (phoneNumber === "") {
-              errorType = 'empty';
+            errorType = 'empty';
           } else if (phoneNumber.length < 10) {
-              errorType = 'length';
+            errorType = 'length';
           } else if (!/^[0-9]*$/.test(phoneNumber)) {
-              errorType = 'invalid';
+            errorType = 'invalid';
           }
           if (errorType) {
-              setPhoneNumberError(true);
-              setErrorType(errorType);
-              return;
+            setPhoneNumberError(true);
+            setErrorType(errorType);
+            return;
           }
           handleLogin(phoneNumber);
-      }}
+        }}
         className="uppercase bg-green w-full rounded-full py-3 text-white text-xs font-black font-[NotoSans]"
       >
         {isLoadingOtp ?
@@ -182,14 +142,14 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
   const otpVerification = (
     <div className="flex-1 flex relative flex-col gap-6 place-items-center h-full w-full z-10 justify-center items-start px-7">
       <div className="flex gap-2 items-center">
-      <LeftArrow onClick={()=>setShowOtp(false)} className="fill-green" />
+        <LeftArrow onClick={() => setShowOtp(false)} className="fill-green" />
         <h4 className="text-green font-bold">Verify</h4>
       </div>
       <h6 className="text-grey-dark text-xs font-normal">
         We have sent OTP on given mobile number.
       </h6>
       <LabelledTextField label="Phone Number" value={phoneNumber} disabled />
-      
+
       <div className="flex flex-col gap-2 items-start">
         <p className="text-xs font-medium text-green">OTP</p>
         <OTPInput wrongOtp={isIncorrectOTP} onChange={(otp: string) => setOtp(otp)} />

@@ -13,9 +13,9 @@ export const Minus = (props: React.SVGAttributes<SVGSVGElement>) => {
       <path
         d="M1 1H13"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

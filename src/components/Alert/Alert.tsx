@@ -26,7 +26,6 @@ export const Alert = () => {
 
 
   if (!alert.showAlert) return null;
-  console.log("alert", alert.message, alert.type);
   return (
     <div
       className={`w-[90vw] flex min-h-10 items-center ${alert.type === AlertType.error || alert.type === AlertType.login ? "flex-row justify-between" : "justify-center"} z-10 fixed bottom-20  border ml-[5vw] rounded px-2 

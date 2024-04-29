@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { signOutUser } from "@/service/Slice/userSlice";
 import { useSignOut } from "@/hooks/useSignOut";
 import { clearCart } from "@/service/Slice/cartSlice";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 type UserProfileProps = {
   targetRef: React.RefObject<HTMLElement | SVGSVGElement>;
@@ -20,8 +21,6 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   
   const handleLogout = () => {
     signOut().then(() => {
-      const clientId = window.localStorage.getItem("clientId") || "1";
-      const source = window.localStorage.getItem("source") || "Room No. 1";
       window.localStorage.removeItem("authToken");
       window.localStorage.removeItem("firebaseToken");
       dispatch(clearCart({ clientId, source }));
