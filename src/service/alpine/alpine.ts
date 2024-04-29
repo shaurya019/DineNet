@@ -1,8 +1,8 @@
 /* eslint-disable no-template-curly-in-string */
 import { generateUrl } from "@utils/serviceUtils";
 import { requestHandler } from "../requestHandler";
-const BASE_URL =
-  "https://staging-api.cubik.in/api/v1";
+import { BASE_URL } from "@/utils/constants";
+
 export class Alpine {
   userLogin = (mobile_number: string, firebase_token: string) => {
     return requestHandler({
@@ -14,20 +14,20 @@ export class Alpine {
       },
     });
   };
-  getClientProducts = (clientId:string) => {
+  getClientProducts = (clientId: string) => {
     return requestHandler({
       method: "get",
       url: generateUrl(BASE_URL, "products/client_products/" + clientId),
     });
   };
-  getComplimentaryProductData = (id:string) => {
+  getComplimentaryProductData = (id: string) => {
     return requestHandler({
       method: "get",
       url: generateUrl(BASE_URL, "complimentary_order/find_order/" + id),
     });
   };
-  getClientProductsTax = (items:any) => {
-    const productQuantities = Object.values(items).map((item:any) => ({
+  getClientProductsTax = (items: any) => {
+    const productQuantities = Object.values(items).map((item: any) => ({
       product_id: item.id,
       quantity: item.qty
     }));
@@ -35,11 +35,11 @@ export class Alpine {
       method: "post",
       url: generateUrl(BASE_URL, "orders/amount_breakup"),
       data: {
-          product_quantities: productQuantities
+        product_quantities: productQuantities
       },
     });
   };
-  complimenatryProductCategory = (clientId:string) => {
+  complimenatryProductCategory = (clientId: string) => {
     return requestHandler({
       method: "get",
       url: generateUrl(BASE_URL, "complimentary_products/client_products/" + clientId),
@@ -48,39 +48,39 @@ export class Alpine {
   getOrderHistory = (page: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"orders/customer_orders?page=" + page),
+      url: generateUrl(BASE_URL, "orders/customer_orders?page=" + page),
     });
   };
   getTransactionStatus = (id: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"payment/transaction_status/"+ id),
+      url: generateUrl(BASE_URL, "payment/transaction_status/" + id),
     });
   };
   getOrderDetails = () => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"orders/customer_orders"),
+      url: generateUrl(BASE_URL, "orders/customer_orders"),
     });
   };
-  getOrderedDetails = (id:any) => {
+  getOrderedDetails = (id: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"orders/" + id),
+      url: generateUrl(BASE_URL, "orders/" + id),
     });
   };
-  getComplimenatryProductHistory = (page:any) => {
+  getComplimenatryProductHistory = (page: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"complimentary_order/customer_orders?page=" + page + "&size=10"),
+      url: generateUrl(BASE_URL, "complimentary_order/customer_orders?page=" + page + "&size=10"),
     });
   };
-  postOrderDetails = (name:any, phone:any,instruction:any, firebaseToken:any, ChooseOption:any,items:any,clientId:any,source:any) => {
+  postOrderDetails = (name: any, phone: any, instruction: any, firebaseToken: any, ChooseOption: any, items: any, clientId: any, source: any) => {
     const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
-    const orderItems = Object.values(items).map((item:any) => ({
+    const orderItems = Object.values(items).map((item: any) => ({
       quantity: item.qty,
       product_id: item.id,
-      campaign_name: item.campaignName ? 'TEST' : ' '
+      ...(item.campaignName && { campaign_name: 'TEST' })
     }));
     const x = parseInt(clientId);
     const body = {
@@ -93,7 +93,7 @@ export class Alpine {
       payment_source: paymentSource,
       firebase_token: firebaseToken,
     };
-  
+
     return requestHandler({
       method: "post",
       url: generateUrl(BASE_URL, "orders"),
@@ -103,11 +103,11 @@ export class Alpine {
       data: body,
     });
   };
-  postComplimentaryOrder = (productId:any,textRequest:any,imageFile:any,source:any) => {
+  postComplimentaryOrder = (productId: any, textRequest: any, imageFile: any, source: any) => {
     const formData = new FormData();
-    formData.append('product_id',productId ?? 0);
+    formData.append('product_id', productId ?? 0);
     formData.append('text', textRequest ?? '');
-    formData.append('source',source);
+    formData.append('source', source);
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -121,7 +121,7 @@ export class Alpine {
       data: formData,
     });
   };
-  signOut = ()=>{
+  signOut = () => {
     return requestHandler({
       method: "post",
       url: generateUrl(BASE_URL, "users/logout"),

@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import EmptyRequest from '@/assets/icons/EmptyRequest';
-import { AlertType, clearAlert, showAlert } from "@/service/Slice/alertSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { AlertType, showAlert } from "@/service/Slice/alertSlice";
+import { useDispatch } from "react-redux";
 
 const EmptyRequestPage = () => {
   const persistUserData = window.localStorage.getItem("persist:user");
