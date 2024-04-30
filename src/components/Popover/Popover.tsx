@@ -1,4 +1,3 @@
-import { Profile } from "@/assets/icons/Profile";
 import React, { useRef, useState, useEffect } from "react";
 
 type PopoverProps = {

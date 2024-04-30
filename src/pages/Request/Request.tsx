@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent } from 'react';
 import BottomSubmit from '@/atomicComponents/BottomSubmit';
 import { useComplimenatryProductCategory } from "@/hooks/useComplimenatryProductCategory";
 import Nav from '@/components/Navbar';

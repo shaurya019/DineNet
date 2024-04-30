@@ -7,7 +7,7 @@ import { RootState } from "@/service/store/cartStore";
 import { usePostOrderDetails } from '@/hooks/usePostOrderDetails'
 import { usePostComplimentaryOrder } from '@/hooks/usePostComplimentaryOrder'
 import LoginModal from '@/components/Login';
-import { AlertType, showAlert } from "@/service/Slice/alertSlice";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 interface BottomSubmitComponentProps {
   Heading: string;
@@ -18,7 +18,7 @@ interface BottomSubmitComponentProps {
   textRequest?: string;
   path: string;
   category?: string;
-  areaValue?:string;
+  areaValue?: string;
   requestText?: string;
   ChooseOption?: string | null;
   phone?: string;
@@ -27,16 +27,14 @@ interface BottomSubmitComponentProps {
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue,requestText, ChooseOption, phone, name, setFinal, instruction}) => {
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue, requestText, ChooseOption, phone, name, setFinal, instruction }) => {
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const items = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items);
-  const { loggedIn,firebaseToken } = useSelector((state: RootState) => state.user);
+  const { loggedIn, firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate} = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
-  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate} = usePostComplimentaryOrder(productId, textRequest, imageFile);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
+  const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
 
   // React Hooks
@@ -83,7 +81,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
           let url = orderDetailsData.payment_info.url;
           window.location.replace(url);
         }
-        dispatch(clearCart({ clientId, source}));
+        dispatch(clearCart({ clientId, source }));
       }
     };
 
@@ -153,7 +151,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     } else {
       setShowOtpModal(false);
     }
-     setIsLoading(false);
+    setIsLoading(false);
   }
 
 
@@ -180,17 +178,6 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
       }
     }
   }
-
-  // if(complimentaryOrderError){
-  //   console.log("Error is Here",complimentaryOrderError);
-  //   dispatch(showAlert({
-  //     message: "Successfully Logged In",
-  //     type: AlertType.success,
-  // }));   
-  // return;
-  // setIsLoading(false);
-  // }
-
 
   return (
     <div className='fixed bottom-0 w-full bg-white border-t-whiteSmoke mt-10 py-3 px-2.5' style={{ boxShadow: '0 -4px 4px 0px rgba(0, 0, 0, 0.07)', minHeight: '60px' }}>

@@ -11,17 +11,13 @@ import StripeComponent from '@/components/ContainerCart'
 import useTaxCalculation from '@/hooks/useTaxCustom'
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
 import Loader from "@/atomicComponents/Loader";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 export const CartPage = () => {
-
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";;
-
   const cartData = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]);
-
-const items = cartData ? cartData.items : {};
-const totalPrice = cartData ? cartData.totalPrice : 0;
-const cartTags = cartData ? cartData.cartTags : [];
+  const items = cartData ? cartData.items : {};
+  const totalPrice = cartData ? cartData.totalPrice : 0;
+  const cartTags = cartData ? cartData.cartTags : [];
 
 
   const itemCount = Object.keys(items).length;
@@ -30,49 +26,48 @@ const cartTags = cartData ? cartData.cartTags : [];
 
   const [meal, setMeal] = useState<any[]>([]);
   // const [res, setRes] = useState<any[]>([]);
-  const [refresh,setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
   const [instruction, setInstruction] = useState('');
 
-  const { data = [], isLoading } = useGetClientProducts(clientId,cartTags);
+  const { data = [], isLoading } = useGetClientProducts(clientId, cartTags);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (data && data.category_map) {
-    const filteredData = data.category_map?.flatMap((category: any) => category.products);
-    const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
-    const MealProducts = filteredProducts.filter((product:any) =>
-    product.tags?.some((tag:any) => cartTags.includes(tag))
-  );
-  setMeal(MealProducts);
+      const filteredData = data.category_map?.flatMap((category: any) => category.products);
+      const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
+      const MealProducts = filteredProducts.filter((product: any) =>
+        product.tags?.some((tag: any) => cartTags.includes(tag))
+      );
+      setMeal(MealProducts);
     }
-  },[cartTags, data, items]);
+  }, [cartTags, data, items]);
 
-  if(refresh || isLoading) return (
+  if (refresh || isLoading) return (
     <div className="flex flex-1 items-center justify-center h-screen">
       <Loader />
     </div>
-  ); 
+  );
 
-  console.log("Instruction",instruction);
   return (
     <div>
       <Nav title="Cart" show={itemCount !== 0 ? "True" : "False"} showEmpty={itemCount !== 0 ? "True" : "False"} />
       {itemCount === 0 ? <EmptyCart /> : (
         <>
-          <OrderDetails 
-            setRefresh={setRefresh} 
-            add={add} 
-            setAdd={setAdd} 
-            save={save} 
-            setSave={setSave} 
-            instruction={instruction} 
-            setInstruction={setInstruction} 
+          <OrderDetails
+            setRefresh={setRefresh}
+            add={add}
+            setAdd={setAdd}
+            save={save}
+            setSave={setSave}
+            instruction={instruction}
+            setInstruction={setInstruction}
           />
-          {meal.length>0 &&<StripeComponent title="Complete meal with add ons" />}
-          {meal.length>0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}
-          <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList}/>
-          <BottomSubmit Heading="Proceed" path="PaymentMade"instruction={instruction}/>
+          {meal.length > 0 && <StripeComponent title="Complete meal with add ons" />}
+          {meal.length > 0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}
+          <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
+          <BottomSubmit Heading="Proceed" path="PaymentMade" instruction={instruction} />
         </>
       )}
     </div>

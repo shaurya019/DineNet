@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
@@ -11,7 +11,7 @@ import PaymentMethodChoose from '@/components/PaymentMethodChoose'
 import BillDetailsComp from '@/components/BillDetails'
 import useTaxCalculation from '@/hooks/useTaxCustom'
 import { jwtDecode } from "jwt-decode";
-
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 interface JwtPayload {
   name?: string;
@@ -20,11 +20,8 @@ interface JwtPayload {
 
 
 export const PaymentMadePage = () => {
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";
-
   const location = useLocation();
-  
+
   const instruction = location.state && location.state.instruction;
 
 
@@ -47,12 +44,12 @@ export const PaymentMadePage = () => {
   useEffect(() => {
     // Retrieve the token from local storage
     const storedToken = localStorage.getItem('authToken');
-    
+
     // Check if the token exists
     if (storedToken) {
       const decoded: JwtPayload = jwtDecode(storedToken);
-      const name = decoded.name || ''; 
-      const phone = decoded.mobile_number || ''; 
+      const name = decoded.name || '';
+      const phone = decoded.mobile_number || '';
       setNamex(name);
       setPhonex(phone);
 

@@ -4,6 +4,7 @@ import { addToCart, removeFromCart } from "@/service/Slice/cartSlice";
 import { RootState } from "@/service/store/cartStore";
 import { useSelector, useDispatch } from "react-redux";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 interface IAddToCartButton {
   item: any;
@@ -11,8 +12,6 @@ interface IAddToCartButton {
   kitchenSetup?:any;
 }
 export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButton) => {
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";
   const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
   const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items[item.id]?.qty);
   const dispatch = useDispatch();

@@ -1,9 +1,10 @@
 import React,{useState,} from 'react'
 import CustomAlert from '../CustomAlert';
 import { clearCart } from "@/service/Slice/cartSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import GoBack from '../GoBack';
 import { useNavigate } from 'react-router-dom';
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 interface NavbarProps {
     title: string;
@@ -11,8 +12,6 @@ interface NavbarProps {
     showEmpty: string;
   }
 export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
-  const clientId = window.localStorage.getItem("clientId") || "1"; 
-  const source = window.localStorage.getItem("source") || "Room No. 1";
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();

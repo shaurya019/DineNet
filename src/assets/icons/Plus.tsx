@@ -13,16 +13,16 @@ export const Plus = (props: React.SVGAttributes<SVGSVGElement>) => {
       <path
         d="M6.5 1V12"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
       <path
         d="M1 6.5H12"
         stroke={props.stroke}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

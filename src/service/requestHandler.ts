@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios";
+import { AxiosRequestConfig } from "axios";
 import Axios from "./axios";
 
 export interface IRequest extends AxiosRequestConfig {}

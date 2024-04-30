@@ -7,7 +7,7 @@ interface CartItem {
   qty: number;
   tags: string[];
   nonVeg: boolean;
-  campaignName: boolean ;
+  campaignName: boolean;
 }
 
 interface CartState {
@@ -42,7 +42,7 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<{ clientId: string; source: string; item: CartItem }>) {
       const { clientId, source, item } = action.payload;
-      const { id, price, tags, nonVeg,campaignName } = item;
+      const { id, price, tags } = item;
 
       if (!state.carts[clientId]) {
         state.carts[clientId] = {};
@@ -76,7 +76,6 @@ const cartSlice = createSlice({
       const clientCart = state.carts[clientId]?.[source];
       if (clientCart && clientCart.items[itemId]) {
         const item = clientCart.items[itemId];
-        console.log("item",item);
         if (item.qty > 1) {
           item.qty--;
           clientCart.totalPrice -= item.price;
@@ -87,7 +86,6 @@ const cartSlice = createSlice({
               if (index !== -1) {
                 clientCart.cartTags.splice(index, 1);
               }
-              console.log("*",tag);
             });
           }
           clientCart.totalPrice -= item.price;

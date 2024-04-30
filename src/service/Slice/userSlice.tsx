@@ -1,5 +1,4 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { persistStore } from 'redux-persist';
 
 interface UserItem {
   name?: string;

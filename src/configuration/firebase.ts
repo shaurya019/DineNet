@@ -1,6 +1,3 @@
-
-import { getAnalytics } from "firebase/analytics";
-
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "cubik-56853.firebaseapp.com",
