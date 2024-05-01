@@ -4,21 +4,20 @@ import EmptyOrder from '@/assets/icons/EmptyOrder';
 import { useDispatch } from "react-redux";
 
 const EmptyOrderPage = () => {
-  const persistUserData = window.localStorage.getItem("persist:user");
-  const userData = JSON.parse(persistUserData!);
-  const loggedIn = userData?.loggedIn;
+  const LoggedINN = window.localStorage.getItem("firebaseToken");
+  
   const [isFirstRender,setIsFirstRender] = useState(true);
   const dispatch = useDispatch();
   
   useEffect(()=>{
-    if(loggedIn && isFirstRender){
+    if(LoggedINN===null && isFirstRender){
       dispatch(showAlert({
         message: "",
         type: AlertType.login,
       }));
       setIsFirstRender(false);
     }
-  },[loggedIn])
+  },[LoggedINN]);
 
   return (
     <>
