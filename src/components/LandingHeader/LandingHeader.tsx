@@ -36,7 +36,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
 
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
-      {isLoginModalOpen && (
+       {isLoginModalOpen && (
         <LoginModal closeModal={handleCloseOtpModal} />
       )}
       <div>

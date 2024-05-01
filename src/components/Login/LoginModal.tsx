@@ -31,18 +31,17 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
   const dispatch = useDispatch();
 
   useEffect(()=>{
-if (storedLoginCredentials) {
-  let loginCredentials;
-    loginCredentials = JSON.parse(storedLoginCredentials);
-    if(JSON.parse(storedLoginCredentials).PhoneNumber && loginCredentials.timer){
-      setPhoneNumber(loginCredentials.PhoneNumber);
-      setResendTimer(loginCredentials.timer);
-      setShowOtp(true);
-      console.log("userPhoneNumber",loginCredentials.PhoneNumber,"timer",loginCredentials.timer);
+    if (storedLoginCredentials) {
+      let loginCredentials;
+        loginCredentials = JSON.parse(storedLoginCredentials);
+        if(JSON.parse(storedLoginCredentials).PhoneNumber && loginCredentials.timer){
+          setPhoneNumber(loginCredentials.PhoneNumber);
+          setResendTimer(loginCredentials.timer);
+          setShowOtp(true);
+          console.log("userPhoneNumber",loginCredentials.PhoneNumber,"timer",loginCredentials.timer);
+        }
     }
-}
-  },[storedLoginCredentials]);
-
+      },[storedLoginCredentials]);
 
   useEffect(() => {
     if (phone?.length && phone?.length >= 10 && !phoneNumber) {
@@ -95,7 +94,6 @@ if (storedLoginCredentials) {
         message: "Congratulations! You have successfully logged In",
         type: AlertType.success,
       }));
-
       closeModal("otp",phoneNumber,resendTimer);
     } catch (error: any) {
       console.log("Error Here => ",error);
@@ -172,9 +170,9 @@ if (storedLoginCredentials) {
         onClick={() => {
           let errorType = '';
           if (phoneNumber === "") {
-              errorType = 'empty';
-          } else if (phoneNumber.length < 10 || phoneNumber.length > 10) {
-              errorType = 'length';
+            errorType = 'empty';
+          }else if (phoneNumber.length < 10 || phoneNumber.length > 10) {
+            errorType = 'length';
           } else if (!/^[0-9]*$/.test(phoneNumber)) {
               errorType = 'invalid';
           }
