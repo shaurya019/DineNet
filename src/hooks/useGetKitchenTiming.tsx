@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { defaultCloseTime, defaultOpenTime } from '@/utils/constants';
+import { useState, useEffect } from 'react';
 
 interface useGetKitchenTimingProps {
     open_Time?: string;
@@ -13,8 +14,8 @@ interface KitchenTimingData {
 
 const useGetKitchenTiming = ({ open_Time, close_Time }: useGetKitchenTimingProps): KitchenTimingData => {
     const [kitchenSetup, setKitchenSetup] = useState(false);
-    const [openTime, setOpenTime] = useState("0000");
-    const [closeTime, setCloseTime] = useState("0000");
+    const [openTime, setOpenTime] = useState(open_Time || defaultOpenTime);
+    const [closeTime, setCloseTime] = useState(close_Time || defaultCloseTime);
 
     const [currentTime, setCurrentTime] = useState(new Date());
 
@@ -50,8 +51,8 @@ const useGetKitchenTiming = ({ open_Time, close_Time }: useGetKitchenTimingProps
                 setKitchenSetup(true);
             }
         } else {
-            setOpenTime("0000");
-            setCloseTime("2359");
+            setOpenTime(defaultOpenTime);
+            setCloseTime(defaultCloseTime);
             setKitchenSetup(false);
         }
 

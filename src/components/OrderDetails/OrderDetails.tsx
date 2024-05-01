@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from "react-router-dom";
 import { StripeComponent } from '../ContainerCart/StripeComponent';
 import { CartData } from '../CartData/CartData';
 import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 import EditItems from "@assets/icons/Edit"
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 
 interface OrderDetailsProps {
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,8 +18,6 @@ interface OrderDetailsProps {
 }
 
 export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
-  const clientId = window.localStorage.getItem("clientId") || "1";
-  const source = window.localStorage.getItem("source") || "Room No. 1";
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
   const items = clientCart ? clientCart.items : {};
