@@ -24,6 +24,22 @@ export const Alert = () => {
     }
   }, [alert.showAlert]);
 
+  const handleMouseEnter = () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (alert.showAlert) {
+      setTimer(
+        setTimeout(() => {
+          dispatch(clearAlert({}));
+          setTimer(null);
+        }, 3000)
+      );
+    }
+  };
 
   if (!alert.showAlert) return null;
   return (
@@ -38,6 +54,8 @@ export const Alert = () => {
               : 'bg-white border-green-willam'
         }
     `}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
 
       {alert.type === AlertType.error || alert.type === AlertType.login ? <div className='flex h-[34px] w-9 bg-red-bright rounded border justify-center items-center'>
