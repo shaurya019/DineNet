@@ -80,7 +80,7 @@ export class Alpine {
     const orderItems = Object.values(items).map((item: any) => ({
       quantity: item.qty,
       product_id: item.id,
-      ...(item.campaignName && { campaign_name: 'TEST' })
+      ...(item.campaignName && { campaign_name: "Test" }),
     }));
     const x = parseInt(clientId);
     const body = {
@@ -126,7 +126,13 @@ export class Alpine {
       method: "post",
       url: generateUrl(BASE_URL, "users/logout"),
     });
-  }
+  };
+  getDownloadInvoice = (id:string) => {
+    return requestHandler({
+      method: "get",
+      url: generateUrl(BASE_URL,"orders/" + id + "/invoice"),
+    });
+  };
 }
 
 

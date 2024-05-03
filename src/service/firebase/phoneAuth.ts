@@ -7,13 +7,15 @@ import {
 import { useState } from "react";
 import { getRecaptchaVerifier } from "@utils/firebaseUtils";
 
+let userCred: ConfirmationResult;
+
 export const usePhoneAuth = () => {
   const [app,setApp] = useState<RecaptchaVerifier>();
 
   const auth = getAuth();
 
-  const [confirmationResult, setConfirmationResult] =
-    useState<ConfirmationResult | null>(null);
+  // const [confirmationResult, setConfirmationResult] =
+  //   useState<ConfirmationResult | null>(null);
 
   const sendOTP = async (phoneNumber: string) => {
     const appVerifier = getRecaptchaVerifier();
@@ -24,11 +26,12 @@ export const usePhoneAuth = () => {
       phoneNumber,
       appVerifier!
     );
-    setConfirmationResult(confirmationResult);
+    // setConfirmationResult(confirmationResult);
+    userCred = confirmationResult;
   };
 
   const confirmOTP = (otp: string) => {
-    return confirmationResult?.confirm?.(otp);
+    return userCred?.confirm?.(otp);
   };
 
   return {

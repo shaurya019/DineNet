@@ -18,8 +18,11 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   const profileRef = useRef<SVGSVGElement>(null);
   const source = window.localStorage.getItem("source") || "Room No. 1";
   
-  const handleCloseOtpModal = () => {
-    setisLoginModalOpen(false)
+  const handleCloseOtpModal = (action: string,) => {
+    if (action === "otp") {
+      window.localStorage.removeItem("loginCredentials");
+    }
+    setisLoginModalOpen(false);
   }
 
 
@@ -31,8 +34,8 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
 
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
-      {isLoginModalOpen && (
-        <LoginModal closeModal={() => handleCloseOtpModal()} />
+       {isLoginModalOpen && (
+        <LoginModal closeModal={handleCloseOtpModal} />
       )}
       <div>
         <img src="/assets/logo.png" />

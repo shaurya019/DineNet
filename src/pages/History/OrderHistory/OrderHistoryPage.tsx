@@ -1,36 +1,25 @@
-import React, { useRef ,useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Nav from "@/components/Navbar";
 import { useGetOrderHistory } from "@/hooks/useGetOrderHistory";
 import OrderHistoryComp from "@/components/OrderHistoryComp";
-import EmptyOrderPage from "./EmptyOrderPage";
+import EmptyPage from "../EmptyPage";
 import Loader from "@/atomicComponents/Loader";
 
 
 export const OrderHistoryPage = () => {
-  const persistUserData = localStorage.getItem("persist:user");
-  const userData = JSON.parse(persistUserData!)?.loggedIn;
-
-  console.log(userData);
   const [page, setPage] = useState(1);
-  
+
   const { data = {}, isLoading } = useGetOrderHistory(page);
 
-  const [entry, setEntry] = useState(true);
   const [totalPages, setTotalPages] = useState(data.total_pages);
   const [showData, setShowData] = useState<any[]>([]);
   const listRef = useRef<HTMLDivElement>(null);
 
 
   const handleButtonClick = () => {
-    setPage((prevPage) => prevPage + 1); 
+    setPage((prevPage) => prevPage + 1);
   };
 
-
-  useEffect(() => {
-    if (userData) {
-      setEntry(false);
-    }
-  }, [userData]);
 
 
 
@@ -42,54 +31,40 @@ export const OrderHistoryPage = () => {
         elementToScroll.scrollIntoView({ behavior: "smooth" });
       }
     }
-  }, [page,showData]);
-  
+  }, [page, showData]);
+
 
   useEffect(() => {
     if (data && data.results && data.results.length > 0) {
       setShowData((prevData) => [...prevData, ...data.results]);
       setTotalPages(data.total_pages);
     }
-  }, [data]);
+  }, [page, data]);
 
 
-  if (isLoading || data === null || entry) {
+  if (isLoading) {
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
-       <Loader />
+        <Loader />
       </div>
     );
   }
 
-
-  if (!isLoading && userData === false) {
-    return (
-      <>
-        <Nav title="Order History" show="True" showEmpty="False" />
-        <EmptyOrderPage />
-      </>
-    );
-  }
-  
-
-  if (!isLoading && data && data.results && data.results?.length === 0) {
-    return (
-      <>
-        <Nav title="Order History" show="True" showEmpty="False" />
-        <EmptyOrderPage />
-      </>
-    );
-  }
-
-  console.log("userData:", userData);
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
       <>
         <div ref={listRef}>
-          {(data?.results && data.results?.length!==0 && data.results[0]) ? showData?.map((item: any, index: any) => (
-            <OrderHistoryComp key={index} item={item} />
-          )) :  <EmptyOrderPage />}
+          {(data?.results && data.results?.length > 0) ?
+            page === 1 ?
+              data?.results?.map((item: any, index: any) => (
+                <OrderHistoryComp key={index} item={item} />
+              ))
+              :
+              showData?.map((item: any, index: any) => (
+                <OrderHistoryComp key={index} item={item} />
+              ))
+            : <Loader Component={() => <EmptyPage Order="Order"/>} time={2000} />}
         </div>
         {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
       </>
