@@ -10,9 +10,11 @@ import { signInUser } from "@/service/Slice/userSlice";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 
 interface ILoginModal {
-  closeModal?: (action: string,phone:string,timer:number) => void;
+  closeModal?: (action: string) => void;
   phone?: string;
 }
+
+let resendTimer = 60;
 
 export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
   const storedLoginCredentials = localStorage.getItem('loginCredentials');
@@ -25,7 +27,6 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
   const [showOtp, setShowOtp] = useState(false);
   const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [errorType, setErrorType] = useState<string>("");
-  const [resendTimer, setResendTimer] = useState<number>(60);
   const { sendOTP, confirmOTP } = usePhoneAuth();
 
   const dispatch = useDispatch();
@@ -34,11 +35,9 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
     if (storedLoginCredentials) {
       let loginCredentials;
         loginCredentials = JSON.parse(storedLoginCredentials);
-        if(JSON.parse(storedLoginCredentials).PhoneNumber && loginCredentials.timer){
+        if(JSON.parse(storedLoginCredentials).PhoneNumber){
           setPhoneNumber(loginCredentials.PhoneNumber);
-          setResendTimer(loginCredentials.timer);
           setShowOtp(true);
-          console.log("userPhoneNumber",loginCredentials.PhoneNumber,"timer",loginCredentials.timer);
         }
     }
       },[storedLoginCredentials]);
@@ -55,16 +54,15 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
     let timer: NodeJS.Timeout;
     if (resendTimer > 0) {
       timer = setTimeout(() => {
-        setResendTimer(prevTimer => prevTimer - 1);
+        resendTimer--; 
       }, 1000);
     }
     return () => clearTimeout(timer);
   }, [resendTimer]);
 
   const handleLogin = (phoneNumber: string) => {
-    console.log("PhoneNumber",phoneNumber);
     setIsLoadingOtp(true);
-    setResendTimer(60);
+    resendTimer = 60;
     sendOTP("+91" + phoneNumber).then(() => {
       setShowOtp(true);
     }).catch((error) => {
@@ -73,7 +71,7 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
         type: AlertType.error,
       }));
     }).finally(() => {
-      window.localStorage.setItem("loginCredentials",JSON.stringify({PhoneNumber:phoneNumber,timer:60}) as any);
+      window.localStorage.setItem("loginCredentials", JSON.stringify({ PhoneNumber: phoneNumber}) as any);
       setIsLoadingOtp(false);
     });
   };
@@ -85,7 +83,6 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
     setIsLoadingLogin(true);
     try {
       const response = await confirmOTP(otp);
-      console.log("Response =>",response);
       const token = await response!.user.getIdToken();
       await alpine.userLogin(phoneNumber, token);
       window.localStorage.setItem("firebaseToken", token);
@@ -94,9 +91,8 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
         message: "Congratulations! You have successfully logged In",
         type: AlertType.success,
       }));
-      closeModal("otp",phoneNumber,resendTimer);
+      closeModal("otp");
     } catch (error: any) {
-      console.log("Error Here => ",error);
       if (error.code === "auth/invalid-verification-code") {
         setIsIncorrectOTP(true);
       }else{
@@ -134,7 +130,7 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
           let errorType = '';
           if (phoneNumber === "") {
             errorType = 'empty';
-          }else if (phoneNumber.length < 10 || phoneNumber.length > 10) {
+          }else if (phoneNumber.length !== 10) {
             errorType = 'length';
           } else if (!/^[0-9]*$/.test(phoneNumber)) {
             errorType = 'invalid';
@@ -208,13 +204,13 @@ export const LoginModal = ({ closeModal = () => { }, phone }: ILoginModal) => {
   return (
     <div className="fixed top-0 left-0 h-screen w-screen bg-grey bg-opacity-50 z-30 flex place-items-center">
       <div
-        className="h-1/2 w-full mx-2 bg-white rounded-xl relative z-0 flex flex-col !bg-no-repeat !bg-cover"
+        className={`${showOtp ? 'h-[420px]' : 'h-[380px]'} w-full mx-2 bg-white rounded-xl relative z-0 flex flex-col !bg-no-repeat !bg-cover`}
         style={{
           background: "url('/assets/loginBg.png')",
         }}
       >
         <div className="absolute right-2 top-2 w-fit z-20">
-          <button onClick={() => closeModal("cross",phoneNumber,resendTimer)}>
+          <button onClick={() => closeModal("close")}>
             <Cross className="fill-green" />
           </button>
         </div>

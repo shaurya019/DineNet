@@ -18,11 +18,9 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
   const profileRef = useRef<SVGSVGElement>(null);
   const source = window.localStorage.getItem("source") || "Room No. 1";
   
-  const handleCloseOtpModal = (action: string,phone: string,timer:number) => {
+  const handleCloseOtpModal = (action: string,) => {
     if (action === "otp") {
       window.localStorage.removeItem("loginCredentials");
-    } else {
-      window.localStorage.setItem("loginCredentials",JSON.stringify({PhoneNumber:phone,timer:timer}) as any)
     }
     setisLoginModalOpen(false);
   }

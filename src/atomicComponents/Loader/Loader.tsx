@@ -10,7 +10,7 @@ export const Loader = ({ size = "32", color = "green", Component, time }: ILoade
   const [timeoutEnd, setTimeoutEnd] = useState(false);
 
   useEffect(() => {
-    time && setTimeout(() => setTimeoutEnd(true), +time || 5000)
+    time && setTimeout(() => setTimeoutEnd(true), time || 5000)
   }, []);
 
   return (
