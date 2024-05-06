@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import Nav from '@/components/Navbar';
 import RequestHistoryComp from '@/components/RequestHistoryCom';
 import Loader from "@/atomicComponents/Loader";
+import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
 import { useGetComplimenatryProductHistory } from "@/hooks/useGetComplimenatryProductHistory";
 import EmptyPage from "../EmptyPage";
 
@@ -11,21 +12,11 @@ export const RequestHistoryPage = () => {
   const { data, isLoading, } = useGetComplimenatryProductHistory(page);
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
-  const listRef = useRef<HTMLDivElement>(null);
-  const source = window.localStorage.getItem("source") || "Room No. 1";
 
-  const handleButtonClick = () => {
-    setPage((prevPage) => prevPage + 1);
+  const handleButtonClick = (page:any) => {
+    setPage(page);
   };
 
-  useEffect(() => {
-    if (listRef.current) {
-      const scrollToIndex = (page - 1) * 10;
-      listRef.current.children[scrollToIndex]?.scrollIntoView({
-        behavior: "smooth",
-      });
-    }
-  }, [page, showData]);
 
 
 
@@ -51,12 +42,30 @@ export const RequestHistoryPage = () => {
   }
 
 
+  const renderPageButtons = () => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={`w-12 h-12 flex items-center justify-center mr-2 bg-greenCyan text-white rounded hover:bg-greenCyan-light shadow-md`}
+          onClick={() => handleButtonClick(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return buttons;
+  };
+  
+
+
 
 
   return (
     <>
       <Nav title="Request History" show="True" showEmpty="False" />
-      <div ref={listRef}>
+      <div>
         {(data?.orders && data.orders?.length > 0) ?
           page === 1
             ?
@@ -96,7 +105,8 @@ export const RequestHistoryPage = () => {
               );
             })
           : <Loader Component={() => <EmptyPage Order="Request"/>} time={2000} />}
-        {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
+           <div className="flex justify-center items-center my-5"> {renderPageButtons()}</div>
+        {/* {page < totalPages && <button onClick={handleButtonClick}>Load More</button>} */}
       </div>
     </>
   );
