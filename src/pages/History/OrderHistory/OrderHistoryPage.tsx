@@ -13,30 +13,30 @@ export const OrderHistoryPage = () => {
 
   const [totalPages, setTotalPages] = useState(data.total_pages);
   const [showData, setShowData] = useState<any[]>([]);
-  const listRef = useRef<HTMLDivElement>(null);
+  // const listRef = useRef<HTMLDivElement>(null);
 
 
-  const handleButtonClick = () => {
-    setPage((prevPage) => prevPage + 1);
+  const handleButtonClick = (page:any) => {
+    setPage(page);
   };
 
 
 
 
-  useEffect(() => {
-    if (listRef.current) {
-      const scrollToIndex = (page - 1) * 10;
-      const elementToScroll = listRef.current.children[scrollToIndex];
-      if (elementToScroll) {
-        elementToScroll.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-  }, [page, showData]);
+  // useEffect(() => {
+  //   if (listRef.current) {
+  //     const scrollToIndex = (page - 1) * 10;
+  //     const elementToScroll = listRef.current.children[scrollToIndex];
+  //     if (elementToScroll) {
+  //       elementToScroll.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //   }
+  // }, [page, showData]);
 
 
   useEffect(() => {
     if (data && data.results && data.results.length > 0) {
-      setShowData((prevData) => [...prevData, ...data.results]);
+      setShowData(data.results);
       setTotalPages(data.total_pages);
     }
   }, [page, data]);
@@ -50,11 +50,28 @@ export const OrderHistoryPage = () => {
     );
   }
 
+  const renderPageButtons = () => {
+    const buttons = [];
+    for (let i = 1; i <= totalPages; i++) {
+      buttons.push(
+        <button
+          key={i}
+          className={`w-12 h-12 flex items-center justify-center mr-2 bg-greenCyan text-white rounded hover:bg-greenCyan-light shadow-md`}
+          onClick={() => handleButtonClick(i)}
+        >
+          {i}
+        </button>
+      );
+    }
+    return buttons;
+  };
+  
   return (
     <>
       <Nav title="Order History" show="True" showEmpty="False" />
       <>
-        <div ref={listRef}>
+      <div>
+        {/* <div ref={listRef}> */}
           {(data?.results && data.results?.length > 0) ?
             page === 1 ?
               data?.results?.map((item: any, index: any) => (
@@ -66,7 +83,8 @@ export const OrderHistoryPage = () => {
               ))
             : <Loader Component={() => <EmptyPage Order="Order"/>} time={2000} />}
         </div>
-        {page < totalPages && <button onClick={handleButtonClick}>Load More</button>}
+       <div className="flex justify-center items-center my-5"> {renderPageButtons()}</div>
+        {/* {page < totalPages && <button onClick={handleButtonClick}>Load More</button>} */}
       </>
     </>
   );
