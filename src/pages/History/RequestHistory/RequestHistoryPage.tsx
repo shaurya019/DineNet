@@ -23,8 +23,7 @@ export const RequestHistoryPage = () => {
 
   useEffect(() => {
     if (data && data?.orders && data.orders?.length > 0) {
-      setShowData((prevData) => [...prevData, ...data.orders]);
-
+      setShowData(data.orders);
       setTotalPages(data.total_pages);
     }
   }, [data, page]);
