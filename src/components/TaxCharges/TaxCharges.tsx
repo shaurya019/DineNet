@@ -19,7 +19,7 @@ export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax, ta
             </div>
             <h5 className="font-semibold text-sm text-grey"><span>&#8377;</span>{totalPrice}</h5>
           </div>
-          <hr className="bg-silver mx-4 my-3" />
+          {totalTax > 0 && <hr className="bg-silver mx-4 my-3" />}
           <div className="flex flex-col">
             {taxList.map((tax, index) => (
               <div key={index} className="flex flex-row py-2.5 justify-between">
@@ -30,13 +30,13 @@ export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax, ta
               </div>
             ))}
           </div>
-          <hr className="bg-silver mx-4 my-3" />
-          <div className="flex flex-row justify-between">
+          {totalTax > 0 && <hr className="bg-silver mx-4 my-3" />}
+          {totalTax > 0 && <div className="flex flex-row justify-between">
             <div className="flex items-center">
               <span className="font-semibold text-xs">To Pay :</span>
             </div>
             <h5 className="font-semibold text-sm text-grey"><span>&#8377;</span>{totalTax}</h5>
-          </div>
+          </div>}
         </div>
       </div>
     </>

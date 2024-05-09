@@ -9,6 +9,7 @@ import { defaultClientId as clientId, defaultSource as source } from '@/utils/co
 
 interface OrderDetailsProps {
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
+  setOutOfStock: React.Dispatch<React.SetStateAction<boolean>>;
   add: boolean;
   setAdd: React.Dispatch<React.SetStateAction<boolean>>;
   save: boolean;
@@ -17,11 +18,11 @@ interface OrderDetailsProps {
   setInstruction: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
+export const OrderDetails = ({ setRefresh,setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
   const items = clientCart ? clientCart.items : {};
-
+  console.log("ITENS||||",items);
  
 
   const handleChange = (e: any) => {
@@ -35,8 +36,7 @@ export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instructi
     navigate(`/?clientId=${clientId}`);
   };
 
-  const saveThings = () => {
-    
+  const saveThings = () => { 
     setSave(true);
   };
 
@@ -54,11 +54,12 @@ export const OrderDetails = ({ setRefresh, add, setAdd, save, setSave, instructi
       <StripeComponent title="Order Details" />
       <div className='flex flex-col px-3.5 py-3.5'>
         {Object.keys(items).map(itemId => (
-          <CartData
+           <CartData
             key={itemId}
             item={items[itemId]}
             setRefresh={setRefresh}
-          />
+            setOutOfStock={setOutOfStock}
+          /> 
         ))}
       </div>
       <hr className="bg-silver  w-full" />

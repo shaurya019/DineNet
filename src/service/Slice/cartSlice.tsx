@@ -8,6 +8,7 @@ interface CartItem {
   tags: string[];
   nonVeg: boolean;
   campaignName: boolean;
+  availability: boolean;
 }
 
 interface CartState {
@@ -42,11 +43,12 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<{ clientId: string; source: string; item: CartItem }>) {
       const { clientId, source, item } = action.payload;
-      const { id, price, tags } = item;
+      const { id, price, tags,availability } = item;
 
       if (!state.carts[clientId]) {
         state.carts[clientId] = {};
       }
+    //  if(availability){
       if (!state.carts[clientId][source]) {
         state.carts[clientId][source] = {
           items: {},
@@ -70,6 +72,7 @@ const cartSlice = createSlice({
       }
       clientCart.totalPrice += price;
       clientCart.totalCartItems = calculateTotalCartItems(clientCart.items);
+    //  }
     },
     removeFromCart(state, action: PayloadAction<{ clientId: string; source: string; itemId: string }>) {
       const { clientId, source, itemId } = action.payload;
@@ -99,6 +102,28 @@ const cartSlice = createSlice({
         }
       }
     },
+    removeItem(state, action: PayloadAction<{ clientId: string; source: string; itemId: string }>) {
+      const { clientId, source, itemId } = action.payload;
+      const clientCart = state.carts[clientId]?.[source];
+      if (clientCart && clientCart.items[itemId]) {
+        const item = clientCart.items[itemId];
+        if (typeof item.tags !== "string") {
+          item.tags.forEach(tag => {
+            const index = clientCart.cartTags.indexOf(tag);
+            if (index !== -1) {
+              clientCart.cartTags.splice(index, 1);
+            }
+          });
+        }
+        clientCart.totalPrice -= item.price * item.qty;
+        clientCart.totalCartItems -= item.qty;
+        clientCart.items[itemId].qty = 0;
+        delete clientCart.items[itemId];
+        if (Object.keys(clientCart.items).length === 0) {
+          clientCart.totalPrice = 0;
+        }
+      }
+    },    
     clearCart(state, action: PayloadAction<{ clientId: string; source: string }>) {
       const { clientId, source } = action.payload;
       if (state.carts[clientId]?.[source]) {
@@ -118,5 +143,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, clearCart, emptyCartItems } = cartSlice.actions;
+export const { addToCart, removeFromCart,removeItem, clearCart, emptyCartItems } = cartSlice.actions;
 export default cartSlice.reducer;

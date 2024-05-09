@@ -27,6 +27,7 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal, refresh, 
           tags: meal.tags,
           nonVeg: meal.non_veg,
           campaignName: true,
+          availability: meal.availability
         },
       })
     );
