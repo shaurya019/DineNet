@@ -9,6 +9,7 @@ interface IFooditem {
   kitchenSetup:any;
 }
 export const Fooditem = ({ data,kitchenSetup }: IFooditem) => {
+  console.log("Data",data,data.availability);
   const ref = useRef<HTMLImageElement>(null);
   return (
     <div className="flex flex-row gap-2 border-b p-1 py-2 mb-2">
@@ -41,8 +42,11 @@ export const Fooditem = ({ data,kitchenSetup }: IFooditem) => {
         </h4>
       </div>
       <div className="ml-auto flex items-end">
-        <AddToCartButton item={data} kitchenSetup={kitchenSetup}/>
-      </div>
+        {
+          // <AddToCartButton item={data} kitchenSetup={kitchenSetup}/>
+          data?.availability ? <AddToCartButton item={data} kitchenSetup={kitchenSetup}/> : <h5 className="text-red-dark font-medium text-xs">Out of Stock</h5>
+        }
+       </div>
     </div>
   );
 };

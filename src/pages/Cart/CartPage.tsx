@@ -26,6 +26,7 @@ export const CartPage = () => {
 
   const [meal, setMeal] = useState<any[]>([]);
   // const [res, setRes] = useState<any[]>([]);
+  const [outOfStock, setOutOfStock] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
   const [save, setSave] = useState<boolean>(false);
@@ -57,6 +58,7 @@ export const CartPage = () => {
         <>
           <OrderDetails
             setRefresh={setRefresh}
+            setOutOfStock = {setOutOfStock}
             add={add}
             setAdd={setAdd}
             save={save}
@@ -67,7 +69,7 @@ export const CartPage = () => {
           {meal.length > 0 && <StripeComponent title="Complete meal with add ons" />}
           {meal.length > 0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}
           <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
-          <BottomSubmit Heading="Proceed" path="PaymentMade" instruction={instruction} />
+          <BottomSubmit outOfStock={outOfStock} Heading="Proceed" path="PaymentMade" instruction={instruction} />
         </>
       )}
     </div>

@@ -1,6 +1,6 @@
 import { Minus } from "@/assets/icons/Minus";
 import { Plus } from "@/assets/icons/Plus";
-import { addToCart, removeFromCart } from "@/service/Slice/cartSlice";
+import { addToCart, removeFromCart,removeItem } from "@/service/Slice/cartSlice";
 import { RootState } from "@/service/store/cartStore";
 import { useSelector, useDispatch } from "react-redux";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
@@ -9,14 +9,14 @@ import { defaultClientId as clientId, defaultSource as source } from '@/utils/co
 interface IAddToCartButton {
   item: any;
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
-  kitchenSetup?:any;
+  kitchenSetup?: any;
 }
-export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButton) => {
+export const AddToCartButton = ({ item, setRefresh, kitchenSetup }: IAddToCartButton) => {
   const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
   const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items[item.id]?.qty);
   const dispatch = useDispatch();
-  const handleAddItem = () =>
-  {  dispatch(
+  const handleAddItem = () => {
+    dispatch(
       addToCart({
         clientId,
         source,
@@ -27,49 +27,74 @@ export const AddToCartButton = ({ item,setRefresh,kitchenSetup }: IAddToCartButt
           qty: 1,
           tags: item.tags,
           nonVeg: item.non_veg,
-          campaignName:false
+          campaignName: false,
+          availability: item.availability
         },
       })
     );
     dispatch(showAlert({
-      message: item.product_name+" added to your cart",
+      message: item.product_name + " added to your cart",
       type: AlertType.success,
-  }));
-}
+    }));
+  }
+
   const handleRemoveItem = () => {
-    if(totalCartItems>1 && item.qty===1 && setRefresh!=null){
+    if (totalCartItems > 1 && item.qty === 1 && setRefresh != null) {
       setRefresh(true);
     }
     dispatch(
       removeFromCart({
         clientId,
         source,
-        itemId: item.id, 
+        itemId: item.id,
       })
     );
-    if(setRefresh!=null){
+    if (setRefresh != null) {
       setTimeout(() => {
         setRefresh(false);
       }, 300);
     }
   };
+
+
+  const handleUnAvailableItem = () => {
+    dispatch(
+      removeItem({
+        clientId,
+        source,
+        itemId: item.id,
+      })
+    );
+    if (setRefresh != null) {
+      setTimeout(() => {
+        setRefresh(false);
+      }, 300);
+    }
+  };
+
   return itemCount ? (
     <div className="bg-white border-2 border-green text-green px-2 py-1 rounded flex justify-between gap-5">
-       <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleRemoveItem}>
-        <Minus className="stroke-green" />
-      </div>
-      <h4>{itemCount}</h4>
-      <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleAddItem}>
-      <Plus className="stroke-green" />
-      </div>
+      {item.availability ? (
+        <>
+          <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleRemoveItem}>
+            <Minus className="stroke-green" />
+          </div>
+          <h4>{itemCount}</h4>
+          <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleAddItem}>
+            <Plus className="stroke-green" />
+          </div>
+        </>
+      ) :  <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleUnAvailableItem}>
+      Remove
+    </div>}
     </div>
   ) : (
     <button
-  className={`bg-white border-2 ${kitchenSetup ? 'border-green-dull text-green-dull' : 'border-green text-green'} px-6 py-1 rounded`}
-  onClick={handleAddItem}
-  disabled={kitchenSetup}
->
-  ADD
-</button>
+      className={`bg-white border-2 ${kitchenSetup ? 'border-green-dull text-green-dull' : 'border-green text-green'} px-6 py-1 rounded`}
+      onClick={handleAddItem}
+      disabled={kitchenSetup}
+    >
+      ADD
+    </button>
   );
-};
+  }  
