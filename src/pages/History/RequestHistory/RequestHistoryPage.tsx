@@ -13,9 +13,9 @@ export const RequestHistoryPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [showData, setShowData] = useState<any[]>([]);
 
-  const handleButtonClick = (page:any) => {
-    setPage(page);
-  };
+  // const handleButtonClick = (page:any) => {
+  //   setPage(page);
+  // };
 
 
 
@@ -40,22 +40,29 @@ export const RequestHistoryPage = () => {
     );
   }
 
+  const PrevBut = () => {
+    setPage(page-1);
+  }
 
-  const renderPageButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button
-          key={i}
-          className={`w-12 h-12 flex items-center justify-center mr-2 bg-greenCyan text-white rounded hover:bg-greenCyan-light shadow-md`}
-          onClick={() => handleButtonClick(i)}
-        >
-          {i}
-        </button>
-      );
-    }
-    return buttons;
-  };
+  const NextBut = () => {
+    setPage(page+1);
+  }
+
+  // const renderPageButtons = () => {
+  //   const buttons = [];
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     buttons.push(
+  //       <button
+  //         key={i}
+  //         className={`w-12 h-12 flex items-center justify-center mr-2 bg-greenCyan text-white rounded hover:bg-greenCyan-light shadow-md`}
+  //         onClick={() => handleButtonClick(i)}
+  //       >
+  //         {i}
+  //       </button>
+  //     );
+  //   }
+  //   return buttons;
+  // };
   
 
 
@@ -104,8 +111,10 @@ export const RequestHistoryPage = () => {
               );
             })
           : <Loader Component={() => <EmptyPage Order="Request"/>} time={2000} />}
-           <div className="flex justify-center items-center my-5"> {renderPageButtons()}</div>
-        {/* {page < totalPages && <button onClick={handleButtonClick}>Load More</button>} */}
+           <div className="flex justify-between items-center m-5">
+         <button  className={`font-bold text-sm ${page > 1 ? 'text-green-willam' : 'text-white'}`}  onClick={() => page > 1 && PrevBut()}>Prev</button>
+         {page!==totalPages  && <button className="font-bold text-sm text-green-willam" onClick={()=>NextBut()}>Next</button>}
+        </div>
       </div>
     </>
   );

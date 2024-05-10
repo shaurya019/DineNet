@@ -16,22 +16,6 @@ export const OrderHistoryPage = () => {
   // const listRef = useRef<HTMLDivElement>(null);
 
 
-  const handleButtonClick = (page:any) => {
-    setPage(page);
-  };
-
-
-
-
-  // useEffect(() => {
-  //   if (listRef.current) {
-  //     const scrollToIndex = (page - 1) * 10;
-  //     const elementToScroll = listRef.current.children[scrollToIndex];
-  //     if (elementToScroll) {
-  //       elementToScroll.scrollIntoView({ behavior: "smooth" });
-  //     }
-  //   }
-  // }, [page, showData]);
 
 
   useEffect(() => {
@@ -50,21 +34,47 @@ export const OrderHistoryPage = () => {
     );
   }
 
-  const renderPageButtons = () => {
-    const buttons = [];
-    for (let i = 1; i <= totalPages; i++) {
-      buttons.push(
-        <button
-          key={i}
-          className={`w-12 h-12 flex items-center justify-center mr-2 bg-greenCyan text-white rounded hover:bg-greenCyan-light shadow-md`}
-          onClick={() => handleButtonClick(i)}
-        >
-          {i}
-        </button>
-      );
-    }
-    return buttons;
-  };
+  const PrevBut = () => {
+    setPage(page-1);
+  }
+
+  const NextBut = () => {
+    setPage(page+1);
+  }
+
+    // const handleButtonClick = (page:any) => {
+  //   setPage(page);
+  // };
+
+
+
+
+  // useEffect(() => {
+  //   if (listRef.current) {
+  //     const scrollToIndex = (page - 1) * 10;
+  //     const elementToScroll = listRef.current.children[scrollToIndex];
+  //     if (elementToScroll) {
+  //       elementToScroll.scrollIntoView({ behavior: "smooth" });
+  //     }
+  //   }
+  // }, [page, showData]);
+
+  
+  // const renderPageButtons = () => {
+  //   const buttons = [];
+  //   for (let i = 1; i <= totalPages; i++) {
+  //     buttons.push(
+  //       <button
+  //         key={i}
+  //         className={`w-12 h-12 flex items-center justify-center mr-2 bg-greenCyan text-white rounded hover:bg-greenCyan-light shadow-md`}
+  //         onClick={() => handleButtonClick(i)}
+  //       >
+  //         {i}
+  //       </button>
+  //     );
+  //   }
+  //   return buttons;
+  // };
   
   return (
     <>
@@ -83,8 +93,10 @@ export const OrderHistoryPage = () => {
               ))
             : <Loader Component={() => <EmptyPage Order="Order"/>} time={2000} />}
         </div>
-       <div className="flex justify-center items-center my-5"> {renderPageButtons()}</div>
-        {/* {page < totalPages && <button onClick={handleButtonClick}>Load More</button>} */}
+        <div className="flex justify-between items-center m-5">
+         <button  className={`font-bold text-sm ${page > 1 ? 'text-green-willam' : 'text-white'}`}  onClick={() => page > 1 && PrevBut()}>Prev</button>
+         {page!==totalPages  && <button className="font-bold text-sm text-green-willam" onClick={()=>NextBut()}>Next</button>}
+        </div>
       </>
     </>
   );
