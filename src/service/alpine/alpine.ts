@@ -7,72 +7,95 @@ export class Alpine {
   userLogin = (mobile_number: string, firebase_token: string) => {
     return requestHandler({
       method: "post",
-      url: generateUrl(BASE_URL, "users/customer/authenticate"),
+      url: generateUrl(BASE_URL, "v1/users/customer/authenticate"),
       data: {
         mobile_number,
         firebase_token,
       },
     });
   };
+  
   getClientProducts = (clientId: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "products/client_products/" + clientId),
+      url: generateUrl(BASE_URL, "v1/products/client_products/" + clientId),
     });
   };
+
   getComplimentaryProductData = (id: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "complimentary_order/find_order/" + id),
+      url: generateUrl(BASE_URL, "v1/complimentary_order/find_order/" + id),
     });
   };
-  getClientProductsTax = (items: any) => {
-    const productQuantities = Object.values(items).map((item: any) => ({
+  
+  // getClientProductsTax = (items: any) => {
+  //   const productQuantities = Object.values(items).map((item: any) => ({
+  //     product_id: item.id,
+  //     quantity: item.qty
+  //   }));
+  //   return requestHandler({
+  //     method: "post",
+  //     url: generateUrl(BASE_URL, "orders/amount_breakup"),
+  //     data: {
+  //       product_quantities: productQuantities
+  //     },
+  //   });
+  // };
+
+   getClientProductsTax = (items: any) => {
+    // Filter out items with availability set to false
+    const availableItems = Object.values(items).filter((item: any) => item.availability);
+  
+    // Map the available items to product quantities
+    const productQuantities = availableItems.map((item: any) => ({
       product_id: item.id,
       quantity: item.qty
     }));
+  
     return requestHandler({
       method: "post",
-      url: generateUrl(BASE_URL, "orders/amount_breakup"),
+      url: generateUrl(BASE_URL, "v1/orders/amount_breakup"),
       data: {
         product_quantities: productQuantities
       },
     });
   };
+  
   complimenatryProductCategory = (clientId: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "complimentary_products/client_products/" + clientId),
+      url: generateUrl(BASE_URL, "v1/complimentary_products/client_products/" + clientId),
     });
   };
   getOrderHistory = (page: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "orders/customer_orders?page=" + page),
+      url: generateUrl(BASE_URL, "v1/orders/customer_orders?page=" + page),
     });
   };
   getTransactionStatus = (id: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "payment/transaction_status/" + id),
+      url: generateUrl(BASE_URL, "v1/payment/transaction_status/" + id),
     });
   };
   getOrderDetails = () => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "orders/customer_orders"),
+      url: generateUrl(BASE_URL, "v1/orders/customer_orders"),
     });
   };
   getOrderedDetails = (id: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "orders/" + id),
+      url: generateUrl(BASE_URL, "v1/orders/" + id),
     });
   };
   getComplimenatryProductHistory = (page: any) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL, "complimentary_order/customer_orders?page=" + page + "&size=10"),
+      url: generateUrl(BASE_URL, "v1/complimentary_order/customer_orders?page=" + page + "&size=10"),
     });
   };
   postOrderDetails = (name: any, phone: any, instruction: any, firebaseToken: any, ChooseOption: any, items: any, clientId: any, source: any) => {
@@ -96,7 +119,7 @@ export class Alpine {
 
     return requestHandler({
       method: "post",
-      url: generateUrl(BASE_URL, "orders"),
+      url: generateUrl(BASE_URL, "v1/orders"),
       headers: {
         'Content-Type': 'application/json'
       },
@@ -114,7 +137,7 @@ export class Alpine {
 
     return requestHandler({
       method: "post",
-      url: generateUrl(BASE_URL, "complimentary_order"),
+      url: generateUrl(BASE_URL, "v1/complimentary_order"),
       headers: {
         'Content-Type': 'application/multipart/form-data'
       },
@@ -124,15 +147,14 @@ export class Alpine {
   signOut = () => {
     return requestHandler({
       method: "post",
-      url: generateUrl(BASE_URL, "users/logout"),
+      url: generateUrl(BASE_URL, "v1/users/logout"),
     });
   };
   getDownloadInvoice = (id:string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"orders/" + id + "/invoice"),
+      url: generateUrl(BASE_URL,"v1/orders/" + id + "/invoice"),
     });
   };
 }
-
 
