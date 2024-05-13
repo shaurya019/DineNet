@@ -12,7 +12,7 @@ import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
 import useGetKitchenTiming from "@/hooks/useGetKitchenTiming";
-import { defaultClientId, defaultSource } from "@/utils/constants";
+import { defaultClientId, defaultSource , defaultCloseTime, defaultOpenTime } from "@/utils/constants";
 
 enum FilterValue {
   none,
@@ -27,8 +27,8 @@ export const RestaurantLandingPage = () => {
   const { data = [], isLoading } = useGetClientProducts(clientId);
 
   const { kitchenSetup, openTime } = useGetKitchenTiming({
-    open_Time: data.client?.open_time,
-    close_Time: data.client?.close_time,
+    open_Time: data.client?.open_time || defaultOpenTime,
+    close_Time: data.client?.close_time || defaultCloseTime,
   });
 
   const [filteredData, setFilteredData] = useState(data.category_map);
