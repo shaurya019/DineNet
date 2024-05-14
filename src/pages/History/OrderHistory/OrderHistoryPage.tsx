@@ -95,7 +95,7 @@ export const OrderHistoryPage = () => {
         </div>
         <div className="flex justify-between items-center m-5">
          <button  className={`font-bold text-sm ${page > 1 ? 'text-green-willam' : 'text-white'}`}  onClick={() => page > 1 && PrevBut()}>Prev</button>
-         {page!==totalPages  && <button className="font-bold text-sm text-green-willam" onClick={()=>NextBut()}>Next</button>}
+         {data?.results && data.results?.length > 0 &&  page!==totalPages  && <button className="font-bold text-sm text-green-willam" onClick={()=>NextBut()}>Next</button>}
         </div>
       </>
     </>
