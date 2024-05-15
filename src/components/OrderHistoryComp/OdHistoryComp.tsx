@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Down from "../../assets/icons/DownArrow";
 import Up from "../../assets/icons/UpwardArrow";
 import Veg from "../../assets/icons/Veg";
+import Alpine from "@/service/alpine";
 
 interface OdHistoryCompProps {
   item: any;
@@ -10,6 +11,16 @@ interface OdHistoryCompProps {
 
 export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
   const navigate = useNavigate();
+  let truncatedText = item.client.client_name;
+  
+  const screenWidth = window.innerWidth;
+  // const { data , isLoading } = useGetDownloadInvoice(item.id!);
+
+  // useEffect(()=>{
+  //   console.log("data",typeof data);
+  // },[data]);
+
+
   const createdAt = new Date(item.created_at);
   const dateFormatOptions: Intl.DateTimeFormatOptions = {
     year: 'numeric',
@@ -38,10 +49,19 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
     navigate('/trackOrder', { state: requestData });
   };
 
-  const downloadOrderDetails = () => {
+  // const downloadOrderDetails = (id:any) => {
+  //   Alpine.getDownloadInvoice(id);
+  // }
 
-  };
 
+
+
+  if (screenWidth <= 380 && truncatedText.length > 0) {
+    const halfLength = Math.ceil(truncatedText.length / 2);
+    truncatedText = truncatedText.substring(0, halfLength)+ '...';;
+  }
+
+  
 
   const total = Object.keys(item.total_amount_breakup)
     .reduce((acc, key) => acc + item.total_amount_breakup[key], 0);
@@ -52,9 +72,9 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
         <div className="h-[79px] rounded-t-[20px] bg-grey-gallery border border-solid border-grey-gallery px-[18px]" onClick={toggleExpansion}>
           <div className="flex-col justify-center items-center">
             <div className="flex flex-row justify-between mt-3">
-              <div className="flex flex-col">
-                <h4 className="text-xs text-green-willam font-medium">
-                  {item.client.client_name}
+              <div className="flex flex-col truncate">
+                <h4 className=" text-xs text-green-willam font-medium">
+                  {truncatedText}
                 </h4>
                 <div className="flex flex-row">
                   <h4 className="text-[8px] font-normal text-grey-fortysix">
@@ -73,8 +93,8 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 <h4
                   className={`text-[8px] p-[5px] mr-2 ${item.payment_source === "OFFLINE"
                     ? "bg-blue-bright"
-                    : "bg-green-japanese"
-                    } text-white border border-solid rounded-2xl px-3`}
+                    : "bg-green-japanese px-3"
+                    } text-white border border-solid rounded-2xl `}
                 >
                   {item.payment_source === "OFFLINE" ? "Cash at Counter" : item.payment_source}
                 </h4>
@@ -111,7 +131,11 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               Track Order
             </button>
             <button
-              onClick={item.status !== 'CANCELLED' ? downloadOrderDetails : undefined}
+             onClick={() => {
+              if (item.status !== 'CANCELLED') {
+                // downloadOrderDetails(item.id!);
+              }
+            }}
               className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
                 }`}
             >
@@ -211,7 +235,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 Track Order
               </button>
               <button
-                onClick={downloadOrderDetails}
+                // onClick={() =>downloadOrderDetails(item.id!)}
                 className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
                   }`}
               >
