@@ -7,7 +7,7 @@ import { Request } from "@assets/icons/Request";
 import { Cart } from "@/assets/icons/Cart";
 import './BottomTabs.css'
 import { useNavigate } from "react-router-dom";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 
 // disabled={kitchenSetup}
@@ -16,6 +16,9 @@ interface BottonTabsProps {
 }
 
 export const BottonTabs = ({ kitchenSetup }: BottonTabsProps) => {
+
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
   const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
   const navigate = useNavigate()
   const handleNavigateCart = () => {

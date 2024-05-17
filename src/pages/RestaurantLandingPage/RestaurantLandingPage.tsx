@@ -23,6 +23,7 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId") || defaultClientId;
+  
   const source = getQueryParam(location.search, "source") || defaultSource;
   const { data = [], isLoading } = useGetClientProducts(clientId);
 

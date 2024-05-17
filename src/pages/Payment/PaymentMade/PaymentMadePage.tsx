@@ -11,7 +11,7 @@ import PaymentMethodChoose from '@/components/PaymentMethodChoose'
 import BillDetailsComp from '@/components/BillDetails'
 import useTaxCalculation from '@/hooks/useTaxCustom'
 import { jwtDecode } from "jwt-decode";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface JwtPayload {
   name?: string;
@@ -20,6 +20,8 @@ interface JwtPayload {
 
 
 export const PaymentMadePage = () => {
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
   const location = useLocation();
 
   const instruction = location.state && location.state.instruction;
