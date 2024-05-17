@@ -1,10 +1,10 @@
 import { Minus } from "@/assets/icons/Minus";
 import { Plus } from "@/assets/icons/Plus";
-import { addToCart, removeFromCart,removeItem } from "@/service/Slice/cartSlice";
+import { addToCart, removeFromCart, removeItem } from "@/service/Slice/cartSlice";
 import { RootState } from "@/service/store/cartStore";
 import { useSelector, useDispatch } from "react-redux";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface IAddToCartButton {
   item: any;
@@ -12,6 +12,10 @@ interface IAddToCartButton {
   kitchenSetup?: any;
 }
 export const AddToCartButton = ({ item, setRefresh, kitchenSetup }: IAddToCartButton) => {
+
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
+
   const totalCartItems = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.totalCartItems);
   const itemCount = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items[item.id]?.qty);
   const dispatch = useDispatch();
@@ -84,9 +88,9 @@ export const AddToCartButton = ({ item, setRefresh, kitchenSetup }: IAddToCartBu
             <Plus className="stroke-green" />
           </div>
         </>
-      ) :  <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleUnAvailableItem}>
-      Remove
-    </div>}
+      ) : <div className="minus-container flex justify-center items-center cursor-pointer" onClick={handleUnAvailableItem}>
+        Remove
+      </div>}
     </div>
   ) : (
     <button
@@ -97,4 +101,4 @@ export const AddToCartButton = ({ item, setRefresh, kitchenSetup }: IAddToCartBu
       ADD
     </button>
   );
-  }  
+}  

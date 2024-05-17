@@ -7,13 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { signOutUser } from "@/service/Slice/userSlice";
 import { useSignOut } from "@/hooks/useSignOut";
 import { clearCart } from "@/service/Slice/cartSlice";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 type UserProfileProps = {
   targetRef: React.RefObject<HTMLElement | SVGSVGElement>;
 };
 
 export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
+
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
