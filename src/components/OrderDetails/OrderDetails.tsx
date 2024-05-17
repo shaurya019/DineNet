@@ -5,7 +5,7 @@ import { CartData } from '../CartData/CartData';
 import { useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
 import EditItems from "@assets/icons/Edit"
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface OrderDetailsProps {
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -19,6 +19,9 @@ interface OrderDetailsProps {
 }
 
 export const OrderDetails = ({ setRefresh,setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
+
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
   const items = clientCart ? clientCart.items : {};

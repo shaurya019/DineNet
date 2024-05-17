@@ -11,9 +11,11 @@ import StripeComponent from '@/components/ContainerCart'
 import useTaxCalculation from '@/hooks/useTaxCustom'
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
 import Loader from "@/atomicComponents/Loader";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 export const CartPage = () => {
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
   const cartData = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]);
   const items = cartData ? cartData.items : {};
   const totalPrice = cartData ? cartData.totalPrice : 0;
@@ -58,7 +60,7 @@ export const CartPage = () => {
         <>
           <OrderDetails
             setRefresh={setRefresh}
-            setOutOfStock = {setOutOfStock}
+            setOutOfStock={setOutOfStock}
             add={add}
             setAdd={setAdd}
             save={save}

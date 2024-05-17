@@ -3,7 +3,7 @@ import { Plus } from '../../assets/icons/Plus';
 import { addToCart } from "@/service/Slice/cartSlice";
 import { useDispatch } from "react-redux";
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface MealAddOnsProps {
   meal: any,
@@ -12,6 +12,9 @@ interface MealAddOnsProps {
 }
 
 export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal, refresh, setRefresh }) => {
+
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
   const dispatch = useDispatch();
   const addThings = () => {
     setRefresh(true);
