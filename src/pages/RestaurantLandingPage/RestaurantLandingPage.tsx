@@ -27,12 +27,13 @@ const sanitizeSearchQuery = (string: string) => {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId") || defaultClientId;
+  
   const source = getQueryParam(location.search, "source") || defaultSource;
   const { data = [], isLoading } = useGetClientProducts(clientId);
 
   const { kitchenSetup, openTime } = useGetKitchenTiming({
-    open_Time: data.client?.open_time ?? defaultOpenTime,
-    close_Time: data.client?.close_time ?? defaultCloseTime,
+ open_Time: data.client?.open_time || defaultOpenTime,
+    close_Time: data.client?.close_time || defaultCloseTime,
   });
 
   const [filteredData, setFilteredData] = useState(data.category_map);

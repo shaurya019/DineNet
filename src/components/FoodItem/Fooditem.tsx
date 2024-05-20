@@ -9,7 +9,6 @@ interface IFooditem {
   kitchenSetup:any;
 }
 export const Fooditem = ({ data,kitchenSetup }: IFooditem) => {
-  console.log("Data",data,data.availability);
   const ref = useRef<HTMLImageElement>(null);
   return (
     <div className="flex flex-row gap-2 border-b p-1 py-2 mb-2">

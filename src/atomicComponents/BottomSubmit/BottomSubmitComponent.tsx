@@ -8,11 +8,11 @@ import { usePostOrderDetails } from '@/hooks/usePostOrderDetails'
 import { usePostComplimentaryOrder } from '@/hooks/usePostComplimentaryOrder'
 import LoginModal from '@/components/Login';
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface BottomSubmitComponentProps {
   Heading: string;
-  outOfStock?:Boolean;
+  outOfStock?: Boolean;
   submit?: Boolean;
   setSubmit?: React.Dispatch<React.SetStateAction<boolean>>;
   imageFile?: File | null;
@@ -29,8 +29,11 @@ interface BottomSubmitComponentProps {
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, outOfStock,submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue, requestText, ChooseOption, phone, name, setFinal, instruction }) => {
+export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, outOfStock, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue, requestText, ChooseOption, phone, name, setFinal, instruction }) => {
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
+
   const items = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items);
   const { loggedIn, firebaseToken } = useSelector((state: RootState) => state.user);
 
@@ -100,15 +103,15 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         navigate(`/?clientId=${clientId}`, { replace: true });
         break;
       case "PaymentMade":
-        if(outOfStock){
+        if (outOfStock) {
           dispatch(showAlert({
             message: "Remove out of stock item!!",
             type: AlertType.error,
           }));
           setIsLoading(false);
-       }else{
-        navigate('/paymentMade', { state: { instruction: instruction ?? " " } });
-       }
+        } else {
+          navigate('/paymentMade', { state: { instruction: instruction ?? " " } });
+        }
         break;
       case "OrderPage":
       case "RequestCart":

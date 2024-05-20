@@ -4,7 +4,7 @@ import { clearCart } from "@/service/Slice/cartSlice";
 import { useDispatch } from "react-redux";
 import GoBack from '../GoBack';
 import { useNavigate } from 'react-router-dom';
-import { defaultClientId as clientId, defaultSource as source } from '@/utils/constants';
+import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface NavbarProps {
     title: string;
@@ -12,6 +12,9 @@ interface NavbarProps {
     showEmpty: string;
   }
 export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
+
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
     const [isOpen, setIsOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
