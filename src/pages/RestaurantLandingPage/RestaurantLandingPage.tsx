@@ -12,13 +12,17 @@ import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
 import useGetKitchenTiming from "@/hooks/useGetKitchenTiming";
-import { defaultClientId, defaultSource , defaultCloseTime, defaultOpenTime } from "@/utils/constants";
+import { defaultClientId, defaultSource, defaultCloseTime, defaultOpenTime } from "@/utils/constants";
 
 enum FilterValue {
   none,
   veg,
   nonVeg,
 }
+
+const sanitizeSearchQuery = (string: string) => {
+  return string.replace(/[^a-zA-Z]/g, ' ');
+};
 
 export const RestaurantLandingPage = () => {
   const location = useLocation();
@@ -28,7 +32,7 @@ export const RestaurantLandingPage = () => {
   const { data = [], isLoading } = useGetClientProducts(clientId);
 
   const { kitchenSetup, openTime } = useGetKitchenTiming({
-    open_Time: data.client?.open_time || defaultOpenTime,
+ open_Time: data.client?.open_time || defaultOpenTime,
     close_Time: data.client?.close_time || defaultCloseTime,
   });
 
@@ -37,13 +41,10 @@ export const RestaurantLandingPage = () => {
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
-
   useEffect(() => {
     window.localStorage.setItem("clientId", clientId);
     window.localStorage.setItem("source", source);
   }, [clientId, source]);
-
-
 
   useEffect(() => {
     const testFilter = (product: any): boolean => {
@@ -58,10 +59,13 @@ export const RestaurantLandingPage = () => {
 
     let updatedFilteredData: any[] = [];
     if (searchQuery || filter) {
+      const sanitizedSearchQuery = sanitizeSearchQuery(searchQuery);
+      const searchRegex = new RegExp(`${sanitizedSearchQuery}`, 'i');
+
       updatedFilteredData = data.category_map.map((category: any) => ({
         ...category,
         products: category.products.filter((item: any) =>
-          new RegExp(`${searchQuery}`, 'i').test(item.product_name) && testFilter(item)
+          searchRegex.test(item.product_name) && testFilter(item)
         ),
       })).filter((category: any) => category.products.length > 0);
     } else {
@@ -69,8 +73,6 @@ export const RestaurantLandingPage = () => {
     }
     setFilteredData(updatedFilteredData);
   }, [searchQuery, data.category_map, filter]);
-
-
 
   const toggleFilter = (value: FilterValue) => {
     if (filter !== FilterValue.none) setFilter(FilterValue.none);
@@ -87,7 +89,6 @@ export const RestaurantLandingPage = () => {
     }
   };
 
-
   if (isLoading)
     return (
       <div className="flex flex-1 items-center justify-center h-screen">
@@ -99,7 +100,7 @@ export const RestaurantLandingPage = () => {
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data.category_map} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
-        <LandingHeader clientName={data.client?.client_name} />
+        <LandingHeader clientName={data.client?.client_title ?? data.client?.client_name} />
         <div>
           <SearchField onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
         </div>
@@ -117,10 +118,10 @@ export const RestaurantLandingPage = () => {
             selectedColor="bg-orange-700"
           />
         </div>
-        {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
+        {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed: Our kitchen opens at {openTime} everyday</p>}
       </div>
       <div className="flex flex-col overflow-auto max-h-full mb-12">
-        {(filteredData && filteredData[0]) ? filteredData.map?.((category: any, index: number) => (
+        {(filteredData && filteredData[0]) ? filteredData.map((category: any, index: number) => (
           <AccordionItem
             key={category.id}
             defaultState={true}
@@ -137,4 +138,3 @@ export const RestaurantLandingPage = () => {
     </div>
   );
 };
-
