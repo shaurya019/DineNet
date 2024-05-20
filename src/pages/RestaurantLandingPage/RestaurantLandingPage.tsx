@@ -99,7 +99,7 @@ export const RestaurantLandingPage = () => {
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data.category_map} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
-        <LandingHeader clientName={data.client?.client_name} />
+      <LandingHeader clientName={data.client?.client_title ?? data.client?.client_name} />
         <div>
           <SearchField onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
         </div>
