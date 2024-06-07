@@ -7,12 +7,13 @@ import BottonTabs from "@components/BottomTabs";
 import LandingHeader from "@/components/LandingHeader";
 import FoodCategoryMenu from "@/components/FoodCategoryMenu";
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useLocation } from "react-router";
 import { getQueryParam } from "@/utils/routerUtils";
 import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
 import useGetKitchenTiming from "@/hooks/useGetKitchenTiming";
-import { defaultClientId, defaultSource , defaultCloseTime, defaultOpenTime } from "@/utils/constants";
+import { defaultClientId, defaultSource, defaultCloseTime, defaultOpenTime } from "@/utils/constants";
 
 enum FilterValue {
   none,
@@ -23,7 +24,7 @@ enum FilterValue {
 export const RestaurantLandingPage = () => {
   const location = useLocation();
   const clientId = getQueryParam(location.search, "clientId") || defaultClientId;
-  
+
   const source = getQueryParam(location.search, "source") || defaultSource;
   const { data = [], isLoading } = useGetClientProducts(clientId);
 
@@ -36,6 +37,30 @@ export const RestaurantLandingPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const loadFingerprint = async () => {
+      try {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        window.localStorage.setItem("deviceId", result.visitorId);
+        console.log("FingerprintJS", result.visitorId);
+      } catch (err: any) {
+        setError(err.message);
+      }
+    };
+
+    const checkAuthToken = async () => {
+      const authToken = await window.localStorage.getItem("authToken");
+      if (authToken == null) {
+        loadFingerprint();
+      }
+    };
+
+    checkAuthToken();
+  }, []);
+
 
 
   useEffect(() => {
@@ -99,7 +124,7 @@ export const RestaurantLandingPage = () => {
     <div className="flex flex-col max-h-screen">
       <FoodCategoryMenu data={data.category_map} onClick={handleCategoryClick} />
       <div className="flex flex-col gap-3 p-2">
-      <LandingHeader clientName={data.client?.client_title ?? data.client?.client_name} />
+        <LandingHeader clientName={data.client?.client_title ?? data.client?.client_name} />
         <div>
           <SearchField onChange={(e) => setSearchQuery(e.target.value)} value={searchQuery} />
         </div>

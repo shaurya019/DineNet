@@ -14,7 +14,7 @@ export class Alpine {
       },
     });
   };
-  
+
   getClientProducts = (clientId: string) => {
     return requestHandler({
       method: "get",
@@ -28,31 +28,17 @@ export class Alpine {
       url: generateUrl(BASE_URL, "v1/complimentary_order/find_order/" + id),
     });
   };
-  
-  // getClientProductsTax = (items: any) => {
-  //   const productQuantities = Object.values(items).map((item: any) => ({
-  //     product_id: item.id,
-  //     quantity: item.qty
-  //   }));
-  //   return requestHandler({
-  //     method: "post",
-  //     url: generateUrl(BASE_URL, "orders/amount_breakup"),
-  //     data: {
-  //       product_quantities: productQuantities
-  //     },
-  //   });
-  // };
 
-   getClientProductsTax = (items: any) => {
+  getClientProductsTax = (items: any) => {
     // Filter out items with availability set to false
     const availableItems = Object.values(items).filter((item: any) => item.availability);
-  
+
     // Map the available items to product quantities
     const productQuantities = availableItems.map((item: any) => ({
       product_id: item.id,
       quantity: item.qty
     }));
-  
+
     return requestHandler({
       method: "post",
       url: generateUrl(BASE_URL, "v1/orders/amount_breakup"),
@@ -61,7 +47,7 @@ export class Alpine {
       },
     });
   };
-  
+
   complimenatryProductCategory = (clientId: string) => {
     return requestHandler({
       method: "get",
@@ -99,7 +85,7 @@ export class Alpine {
     });
   };
   postOrderDetails = (name: any, phone: any, instruction: any, firebaseToken: any, ChooseOption: any, items: any, clientId: any, source: any) => {
-    const paymentSource = ChooseOption === "ONLINE" ? 'ONLINE' : 'OFFLINE';
+    const paymentSource = 'OFFLINE';
     const orderItems = Object.values(items).map((item: any) => ({
       quantity: item.qty,
       product_id: item.id,
@@ -108,7 +94,7 @@ export class Alpine {
     const x = parseInt(clientId);
     const body = {
       customer_name: name,
-      customer_phone: phone,
+      customer_phone: '',
       client_id: x,
       source: source,
       customization: instruction ?? ' ',
@@ -150,10 +136,19 @@ export class Alpine {
       url: generateUrl(BASE_URL, "v1/users/logout"),
     });
   };
-  getDownloadInvoice = (id:string) => {
+  getDownloadInvoice = (id: string) => {
     return requestHandler({
       method: "get",
-      url: generateUrl(BASE_URL,"v1/orders/" + id + "/invoice"),
+      url: generateUrl(BASE_URL, "v1/orders/" + id + "/invoice"),
+    });
+  };
+  postReOrder = (orderId: any) => {
+    return requestHandler({
+      method: "get",
+      url: generateUrl(BASE_URL, "v1/payment/" + orderId),
+      // headers: {
+      //   'Content-Type': 'application/json'
+      // },
     });
   };
 }

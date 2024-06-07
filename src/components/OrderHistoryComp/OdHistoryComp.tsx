@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addToCart, clearCart } from "@/service/Slice/cartSlice";
+import { useDispatch } from "react-redux";
 import Down from "../../assets/icons/DownArrow";
 import Up from "../../assets/icons/UpwardArrow";
 import Veg from "../../assets/icons/Veg";
-import Alpine from "@/service/alpine";
+import { defaultClientId, defaultSource } from "@/utils/constants";
+import { useSelector } from "react-redux";
+import { RootState } from "@/service/store/cartStore";
+import { usePostOrderDetails } from '@/hooks/usePostOrderDetails'
+import { useGetReOrder } from "@/hooks/useGetReOrder";
 
 interface OdHistoryCompProps {
   item: any;
 }
 
 export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   let truncatedText = item.client.client_name;
-  
-  const screenWidth = window.innerWidth;
-  // const { data , isLoading } = useGetDownloadInvoice(item.id!);
+  const [orderId, setOrderId] = useState('');
+  const { loggedIn, firebaseToken } = useSelector((state: RootState) => state.user);
+  const { data = [], isLoading } = useGetReOrder(orderId);
 
-  // useEffect(()=>{
-  //   console.log("data",typeof data);
-  // },[data]);
+  const screenWidth = window.innerWidth;
+
+
 
 
   const createdAt = new Date(item.created_at);
@@ -49,19 +58,58 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
     navigate('/trackOrder', { state: requestData });
   };
 
-  // const downloadOrderDetails = (id:any) => {
-  //   Alpine.getDownloadInvoice(id);
-  // }
+  const downloadOrderDetails = () => {
+    const fileUrl = 'https://alpine-file-upload.s3.ap-south-1.amazonaws.com/complimentary-order/6-1716545335587-IMG_6423.png';
+
+    fetch(fileUrl, { mode: 'no-cors' })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+      })
+      .catch(error => {
+        console.error('There was a problem with the fetch operation:', error);
+      });
+
+    const a = document.createElement('a');
+    a.style.display = 'none';
+    a.href = fileUrl;
+    document.body.appendChild(a);
+    a.click();
+  };
+
+
+  const retryPayment = () => {
+    console.log("ITEM", item);
+    setOrderId(item.id);
+  }
+
+
+  // Use to naviagte to phonePay Url
+  useEffect(() => {
+    const fetchPaymentData = async () => {
+      if (data && data.length > 0) {
+        const url = data[0]?.payment_gateway_response?.data?.instrumentResponse?.redirectInfo?.url;
+        if (url) {
+          window.location.replace(url);
+        }
+      }
+    };
+
+    fetchPaymentData();
+  }, [data]);
+
+
 
 
 
 
   if (screenWidth <= 380 && truncatedText.length > 0) {
     const halfLength = Math.ceil(truncatedText.length / 2);
-    truncatedText = truncatedText.substring(0, halfLength)+ '...';;
+    truncatedText = truncatedText.substring(0, halfLength) + '...';;
   }
 
-  
+
 
   const total = Object.keys(item.total_amount_breakup)
     .reduce((acc, key) => acc + item.total_amount_breakup[key], 0);
@@ -131,16 +179,19 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               Track Order
             </button>
             <button
-             onClick={() => {
-              if (item.status !== 'CANCELLED') {
-                // downloadOrderDetails(item.id!);
-              }
-            }}
-              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+              onClick={() => {
+                if (item.status === 'COMPLETED') {
+                  downloadOrderDetails();
+                } else if (item.status === 'AWAITING_PAYMENT') {
+                  retryPayment();
+                }
+              }}
+              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'AWAITING_PAYMENT' || item.status === 'COMPLETED' ? 'bg-greenCyan' : 'bg-greenCyan-light'
                 }`}
             >
-              Download Invoice
+              {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
             </button>
+
           </div>
         ) : (
           <div className="rounded-b-[20px] items-center border border-t-none border-solid border-grey-gallery flex flex-col">
@@ -199,7 +250,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                   return (
                     <div className="flex flex-row justify-between mb-3" key={i}>
                       <h5 className="ml-6 font-normal text-[10px]">{key} :</h5>
-                      <h5 className="mr-6 font-semibold text-grey text-[12px]">
+                      <h5 className="mr-[18px] font-semibold text-grey text-[12px]">
                         <span>&#8377;</span>
                         {item.total_amount_breakup[key]}
                       </h5>
@@ -211,7 +262,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
             <hr className="bg-silver  mx-3 my-3" />
             <div className="w-full h-[42px] bg-green-finn px-5 font-bold text-blue-oxford flex flex-row items-center justify-between">
               <h4 className="text-[10px]">Total Price</h4>
-              <h4 className="text-[15px] px-2">
+              <h4 className="text-[15px]">
                 <span>&#8377;</span>{total}
               </h4>
             </div>
@@ -235,11 +286,17 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 Track Order
               </button>
               <button
-                // onClick={() =>downloadOrderDetails(item.id!)}
-                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+                onClick={() => {
+                  if (item.status === 'COMPLETED') {
+                    downloadOrderDetails();
+                  } else if (item.status === 'AWAITING_PAYMENT') {
+                    retryPayment();
+                  }
+                }}
+                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status !== 'COMPLETED' || item.status === 'AWAITING_PAYMENT' ? 'bg-greenCyan-light' : 'bg-greenCyan'
                   }`}
               >
-                Download Invoice
+                {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
               </button>
             </div>
           </div>
@@ -248,3 +305,5 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
     </>
   );
 };
+
+

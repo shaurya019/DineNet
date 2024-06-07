@@ -25,7 +25,6 @@ export const OrderDetails = ({ setRefresh,setOutOfStock, add, setAdd, save, setS
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
   const items = clientCart ? clientCart.items : {};
-  console.log("ITENS||||",items);
  
 
   const handleChange = (e: any) => {

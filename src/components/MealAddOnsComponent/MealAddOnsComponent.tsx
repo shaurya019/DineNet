@@ -45,25 +45,24 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal, refresh, 
   const ref = useRef<HTMLImageElement>(null);
 
   return (
-    <div className="flex-col">
-      <div className="bg-gray-200 w-28 h-32">
+    <div className="flex-col w-28 h-38 rounded-md shadow-lg items-center" style={{ boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)' }}>
+      <div className="bg-gray-200 h-[59px] rounded-md m-[5px]">
+
         <img
           ref={ref}
-          className="w-28 h-32"
+          className="w-28 h-[59px] object-cover"
           src={meal.thumbnail_url}
           onError={() => {
             if (ref.current) ref.current.src = "/assets/default_food.png";
           }}
         />
       </div>
-      <div className="bg-white w-28 h-26 flex items-center justify-between rounded-md shadow-lg" style={{ boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)' }}>
-        <h5 className="font-medium text-firefly text-xs ml-1.5 overflow-hidden overflow-ellipsis">{meal.product_name}</h5>
-        <div className="flex items-center">
-          <h5 className="font-medium text-firefly text-xs mr-1.5"><span>&#8377;</span>{meal.price}</h5>
-          <button onClick={addThings} className="m-1 bg-laurel w-8 h-8 rounded-md flex items-center justify-center">
-            <Plus className="stroke-white" />
-          </button>
-        </div>
+      <div className="bg-white flex-col items-center mx-1.5" >
+        <h5 className="font-medium text-firefly text-left text-xs overflow-hidden overflow-ellipsis my-[2px]">{meal.product_name}</h5>
+        <h5 className="font-medium text-firefly text-left text-xs my-[2px]"><span>&#8377;</span>{meal.price}</h5>
+        <button onClick={addThings} className="my-1 bg-laurel w-full w-28 h-8 rounded-md items-center justify-center">
+          <h5 className="font-medium text-white text-xs">Add</h5>
+        </button>
       </div>
 
     </div>

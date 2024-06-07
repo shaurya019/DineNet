@@ -27,7 +27,6 @@ export const CartPage = () => {
   const { totalTax, taxList } = useTaxCalculation();
 
   const [meal, setMeal] = useState<any[]>([]);
-  // const [res, setRes] = useState<any[]>([]);
   const [outOfStock, setOutOfStock] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
