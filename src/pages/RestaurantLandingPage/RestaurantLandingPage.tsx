@@ -38,6 +38,8 @@ export const RestaurantLandingPage = () => {
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
 
+
+
   useEffect(() => {
     window.localStorage.setItem("clientId", clientId);
     window.localStorage.setItem("source", source);

@@ -72,8 +72,10 @@ export const PaymentMadePage = () => {
       </div>
       <PaymentMethodChoose submit={submit} final={final} setSubmit={setSubmit} Option={selectedOption} SelectedOption={setSelectedOption} />
       <BillDetailsComp totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
-      <BottomNoteComp />
-      <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} instruction={instruction} ChooseOption={selectedOption} path="OrderPage" />
+      {/* <BottomNoteComp /> */}
+      <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} instruction={instruction}
+        ChooseOption="OFFLINE"
+        path="OrderPage" />
     </>
   )
 }

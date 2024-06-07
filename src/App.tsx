@@ -9,6 +9,7 @@ import {
   QueryClientProvider,
 } from "@tanstack/react-query";
 import { Provider } from "react-redux";
+import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { persistor, store } from "./service/store/cartStore";
 import Alert from "./components/Alert";
 import KitchenAlert from "@/components/KitchenAlert";
@@ -33,6 +34,28 @@ export default function App() {
   const [once, setOnce] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
 
+  useEffect(() => {
+    const loadFingerprint = async () => {
+      try {
+        const fp = await FingerprintJS.load();
+        const result = await fp.get();
+        window.localStorage.setItem("deviceId", result.visitorId);
+        console.log("FingerprintJS", result.visitorId);
+      } catch (err: any) {
+        console.log("FingerprintJS", err.message);
+      }
+    };
+
+    const checkAuthToken = async () => {
+      const authToken = await window.localStorage.getItem("authToken");
+      if (authToken == null) {
+        loadFingerprint();
+      }
+    };
+
+    checkAuthToken();
+  }, []);
+  
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCurrentTime(new Date());
@@ -89,3 +112,7 @@ export default function App() {
     </div>
   );
 }
+function setError(message: any) {
+  throw new Error("Function not implemented.");
+}
+
