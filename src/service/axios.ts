@@ -19,6 +19,14 @@ export default class Axios implements IAxios {
       } else {
         request.headers.set("authorization", "");
       }
+
+      const deviceId = window.localStorage.getItem("deviceId");
+      // // need device id when authtoken is not there
+      if (deviceId && authToken == undefined) {
+        console.log("userId", deviceId);
+        request.headers.set("x-device-id", deviceId);
+      }
+      
       return request;
     });
 
