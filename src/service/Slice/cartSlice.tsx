@@ -43,12 +43,12 @@ const cartSlice = createSlice({
   reducers: {
     addToCart(state, action: PayloadAction<{ clientId: string; source: string; item: CartItem }>) {
       const { clientId, source, item } = action.payload;
-      const { id, price, tags,availability } = item;
+      const { id, price, tags, availability } = item;
 
       if (!state.carts[clientId]) {
         state.carts[clientId] = {};
       }
-    //  if(availability){
+      //  if(availability){
       if (!state.carts[clientId][source]) {
         state.carts[clientId][source] = {
           items: {},
@@ -72,7 +72,7 @@ const cartSlice = createSlice({
       }
       clientCart.totalPrice += price;
       clientCart.totalCartItems = calculateTotalCartItems(clientCart.items);
-    //  }
+      //  }
     },
     removeFromCart(state, action: PayloadAction<{ clientId: string; source: string; itemId: string }>) {
       const { clientId, source, itemId } = action.payload;
@@ -83,6 +83,7 @@ const cartSlice = createSlice({
           item.qty--;
           clientCart.totalPrice -= item.price;
         } else {
+          console.log("COMING HERE", item.tags);
           if (typeof item.tags !== "string") {
             item.tags.forEach(tag => {
               const index = clientCart.cartTags.indexOf(tag);
@@ -123,7 +124,7 @@ const cartSlice = createSlice({
           clientCart.totalPrice = 0;
         }
       }
-    },    
+    },
     clearCart(state, action: PayloadAction<{ clientId: string; source: string }>) {
       const { clientId, source } = action.payload;
       if (state.carts[clientId]?.[source]) {
@@ -143,5 +144,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart,removeItem, clearCart, emptyCartItems } = cartSlice.actions;
+export const { addToCart, removeFromCart, removeItem, clearCart, emptyCartItems } = cartSlice.actions;
 export default cartSlice.reducer;

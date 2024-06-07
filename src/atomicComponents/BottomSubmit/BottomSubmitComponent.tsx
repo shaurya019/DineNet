@@ -34,11 +34,10 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
 
-  const items = useSelector((state: RootState) => state.cart.carts[clientId]?.[source]?.items);
   const { loggedIn, firebaseToken } = useSelector((state: RootState) => state.user);
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption, items);
+  const { data: orderDetailsData, mutate: orderDetailsMutate } = usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } = usePostComplimentaryOrder(productId, textRequest, imageFile);
 
 
@@ -52,9 +51,6 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   // Redux Dispatch
   const dispatch = useDispatch();
 
-  // useEffect(()=>{
-  //   console.log("outOfStock",outOfStock);
-  // },[outOfStock]);
 
   useEffect(() => {
     if (complimentaryOrderData != null) {
@@ -115,11 +111,12 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         break;
       case "OrderPage":
       case "RequestCart":
-        if (loggedIn || ChooseOption === 'ONLINE') {
-          handleCreateOrder();
-        } else {
-          setShowOtpModal(true)
-        }
+        // if (loggedIn || ChooseOption === 'ONLINE') {
+        //   handleCreateOrder();
+        // } else {
+        //   setShowOtpModal(true)
+        // }
+        handleCreateOrder();
         break;
       default:
         console.error("Invalid path provided.");
@@ -173,7 +170,12 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
   const handleOnSubmit = () => {
     if (ChooseOption) {
-      if (ChooseOption !== "Option3" && phone !== '' && name !== '') {
+      // if (ChooseOption !== "Option3" && phone !== '' && name !== '') {
+      //   proceedWithOrder();
+      // } else {
+      //   processOfOrder();
+      // }
+      if (ChooseOption !== "Option3" && name !== '') {
         proceedWithOrder();
       } else {
         processOfOrder();
