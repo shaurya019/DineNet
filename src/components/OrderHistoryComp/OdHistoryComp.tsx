@@ -49,9 +49,48 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
     navigate('/trackOrder', { state: requestData });
   };
 
-  // const downloadOrderDetails = (id:any) => {
-  //   Alpine.getDownloadInvoice(id);
+  // const downloadOrderDetails = () => {
+  //   const fileUrl = 'https://alpine-file-upload.s3.ap-south-1.amazonaws.com/complimentary-order/6-1716545335587-IMG_6423.png';
+
+  //   fetch(fileUrl, { mode: 'no-cors' })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('There was a problem with the fetch operation:', error);
+  //     });
+
+  //   const a = document.createElement('a');
+  //   a.style.display = 'none';
+  //   a.href = fileUrl;
+  //   document.body.appendChild(a);
+  //   a.click();
+  // };
+
+
+  // const retryPayment = () => {
+  //   console.log("ITEM", item);
+  //   setOrderId(item.id);
   // }
+
+
+  // Use to naviagte to phonePay Url
+  // useEffect(() => {
+  //   const fetchPaymentData = async () => {
+  //     if (data && data.length > 0) {
+  //       const url = data[0]?.payment_gateway_response?.data?.instrumentResponse?.redirectInfo?.url;
+  //       if (url) {
+  //         window.location.replace(url);
+  //       }
+  //     }
+  //   };
+
+  //   fetchPaymentData();
+  // }, [data]);
+
+
 
 
 
@@ -130,17 +169,20 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               className={`text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 py-1 flex items-center justify-center`}>
               Track Order
             </button>
-            <button
-             onClick={() => {
-              if (item.status !== 'CANCELLED') {
-                // downloadOrderDetails(item.id!);
-              }
-            }}
-              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+            {/* <button
+              onClick={() => {
+                if (item.status === 'COMPLETED') {
+                  downloadOrderDetails();
+                } else if (item.status === 'AWAITING_PAYMENT') {
+                  retryPayment();
+                }
+              }}
+              className={`text-[10px] border border-solid rounded-md text-white px-4 py-1 flex items-center justify-center ${item.status === 'AWAITING_PAYMENT' || item.status === 'COMPLETED' ? 'bg-greenCyan' : 'bg-greenCyan-light'
                 }`}
             >
-              Download Invoice
-            </button>
+              {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
+            </button> */}
+
           </div>
         ) : (
           <div className="rounded-b-[20px] items-center border border-t-none border-solid border-grey-gallery flex flex-col">
@@ -234,13 +276,19 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 className={`h-8 text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 flex items-center justify-center`}>
                 Track Order
               </button>
-              <button
-                // onClick={() =>downloadOrderDetails(item.id!)}
-                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status === 'CANCELLED' ? 'bg-greenCyan-light' : 'bg-greenCyan'
+              {/* <button
+                onClick={() => {
+                  if (item.status === 'COMPLETED') {
+                    downloadOrderDetails();
+                  } else if (item.status === 'AWAITING_PAYMENT') {
+                    retryPayment();
+                  }
+                }}
+                className={`h-8 text-[10px] border border-solid rounded-md text-white px-4 flex items-center justify-center ${item.status !== 'COMPLETED' || item.status === 'AWAITING_PAYMENT' ? 'bg-greenCyan-light' : 'bg-greenCyan'
                   }`}
               >
-                Download Invoice
-              </button>
+                {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
+              </button> */}
             </div>
           </div>
         )}
