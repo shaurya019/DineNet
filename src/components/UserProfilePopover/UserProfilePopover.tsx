@@ -1,5 +1,5 @@
 import { Profile } from "@/assets/icons/Profile";
-import React from "react";
+import React,{useState,useEffect} from "react";
 import Popover from "../Popover";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/service/store/cartStore";
@@ -8,6 +8,11 @@ import { signOutUser } from "@/service/Slice/userSlice";
 import { useSignOut } from "@/hooks/useSignOut";
 import { clearCart } from "@/service/Slice/cartSlice";
 import { defaultClientId, defaultSource } from '@/utils/constants';
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+  name?: string;
+}
 
 type UserProfileProps = {
   targetRef: React.RefObject<HTMLElement | SVGSVGElement>;
@@ -18,10 +23,28 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
   const user = useSelector((state: RootState) => state.user);
+  const [namex, setNamex] = useState<any | null>('');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { mutateAsync: signOut } = useSignOut();
 
+  useEffect(() => {
+    console.log('token found in local storage');
+    // Retrieve the token from local storage
+    const storedToken = localStorage.getItem('authToken');
+
+    // Check if the token exists
+    if (storedToken) {
+      const decoded: JwtPayload = jwtDecode(storedToken);
+      const name = decoded.name || 'Guest User';
+        setNamex(name);
+        console.log("Name", name);
+    } else {
+      console.log('No token found in local storage');
+    }
+}, []);
+
+ 
   const handleLogout = () => {
     signOut().then(() => {
       window.localStorage.removeItem("authToken");
@@ -51,7 +74,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
                 +91{user.phone}
               </p>
             )} */}
-            Guest User
+           {namex}
           </div>
         </div>
         <button
@@ -66,12 +89,12 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
         >
           <p className="text-grey-dark text-xs">Request History</p>
         </button>
-        <button
+        {/* <button
           onClick={handleLogout}
           className="text-red-500 hover:text-red-700 text-sm"
         >
           LOG OUT
-        </button>
+        </button> */}
       </div>
     </Popover>
   );
