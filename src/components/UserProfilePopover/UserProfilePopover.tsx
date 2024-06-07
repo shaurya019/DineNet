@@ -44,8 +44,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
     }
 }, []);
 
-  
-  
+ 
   const handleLogout = () => {
     signOut().then(() => {
       window.localStorage.removeItem("authToken");
@@ -67,14 +66,14 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
             <Profile className="stroke-white fill-green h-5 w-5" />
           </div>
           <div className="flex flex-col gap-1 items-start justify-center">
-            {user.name && <h4 className="text-grey font-bold">{user.name}</h4>}
+            {/* {user.name && <h4 className="text-grey font-bold">{user.name}</h4>}
             {user.phone && (
               <p
                 className={`text-grey-dark text-${user.name ? "[9px]" : "md"}`}
               >
                 +91{user.phone}
               </p>
-            )} 
+            )} */}
            {namex}
           </div>
         </div>

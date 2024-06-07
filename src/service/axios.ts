@@ -21,11 +21,9 @@ export default class Axios implements IAxios {
       }
 
       const deviceId = window.localStorage.getItem("deviceId");
-      if (deviceId) {
+ if (deviceId) {
         console.log("userId", deviceId);
-        request.headers.set("x-device-id", deviceId);
-      }
-
+        request.he
       return request;
 
     });
