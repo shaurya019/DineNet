@@ -145,7 +145,13 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         orderDetailsMutate();
         break;
       case "RequestCart":
-        if (textRequest !== undefined && textRequest.length > 0 && category !== 'NotDisclosed') {
+        if (name === '') {
+          dispatch(showAlert({
+            message: "Place order first!!",
+            type: AlertType.error,
+          }));
+          setIsLoading(false);
+        } else if (textRequest !== undefined && textRequest.length > 0 && category !== 'NotDisclosed') {
           complimentaryOrderMutate();
         } else {
           setIsLoading(false);
