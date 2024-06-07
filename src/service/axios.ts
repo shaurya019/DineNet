@@ -25,6 +25,7 @@ export default class Axios implements IAxios {
         console.log("userId", deviceId);
         request.headers.set("x-device-id", deviceId);
       }
+      
       return request;
 
     });

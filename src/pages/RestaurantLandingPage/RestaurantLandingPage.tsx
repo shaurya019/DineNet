@@ -37,30 +37,6 @@ export const RestaurantLandingPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const loadFingerprint = async () => {
-      try {
-        const fp = await FingerprintJS.load();
-        const result = await fp.get();
-        window.localStorage.setItem("deviceId", result.visitorId);
-        console.log("FingerprintJS", result.visitorId);
-      } catch (err: any) {
-        setError(err.message);
-      }
-    };
-
-    const checkAuthToken = async () => {
-      const authToken = await window.localStorage.getItem("authToken");
-      if (authToken == null) {
-        loadFingerprint();
-      }
-    };
-
-    checkAuthToken();
-  }, []);
-
 
 
 
