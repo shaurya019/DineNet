@@ -58,46 +58,47 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
     navigate('/trackOrder', { state: requestData });
   };
 
-  const downloadOrderDetails = () => {
-    const fileUrl = 'https://alpine-file-upload.s3.ap-south-1.amazonaws.com/complimentary-order/6-1716545335587-IMG_6423.png';
+  // const downloadOrderDetails = () => {
+  //   const fileUrl = 'https://alpine-file-upload.s3.ap-south-1.amazonaws.com/complimentary-order/6-1716545335587-IMG_6423.png';
 
-    fetch(fileUrl, { mode: 'no-cors' })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-      })
-      .catch(error => {
-        console.error('There was a problem with the fetch operation:', error);
-      });
+  //   fetch(fileUrl, { mode: 'no-cors' })
+  //     .then(response => {
+  //       if (!response.ok) {
+  //         throw new Error('Network response was not ok');
+  //       }
+  //     })
+  //     .catch(error => {
+  //       console.error('There was a problem with the fetch operation:', error);
+  //     });
 
-    const a = document.createElement('a');
-    a.style.display = 'none';
-    a.href = fileUrl;
-    document.body.appendChild(a);
-    a.click();
-  };
+  //   const a = document.createElement('a');
+  //   a.style.display = 'none';
+  //   a.href = fileUrl;
+  //   document.body.appendChild(a);
+  //   a.click();
+  // };
 
 
-  const retryPayment = () => {
-    console.log("ITEM", item);
-    setOrderId(item.id);
-  }
+  // const retryPayment = () => {
+  //   console.log("ITEM", item);
+  //   setOrderId(item.id);
+  // }
+
 
 
   // Use to naviagte to phonePay Url
-  useEffect(() => {
-    const fetchPaymentData = async () => {
-      if (data && data.length > 0) {
-        const url = data[0]?.payment_gateway_response?.data?.instrumentResponse?.redirectInfo?.url;
-        if (url) {
-          window.location.replace(url);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const fetchPaymentData = async () => {
+  //     if (data && data.length > 0) {
+  //       const url = data[0]?.payment_gateway_response?.data?.instrumentResponse?.redirectInfo?.url;
+  //       if (url) {
+  //         window.location.replace(url);
+  //       }
+  //     }
+  //   };
 
-    fetchPaymentData();
-  }, [data]);
+  //   fetchPaymentData();
+  // }, [data]);
 
 
 
@@ -178,7 +179,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               className={`text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 py-1 flex items-center justify-center`}>
               Track Order
             </button>
-            <button
+ {/* <button
               onClick={() => {
                 if (item.status === 'COMPLETED') {
                   downloadOrderDetails();
@@ -190,7 +191,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 }`}
             >
               {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
-            </button>
+ </button> */}
 
           </div>
         ) : (
@@ -285,7 +286,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 className={`h-8 text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 flex items-center justify-center`}>
                 Track Order
               </button>
-              <button
+ {/* <button
                 onClick={() => {
                   if (item.status === 'COMPLETED') {
                     downloadOrderDetails();
@@ -297,7 +298,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                   }`}
               >
                 {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
-              </button>
+ </button> */}
             </div>
           </div>
         )}
