@@ -19,7 +19,13 @@ export default class Axios implements IAxios {
       } else {
         request.headers.set("authorization", "");
       }
+
+      const deviceId = window.localStorage.getItem("deviceId");
+ if (deviceId) {
+        console.log("userId", deviceId);
+        request.he
       return request;
+
     });
 
     this.client.interceptors.response.use(

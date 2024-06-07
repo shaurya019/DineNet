@@ -1,10 +1,10 @@
 export const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-  authDomain: "cubik-56853.firebaseapp.com",
-  projectId: "cubik-56853",
-  storageBucket: "cubik-56853.appspot.com",
-  messagingSenderId: "1050711121206",
-  appId: "1:1050711121206:web:9b58f6730070f6f9f46797",
-  measurementId: "G-K2WVJ5HGCT"
+  authDomain: "flexiserv-9c2fd.firebaseapp.com",
+  projectId: "flexiserv-9c2fd",
+  storageBucket: "flexiserv-9c2fd.appspot.com",
+  messagingSenderId: "264154564380",
+  appId: "1:264154564380:web:2217a9f73aa18af6bd9cd9",
+  measurementId: "G-LF341FS827"
 };
 

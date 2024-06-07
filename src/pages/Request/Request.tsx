@@ -6,6 +6,12 @@ import DownArrow from '@/assets/icons/DownArrow';
 import UpwardArrow from '@/assets/icons/UpwardArrow';
 import UploadImage from '@/atomicComponents/ImageUploader';
 import Loader from "@/atomicComponents/Loader";
+import { jwtDecode } from "jwt-decode";
+
+interface JwtPayload {
+    name?: string;
+}
+  
 
 export const Request = () => {
 
@@ -19,9 +25,26 @@ export const Request = () => {
     const [submit, setSubmit] = useState(false);
     const [productId, setProductId] = useState(0);
     const [area, setArea] = useState('');
+    const [namex, setNamex] = useState<any | null>('');
     const [image, setImage] = useState<File | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+    useEffect(() => {
+        console.log('token found in local storage');
+        // Retrieve the token from local storage
+        const storedToken = localStorage.getItem('authToken');
+    
+        // Check if the token exists
+        if (storedToken) {
+          const decoded: JwtPayload = jwtDecode(storedToken);
+          const name = decoded.name || '';
+            setNamex(name);
+            console.log("Name", name);
+        } else {
+          console.log('No token found in local storage');
+        }
+    }, []);
+    
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -105,7 +128,7 @@ export const Request = () => {
                     <img src={URL.createObjectURL(image)} alt="" className='w-[86px] h-[79px] mt-3  rounded' />
                 )}
             </div>
-            <BottomSubmit Heading="Submit Request" setSubmit={setRequestSubmit} productId={productId} imageFile={image} textRequest={area} path="RequestCart" category={value} submit={submit} requestText={area} />
+            <BottomSubmit Heading="Submit Request" setSubmit={setRequestSubmit} productId={productId} imageFile={image} textRequest={area} path="RequestCart" category={value} submit={submit} requestText={area} name={namex} />
         </>
     );
 };

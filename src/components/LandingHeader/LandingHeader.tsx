@@ -47,7 +47,8 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
         </p>
       </div>
       <div className="ml-auto">
-        {user.loggedIn ? (
+        {/* {user.loggedIn ?
+          ( */}
           <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
             <Profile
               className="stroke-white h-4 w-4 fill-green"
@@ -55,7 +56,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
             />
             <UserProfile targetRef={profileRef} />
           </div>
-        ) : (
+        {/* ) : ( 
           <button
             onClick={() =>
               setisLoginModalOpen((isLoginModalOpen) => !isLoginModalOpen)
@@ -64,7 +65,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
           >
             Log-in
           </button>
-        )}
+        )} */}
       </div>
     </div>
   );

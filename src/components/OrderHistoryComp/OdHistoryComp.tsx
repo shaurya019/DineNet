@@ -1,24 +1,33 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addToCart, clearCart } from "@/service/Slice/cartSlice";
+import { useDispatch } from "react-redux";
 import Down from "../../assets/icons/DownArrow";
 import Up from "../../assets/icons/UpwardArrow";
 import Veg from "../../assets/icons/Veg";
-import Alpine from "@/service/alpine";
+import { defaultClientId, defaultSource } from "@/utils/constants";
+import { useSelector } from "react-redux";
+import { RootState } from "@/service/store/cartStore";
+import { usePostOrderDetails } from '@/hooks/usePostOrderDetails'
+import { useGetReOrder } from "@/hooks/useGetReOrder";
 
 interface OdHistoryCompProps {
   item: any;
 }
 
 export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
+  const clientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const source = window.localStorage.getItem("source") || defaultSource;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   let truncatedText = item.client.client_name;
-  
-  const screenWidth = window.innerWidth;
-  // const { data , isLoading } = useGetDownloadInvoice(item.id!);
+  const [orderId, setOrderId] = useState('');
+  const { loggedIn, firebaseToken } = useSelector((state: RootState) => state.user);
+  const { data = [], isLoading } = useGetReOrder(orderId);
 
-  // useEffect(()=>{
-  //   console.log("data",typeof data);
-  // },[data]);
+  const screenWidth = window.innerWidth;
+
+
 
 
   const createdAt = new Date(item.created_at);
@@ -76,6 +85,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
   // }
 
 
+
   // Use to naviagte to phonePay Url
   // useEffect(() => {
   //   const fetchPaymentData = async () => {
@@ -97,10 +107,10 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
 
   if (screenWidth <= 380 && truncatedText.length > 0) {
     const halfLength = Math.ceil(truncatedText.length / 2);
-    truncatedText = truncatedText.substring(0, halfLength)+ '...';;
+    truncatedText = truncatedText.substring(0, halfLength) + '...';;
   }
 
-  
+
 
   const total = Object.keys(item.total_amount_breakup)
     .reduce((acc, key) => acc + item.total_amount_breakup[key], 0);
@@ -169,7 +179,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
               className={`text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 py-1 flex items-center justify-center`}>
               Track Order
             </button>
-            {/* <button
+ {/* <button
               onClick={() => {
                 if (item.status === 'COMPLETED') {
                   downloadOrderDetails();
@@ -181,7 +191,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 }`}
             >
               {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
-            </button> */}
+ </button> */}
 
           </div>
         ) : (
@@ -241,7 +251,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                   return (
                     <div className="flex flex-row justify-between mb-3" key={i}>
                       <h5 className="ml-6 font-normal text-[10px]">{key} :</h5>
-                      <h5 className="mr-6 font-semibold text-grey text-[12px]">
+                      <h5 className="mr-[18px] font-semibold text-grey text-[12px]">
                         <span>&#8377;</span>
                         {item.total_amount_breakup[key]}
                       </h5>
@@ -253,7 +263,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
             <hr className="bg-silver  mx-3 my-3" />
             <div className="w-full h-[42px] bg-green-finn px-5 font-bold text-blue-oxford flex flex-row items-center justify-between">
               <h4 className="text-[10px]">Total Price</h4>
-              <h4 className="text-[15px] px-2">
+              <h4 className="text-[15px]">
                 <span>&#8377;</span>{total}
               </h4>
             </div>
@@ -276,7 +286,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 className={`h-8 text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 flex items-center justify-center`}>
                 Track Order
               </button>
-              {/* <button
+ {/* <button
                 onClick={() => {
                   if (item.status === 'COMPLETED') {
                     downloadOrderDetails();
@@ -288,7 +298,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                   }`}
               >
                 {item.status === 'AWAITING_PAYMENT' ? 'Retry Payment' : 'Download Invoice'}
-              </button> */}
+ </button> */}
             </div>
           </div>
         )}
@@ -296,3 +306,5 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
     </>
   );
 };
+
+
