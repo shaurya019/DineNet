@@ -8,6 +8,7 @@ import EditItems from "@assets/icons/Edit"
 import { defaultClientId, defaultSource } from '@/utils/constants';
 
 interface OrderDetailsProps {
+  meals: any[];
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
   setOutOfStock: React.Dispatch<React.SetStateAction<boolean>>;
   add: boolean;
@@ -18,7 +19,7 @@ interface OrderDetailsProps {
   setInstruction: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const OrderDetails = ({ setRefresh,setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction }: OrderDetailsProps) => {
+export const OrderDetails = ({ meals,setRefresh,setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction, }: OrderDetailsProps) => {
 
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
@@ -51,18 +52,28 @@ export const OrderDetails = ({ setRefresh,setOutOfStock, add, setAdd, save, setS
     setAdd(true);
   };
 
+  const checkAvailability = (productId:any) => {
+    const product = meals.find(item => item.id === productId);
+    return product ? product.isAvailable : false;
+  };
+
+
   return (
     <>
       <StripeComponent title="Order Details" />
       <div className='flex flex-col px-3.5 py-3.5'>
-        {Object.keys(items).map(itemId => (
-           <CartData
+      {Object.keys(items).map(itemId => {
+        const isAvailable = checkAvailability(itemId);
+        return (
+          <CartData
             key={itemId}
             item={items[itemId]}
+            isAvailable={isAvailable}  // Passing availability status
             setRefresh={setRefresh}
             setOutOfStock={setOutOfStock}
-          /> 
-        ))}
+          />
+        );
+      })}
       </div>
       <hr className="bg-silver  w-full" />
       <div className="bg-white text-greenCyan px-3.5 py-3 flex flex-row justify-between items-center">

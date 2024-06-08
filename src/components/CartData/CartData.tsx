@@ -4,12 +4,13 @@ import AddToCartButton from "../AddToCartButton";
 
 interface OrderDetailsProps {
   item: any;
+  isAvailable: any;
   setRefresh?: React.Dispatch<React.SetStateAction<boolean>>;
   setOutOfStock: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 
-export const CartData = ({ item, setRefresh, setOutOfStock }: OrderDetailsProps) => {
+export const CartData = ({ item, setRefresh, setOutOfStock, isAvailable }: OrderDetailsProps) => {
   const { name, serves, price, nonVeg } = item;
   if (!item.availability) {
     setOutOfStock(true);
@@ -27,7 +28,7 @@ export const CartData = ({ item, setRefresh, setOutOfStock }: OrderDetailsProps)
             </h4>
           </div>
         </div>
-        {!item.availability && <h4 className="mt-2 font-medium text-xs text-red-dark text-ellipsis">
+        {isAvailable && <h4 className="mt-2 font-medium text-xs text-red-dark text-ellipsis">
           Out of Stock
         </h4>}
       </div>
