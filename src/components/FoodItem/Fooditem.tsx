@@ -3,6 +3,7 @@ import React, { useRef } from "react";
 import TruncatedParagraph from "../TruncatedParagraph";
 import AddToCartButton from "../AddToCartButton";
 import Veg from '../../assets/icons/Veg';
+import defaultImage from '../../logo.svg';
 
 interface IFooditem {
   data: any;
@@ -13,10 +14,11 @@ export const Fooditem = ({ data,kitchenSetup }: IFooditem) => {
   return (
     <div className="flex flex-row gap-2 border-b p-1 py-2 mb-2">
       <div className="flex h-24 w-24">
-        <img
+      <img
           ref={ref}
           className=""
           src={data.thumbnail_url}
+          alt={data.product_name}
           onError={() => {
             if (ref.current) ref.current.src = "/assets/default_food.png";
           }}

@@ -4,13 +4,13 @@ import React from 'react'
 interface InputFormComponentProps {
   submit: boolean;
   final: boolean;
-  phone: string;
+  // phone: string;
   name: string;
-  setPhone: React.Dispatch<React.SetStateAction<string>>;
+  // setPhone: React.Dispatch<React.SetStateAction<string>>;
   setName: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const InputFormComponent: React.FC<InputFormComponentProps> = ({ submit, final, phone, name, setPhone, setName }) => {
+export const InputFormComponent: React.FC<InputFormComponentProps> = ({ submit, final, name, setName }) => {
   return (
     <div className="flex flex-col mx-3.5 mb-4">
        { submit && (name === '') ? <h5 className='mx-4 mt-3 text-red-dark text-[10px] font-medium'>Please Fill The Required Details</h5> : ''}

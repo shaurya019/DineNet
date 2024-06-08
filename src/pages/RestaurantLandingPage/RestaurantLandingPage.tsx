@@ -19,14 +19,14 @@ enum FilterValue {
   none,
   veg,
   nonVeg,
+  recommended
 }
 
 export const RestaurantLandingPage = () => {
   const location = useLocation();
-  const clientId = getQueryParam(location.search, "clientId") || defaultClientId;
-
+  const clientId = getQueryParam(location.search, "clientid") || defaultClientId;
   const source = getQueryParam(location.search, "source") || defaultSource;
-  const { data = [], isLoading } = useGetClientProducts(clientId);
+  const { data = { category_map: [] }, isLoading } = useGetClientProducts(clientId);
 
   const { kitchenSetup, openTime } = useGetKitchenTiming({
     open_Time: data.client?.open_time || defaultOpenTime,
@@ -36,8 +36,8 @@ export const RestaurantLandingPage = () => {
   const [filteredData, setFilteredData] = useState(data.category_map);
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
+  const [hasNonVegProducts, setHasNonVegProducts] = useState(true);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
-
 
 
 
@@ -46,6 +46,20 @@ export const RestaurantLandingPage = () => {
     window.localStorage.setItem("source", source);
   }, [clientId, source]);
 
+  useEffect(() => {
+    const nonVegCheck = data.category_map?.some((category: any) =>
+      category.products.some((product: any) => product.non_veg)
+    );
+    console.log("nonVegCheck", nonVegCheck);
+    setHasNonVegProducts(nonVegCheck);
+    if (filter === FilterValue.veg && nonVegCheck) {
+      setFilter(FilterValue.none);
+    }
+    if (!nonVegCheck) {
+      console.log("data", nonVegCheck);
+      setFilter(FilterValue.veg);
+    }
+  }, [data, hasNonVegProducts]);
 
 
   useEffect(() => {
@@ -56,11 +70,14 @@ export const RestaurantLandingPage = () => {
       if (filter === FilterValue.nonVeg) {
         return product.non_veg;
       }
+      if (filter === FilterValue.recommended) {
+        return product.recommended;
+      }
       return true;
     };
 
     let updatedFilteredData: any[] = [];
-    if (searchQuery || filter) {
+    if (searchQuery || filter !== FilterValue.none) {
       updatedFilteredData = data.category_map.map((category: any) => ({
         ...category,
         products: category.products.filter((item: any) =>
@@ -73,11 +90,12 @@ export const RestaurantLandingPage = () => {
     setFilteredData(updatedFilteredData);
   }, [searchQuery, data.category_map, filter]);
 
-
-
   const toggleFilter = (value: FilterValue) => {
-    if (filter !== FilterValue.none) setFilter(FilterValue.none);
-    else setFilter(value);
+    if (filter === value) {
+      setFilter(FilterValue.none);
+    } else {
+      setFilter(value);
+    }
   };
 
   const handleCategoryClick = (index: number) => {
@@ -89,7 +107,6 @@ export const RestaurantLandingPage = () => {
       });
     }
   };
-
 
   if (isLoading)
     return (
@@ -113,17 +130,23 @@ export const RestaurantLandingPage = () => {
             selected={filter === FilterValue.veg}
             selectedColor="bg-green-600"
           />
-          <Filter
+          {hasNonVegProducts && <Filter
             onSelect={() => toggleFilter(FilterValue.nonVeg)}
             title="Non Veg"
             selected={filter === FilterValue.nonVeg}
-            selectedColor="bg-orange-700"
+            selectedColor="bg-red-500"
+          />}
+          <Filter
+            onSelect={() => toggleFilter(FilterValue.recommended)}
+            title="Recommended"
+            selected={filter === FilterValue.recommended}
+            selectedColor="bg-blue-600"
           />
         </div>
         {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
       </div>
       <div className="flex flex-col overflow-auto max-h-full mb-12">
-        {(filteredData && filteredData[0]) ? filteredData.map?.((category: any, index: number) => (
+        {(filteredData && filteredData.length > 0) ? filteredData.map((category: any, index: number) => (
           <AccordionItem
             key={category.id}
             defaultState={true}
@@ -140,4 +163,3 @@ export const RestaurantLandingPage = () => {
     </div>
   );
 };
-
