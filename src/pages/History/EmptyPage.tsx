@@ -7,20 +7,20 @@ import { useDispatch } from "react-redux";
 
 const EmptyPage = ({Order}:any) => {
 
-    const LoggInCreds = window.localStorage.getItem("firebaseToken");
+    // const LoggInCreds = window.localStorage.getItem("firebaseToken");
 
-    const [isFirstRender,setIsFirstRender] = useState(true);
-    const dispatch = useDispatch();
+    // const [isFirstRender,setIsFirstRender] = useState(true);
+    // const dispatch = useDispatch();
     
-    useEffect(()=>{
-      if(LoggInCreds===null && isFirstRender){
-        dispatch(showAlert({
-          message: "",
-          type: AlertType.login,
-        }));
-        setIsFirstRender(false);
-      }
-    },[LoggInCreds]);
+    // useEffect(()=>{
+    //   if(LoggInCreds===null && isFirstRender){
+    //     dispatch(showAlert({
+    //       message: "",
+    //       type: AlertType.login,
+    //     }));
+    //     setIsFirstRender(false);
+    //   }
+    // },[LoggInCreds]);
 
     
   return (
