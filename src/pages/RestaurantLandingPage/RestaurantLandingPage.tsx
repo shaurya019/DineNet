@@ -39,7 +39,7 @@ export const RestaurantLandingPage = () => {
   const [hasNonVegProducts, setHasNonVegProducts] = useState(true);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
 
- 
+
 
   useEffect(() => {
     window.localStorage.setItem("clientId", clientId);
@@ -52,10 +52,14 @@ export const RestaurantLandingPage = () => {
     );
     console.log("nonVegCheck", nonVegCheck);
     setHasNonVegProducts(nonVegCheck);
-    if (nonVegCheck) {
+    if (filter === FilterValue.veg && nonVegCheck) {
+      setFilter(FilterValue.none);
+    }
+    if (!nonVegCheck) {
+      console.log("data", nonVegCheck);
       setFilter(FilterValue.veg);
     }
-  }, [data]);
+  }, [data, hasNonVegProducts]);
 
 
   useEffect(() => {
