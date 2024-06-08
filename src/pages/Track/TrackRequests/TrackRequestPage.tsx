@@ -14,19 +14,6 @@ export const TrackRequestPage = () => {
 
   const { data = [], isLoading } = useGetComplimentaryProductData(Order!);
 
-  useEffect(()=>{
-    if(data!=null  && data.length > 0){
-      if(data.status!==null){
-        if(data.status==="PLACED"){
-          setStatus("0");
-        } else if(data.status==="COMPLETED"){
-          setStatus("2");
-        }else{
-          setStatus("1");
-        }
-      }
-    }
-  },[data]);
 
   if (isLoading) return (
     <div className="flex flex-1 items-center justify-center h-screen">
@@ -40,8 +27,7 @@ export const TrackRequestPage = () => {
     <Nav title="Request Details"  show="True" showEmpty="False"/> 
     <div className='py-9 flex flex-row bg-greenCyan text-white justify-evenly items-center'>
     <div className='flex-col'>
-       <h3 className='font-bold text-xl'>Completion Time</h3>
-       <h3 className='font-semibold text-xl'>09:00 PM</h3>
+       <h3 className='font-bold text-xl'>{data.client?.client_title}</h3>
        </div>
        <div className="h-12 border-l border-gray-300"></div>
        <div className='flex-col'>
@@ -54,7 +40,7 @@ export const TrackRequestPage = () => {
 
     </div>
     <div className='mt-7 mb-20'>
-    <ProgressComp one="Request Placed" two="Request Accepted " third="Completed" value={status}/>
+    <ProgressComp one="Request Placed" two="Request Accepted " third="Completed" value={data.status}/>
     </div>
    <BottomSubmit Heading="Back To Home" path="RestaurantLandingPage"/>
 </div>
