@@ -64,7 +64,7 @@ export const PaymentMadePage = () => {
     <>
       <Nav title="Payment" show="True" showEmpty="False" />
       <StripeComponent title="Order Details" />
-      <InputFormComponent final={final} submit={submit} phone={phonex} name={namex} setPhone={setPhonex} setName={setNamex} />
+      <InputFormComponent final={final} submit={submit} name={namex} setName={setNamex} />
       {/* <div className="bg-green-light text-white py-2 px-3.5 flex justify-between items-center">
         <div className="flex items-left">
           <span className="font-semibold text-xs text-green-mineral">Choose Payment Method</span>
@@ -73,8 +73,7 @@ export const PaymentMadePage = () => {
       <PaymentMethodChoose submit={submit} final={final} setSubmit={setSubmit} Option={selectedOption} SelectedOption={setSelectedOption} /> */}
       <BillDetailsComp totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
  {/* <BottomNoteComp /> */}
-      <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} instruction={instruction}
-        ChooseOption="OFFLINE"
+      <BottomSubmit Heading="Place Order" phone={phonex} name={namex} submit={submit} setSubmit={setSubmit} setFinal={setFinal} instruction={instruction} ChooseOption="OFFLINE"
         path="OrderPage" />
     </>
   )

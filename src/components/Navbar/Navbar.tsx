@@ -51,7 +51,7 @@ export const Navbar : React.FC<NavbarProps> = ({title,show,showEmpty}) => {
         <div>
         {showEmpty === "True" && (<button onClick={handleOpenAlert}> <h4 className="font-semibold text-sm">Empty Cart</h4></button>)}
        
-        <CustomAlert isOpen={isOpen} message="Are you sure you want to empty your cart ?" onClose={handleCloseAlert}  clearCart={clearCartFunction} />
+        <CustomAlert title="Empty Cart" isOpen={isOpen} perform="Empty cart" message="Are you sure you want to empty your cart ?" onClose={handleCloseAlert}  clearCart={clearCartFunction} />
         </div>
       </div>
     );

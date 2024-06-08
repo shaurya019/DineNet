@@ -9,6 +9,7 @@ import { usePostComplimentaryOrder } from '@/hooks/usePostComplimentaryOrder'
 import LoginModal from '@/components/Login';
 import { AlertType, showAlert } from "@/service/Slice/alertSlice";
 import { defaultClientId, defaultSource } from '@/utils/constants';
+import { CustomAlert } from '@/components/CustomAlert/CustomAlert';
 
 interface BottomSubmitComponentProps {
   Heading: string;
@@ -31,6 +32,7 @@ interface BottomSubmitComponentProps {
 
 export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ Heading, outOfStock, submit, setSubmit, imageFile, productId, textRequest, path, category, areaValue, requestText, ChooseOption, phone, name, setFinal, instruction }) => {
   const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
+  const [isOpen, setIsOpen] = useState(false);
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
 
@@ -73,6 +75,16 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
     navigate('/order', { replace: true, state: { Order } });
   };
 
+  const handleOpenAlert = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseAlert = () => {
+    setSubmit?.(false);
+    setFinal?.(false);
+    setIsLoading(false);
+    setIsOpen(false);
+  };
 
   // Use to naviagte to phonePay Url
   useEffect(() => {
@@ -110,12 +122,9 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
         }
         break;
       case "OrderPage":
+        handleOpenAlert();
+        break;
       case "RequestCart":
-        // if (loggedIn || ChooseOption === 'ONLINE') {
-        //   handleCreateOrder();
-        // } else {
-        //   setShowOtpModal(true)
-        // }
         handleCreateOrder();
         break;
       default:
@@ -163,6 +172,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
   }
 
 
+
   const handleCloseOtpModal = (action: string) => {
     if (action === "otp") {
       window.localStorage.removeItem("loginCredentials");
@@ -205,7 +215,10 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({ He
 
   return (
     <div className='fixed bottom-0 w-full bg-white border-t-whiteSmoke mt-10 py-3 px-2.5' style={{ boxShadow: '0 -4px 4px 0px rgba(0, 0, 0, 0.07)', minHeight: '60px' }}>
-      {showOtpModal && <LoginModal closeModal={handleCloseOtpModal} phone={phone} />}
+      {/* {showOtpModal && <LoginModal closeModal={handleCloseOtpModal} phone={phone} />} */}
+      {isOpen && <CustomAlert title="Place Order" perform="Place order" isOpen={isOpen} message="Are you sure you want to place the order?" onClose={handleCloseAlert}
+        clearCart={handleCreateOrder}
+      />}
       <div className="bg-greenCyan text-center py-3 rounded-2xl"
         onClick={handleOnSubmit}
       >
