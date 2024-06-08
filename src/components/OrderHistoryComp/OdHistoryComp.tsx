@@ -175,8 +175,8 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
         {expanded === true ? (
           <div className="h-16 rounded-b-[20px] items-center border border-t-none border-solid border-grey-gallery flex flex-row px-5 justify-between">
             <button
-              onClick={item.status === 'PLACED' ? trackOrderDetails : undefined}
-              className={`text-[10px] rounded-md ${item.status === 'PLACED' ? 'border border-solid rounded-md' : ''} ${item.status === 'PLACED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 py-1 flex items-center justify-center`}>
+              onClick={item.status !== 'COMPLETED' ? trackOrderDetails : undefined}
+              className={`text-[10px] rounded-md ${item.status !== 'COMPLETED' ? 'border border-solid rounded-md' : ''} ${item.status !== 'COMPLETED' ? 'bg-grey-matterhorn' : 'bg-white'}  text-white px-4 py-1 flex items-center justify-center`}>
               Track Order
             </button>
  {/* <button
