@@ -36,7 +36,6 @@ export const AddToCartButton = ({ item, setRefresh, kitchenSetup }: IAddToCartBu
         },
       })
     );
-    console.log("Name",item.id," ",item.product_name," ",item.price," ",item.tags);
   }
 
   const handleRemoveItem = () => {

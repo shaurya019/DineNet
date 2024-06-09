@@ -82,9 +82,9 @@ const cartSlice = createSlice({
         if (item.qty > 1) {
           item.qty--;
           clientCart.totalPrice -= item.price;
+          clientCart.totalCartItems -= 1;
         } else {
-          console.log("COMING HERE", item.tags);
-          if (typeof item.tags !== "string") {
+          if (item.tags && Array.isArray(item.tags)) {
             item.tags.forEach(tag => {
               const index = clientCart.cartTags.indexOf(tag);
               if (index !== -1) {
@@ -93,16 +93,12 @@ const cartSlice = createSlice({
             });
           }
           clientCart.totalPrice -= item.price;
+          clientCart.totalCartItems -= item.qty;
           delete clientCart.items[itemId];
         }
       }
-      if (clientCart) {
-        clientCart.totalCartItems = calculateTotalCartItems(clientCart.items);
-        if (Object.keys(clientCart.items).length === 0) {
-          clientCart.totalPrice = 0;
-        }
-      }
     },
+
     removeItem(state, action: PayloadAction<{ clientId: string; source: string; itemId: string }>) {
       const { clientId, source, itemId } = action.payload;
       const clientCart = state.carts[clientId]?.[source];
