@@ -55,6 +55,10 @@ module.exports = {
           DEFAULT: "#4E7065",
           light:"#4E706580"
         },
+        greyCyan: {
+          DEFAULT: "#d3d3d3",
+          light:"#d3d3d3"
+        },
         silver: {
           DEFAULT: "#c4c4c4",
           light: "#D8D8D8",

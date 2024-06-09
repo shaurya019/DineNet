@@ -69,7 +69,7 @@ export default class Axios implements IAxios {
         if (error.response && error.message) {
           console.log("Response data:", error.response.data);
           console.log("Response status:", error.response.status);
-          console.log("Response message:", error.message);
+          console.log("Response message:", error?.response?.data?.message || error.message);
           if (error.response.status === 401) {
             console.log("user", error.response.status);
             window.localStorage.removeItem("authToken");
@@ -79,7 +79,7 @@ export default class Axios implements IAxios {
           }
         }
 
-        window.localStorage.setItem("error", JSON.stringify({ type: "error", message: error.message }) as any);
+        window.localStorage.setItem("error", JSON.stringify({ type: "error", message: error?.response?.data?.message || error.message }) as any);
 
       }
     );

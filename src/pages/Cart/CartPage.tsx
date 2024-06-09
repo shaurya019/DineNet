@@ -32,6 +32,7 @@ export const CartPage = () => {
   const { totalTax, taxList } = useTaxCalculation();
 
   const [meal, setMeal] = useState<any[]>([]);
+  const [filteredData, setFilteredData] = useState<any[]>([]);
   const [outOfStock, setOutOfStock] = useState(false);
   const [refresh, setRefresh] = useState(false);
   const [add, setAdd] = useState<boolean>(false);
@@ -44,12 +45,13 @@ export const CartPage = () => {
 
   useEffect(() => {
     if (data && data?.category_map) {
-      const filteredData = data.category_map?.flatMap((category: any) => category.products);
-      const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
+      const filtered_data = data.category_map?.flatMap((category: any) => category.products);
+      const filteredProducts = filtered_data.filter((product: any) => !items[product.id]);
       const MealProducts = filteredProducts.filter((product: any) =>
         product.tags?.some((tag: any) => cartTags.includes(tag))
       );
       setMeal(MealProducts);
+      setFilteredData(filtered_data);
     }
   }, [cartTags, data, items]);
 
@@ -96,6 +98,7 @@ export const CartPage = () => {
             instruction={instruction}
             setInstruction={setInstruction}
             meals={meal}
+            filteredData={filteredData}
           />
           {meal.length > 0 && <StripeComponent title="Complete meal with add ons" />}
           {meal.length > 0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}

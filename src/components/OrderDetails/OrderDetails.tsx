@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { StripeComponent } from '../ContainerCart/StripeComponent';
 import { CartData } from '../CartData/CartData';
@@ -17,9 +17,10 @@ interface OrderDetailsProps {
   setSave: React.Dispatch<React.SetStateAction<boolean>>;
   instruction: string;
   setInstruction: React.Dispatch<React.SetStateAction<string>>;
+  filteredData: any[];
 }
 
-export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction, }: OrderDetailsProps) => {
+export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction, filteredData}: OrderDetailsProps) => {
   console.log("meals", meals);
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
@@ -53,12 +54,15 @@ export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, sa
   };
 
   const checkAvailability = (productId: any) => {
-    const product = meals.find(item => item.id === productId);
-    console.log("PRODUCT", product);
-    return product ? product.isAvailable : false;
+    const product = filteredData.filter((item :any) => item.id == productId);
+    console.log(productId, "PRODUCT", filteredData, product);
+    return product[0] ? product[0].availability : false;
   };
 
-
+  useEffect(() => {
+    const availabilty = filteredData.filter((item :any) => Object.keys(items).includes(`${item.id}`)).map(item => item?.availability);
+    !availabilty.includes(false) && setOutOfStock(false);
+  },[carts]);
   return (
     <>
       <StripeComponent title="Order Details" />
@@ -68,10 +72,11 @@ export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, sa
           return (
             <CartData
               key={itemId}
-              item={items[itemId]}
+              item={filteredData.filter((item :any) => item.id == itemId)?.[0] || {}}
               isAvailable={isAvailable}  // Passing availability status
               setRefresh={setRefresh}
               setOutOfStock={setOutOfStock}
+              carts={carts}
             />
           );
         })}
