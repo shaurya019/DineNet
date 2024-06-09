@@ -7,10 +7,8 @@ import BottonTabs from "@components/BottomTabs";
 import LandingHeader from "@/components/LandingHeader";
 import FoodCategoryMenu from "@/components/FoodCategoryMenu";
 import { useGetClientProducts } from "@/hooks/useGetClientProducts";
-import FingerprintJS from '@fingerprintjs/fingerprintjs';
 import { useLocation } from "react-router";
 import { getQueryParam } from "@/utils/routerUtils";
-import _ from "lodash";
 import Loader from "@/atomicComponents/Loader";
 import useGetKitchenTiming from "@/hooks/useGetKitchenTiming";
 import { defaultClientId, defaultSource, defaultCloseTime, defaultOpenTime } from "@/utils/constants";
@@ -39,9 +37,8 @@ export const RestaurantLandingPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState<FilterValue | string>(FilterValue.none);
   const [hasNonVegProducts, setHasNonVegProducts] = useState(true);
+  const [hasRecommendedProducts, setHasRecommendedProducts] = useState(false);
   const itemsRef = useRef<Array<HTMLDivElement | null>>([]);
-
-
 
   useEffect(() => {
     window.localStorage.setItem("clientId", clientId);
@@ -59,8 +56,12 @@ export const RestaurantLandingPage = () => {
     if (!nonVegCheck) {
       setFilter(FilterValue.veg);
     }
-  }, [data, hasNonVegProducts]);
 
+    const recommendedCheck = data.category_map?.some((category: any) =>
+      category.products.some((product: any) => product.recommended)
+    );
+    setHasRecommendedProducts(recommendedCheck);
+  }, [data, hasNonVegProducts]);
 
   useEffect(() => {
     const testFilter = (product: any): boolean => {
@@ -136,12 +137,12 @@ export const RestaurantLandingPage = () => {
             selected={filter === FilterValue.nonVeg}
             selectedColor="bg-red-500"
           />}
-          <Filter
+          {hasRecommendedProducts && <Filter
             onSelect={() => toggleFilter(FilterValue.recommended)}
             title="Recommended"
             selected={filter === FilterValue.recommended}
             selectedColor="bg-blue-600"
-          />
+          />}
         </div>
         {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
       </div>
