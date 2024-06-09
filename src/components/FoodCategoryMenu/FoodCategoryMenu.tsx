@@ -18,20 +18,22 @@ export const FoodCategoryMenu = ({ data, onClick }: IFoodCategoryMenu) => {
     <>
       <FloatingButton onClick={toggleOpen} />
       {isOpen && (
-        <SideMenu onClose={toggleOpen}>
-          <div className="flex flex-col gap-1">
-            {data.map((category: any, index: number) => (
-              <div
-                className="px-3 py-4 border cursor-pointer"
-                onClick={() => handleClick(index)}
-              >
-                <h4 className="text-xs text-grey capitalize">
-                  {category.category_name}
-                </h4>
-              </div>
-            ))}
-          </div>
-        </SideMenu>
+       <SideMenu onClose={toggleOpen}>
+       <div className="flex flex-col gap-1 h-full">
+         {data.map((category: any, index: number) => (
+           <div
+             key={index}
+             className="px-3 py-4 border cursor-pointer"
+             onClick={() => handleClick(index)}
+           >
+             <h4 className="text-xs text-grey capitalize">
+               {category.category_name}
+             </h4>
+           </div>
+         ))}
+       </div>
+     </SideMenu>
+     
       )}
     </>
   );
