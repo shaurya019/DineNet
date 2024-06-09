@@ -28,8 +28,8 @@ export const CartPage = () => {
   const totalPrice = cartData ? cartData.totalPrice : 0;
   const cartTags = cartData ? cartData.cartTags : [];
   const itemCount = Object.keys(items).length;
-  const { totalTax, taxList } = useTaxCalculation();
   const { data = [], isLoading } = useGetClientProducts(clientId, cartTags);
+  const { totalTax, taxList } = useTaxCalculation();
 
   const [meal, setMeal] = useState<any[]>([]);
   const [outOfStock, setOutOfStock] = useState(false);
@@ -43,7 +43,7 @@ export const CartPage = () => {
   const [selectedOption, setSelectedOption] = useState<string>('Option3');
 
   useEffect(() => {
-    if (data && data.category_map) {
+    if (data && data?.category_map) {
       const filteredData = data.category_map?.flatMap((category: any) => category.products);
       const filteredProducts = filteredData.filter((product: any) => !items[product.id]);
       const MealProducts = filteredProducts.filter((product: any) =>

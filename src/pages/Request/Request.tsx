@@ -11,7 +11,7 @@ import { jwtDecode } from "jwt-decode";
 interface JwtPayload {
     name?: string;
 }
-  
+
 
 export const Request = () => {
 
@@ -33,18 +33,18 @@ export const Request = () => {
         console.log('token found in local storage');
         // Retrieve the token from local storage
         const storedToken = localStorage.getItem('authToken');
-    
+
         // Check if the token exists
         if (storedToken) {
-          const decoded: JwtPayload = jwtDecode(storedToken);
-          const name = decoded.name || '';
+            const decoded: JwtPayload = jwtDecode(storedToken);
+            const name = decoded.name || '';
             setNamex(name);
             console.log("Name", name);
         } else {
-          console.log('No token found in local storage');
+            console.log('No token found in local storage');
         }
     }, []);
-    
+
 
     useEffect(() => {
         if (textareaRef.current) {
@@ -94,14 +94,14 @@ export const Request = () => {
                                 <UpwardArrow />
                             </div>
                             <div className="w-full text-left py-2 text-grey-dark text-xs max-h-[50vh] overflow-y-auto">
-                                {(data && data[0]) ? data?.map((x: any , index: number) => (
+                                {(data && data[0]) ? data?.map((x: any, index: number) => (
                                     <>
                                         <div className="px-4" key={x.id} onClick={() => handleItemClick(x.product_name, x.id)}>
                                             {x.product_name}
                                         </div>
-                                        {index !== data?.length-1 && <hr className="my-1" />}
+                                        {index !== data?.length - 1 && <hr className="my-1" />}
                                     </>
-                                )) : <h1>Data Not Found</h1>}
+                                )) : <h1>No Such Item</h1>}
                             </div>
                         </button>
                     )}

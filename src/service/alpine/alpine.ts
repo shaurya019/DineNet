@@ -86,6 +86,7 @@ export class Alpine {
   };
   postOrderDetails = (name: any, phone: any, instruction: any, firebaseToken: any, ChooseOption: any, items: any, clientId: any, source: any) => {
     const paymentSource = 'OFFLINE';
+    console.log("instruction postOrderDetails", instruction);
     const orderItems = Object.values(items).map((item: any) => ({
       quantity: item.qty,
       product_id: item.id,

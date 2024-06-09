@@ -46,11 +46,11 @@ export const MealAddOnsComponent: React.FC<MealAddOnsProps> = ({ meal, refresh, 
 
   return (
     <div className="flex-col w-28 h-38 rounded-md shadow-lg items-center" style={{ boxShadow: '0 4px 4px rgba(0, 0, 0, 0.25)' }}>
-      <div className="bg-gray-200 h-[59px] rounded-md m-[5px]">
+      <div className="bg-gray-200 h-[110px] rounded-md m-[5px]">
 
         <img
           ref={ref}
-          className="w-28 h-[59px] object-cover"
+          className="w-28 h-[110px] object-cover"
           src={meal.thumbnail_url}
           onError={() => {
             if (ref.current) ref.current.src = "/assets/default_food.png";

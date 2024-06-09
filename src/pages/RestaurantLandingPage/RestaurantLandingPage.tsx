@@ -24,8 +24,10 @@ enum FilterValue {
 
 export const RestaurantLandingPage = () => {
   const location = useLocation();
-  const clientId = getQueryParam(location.search, "clientid") || defaultClientId;
-  const source = getQueryParam(location.search, "source") || defaultSource;
+  const localClientId = window.localStorage.getItem("clientId") || defaultClientId;
+  const localSource = window.localStorage.getItem("source") || defaultSource;
+  const clientId = getQueryParam(location.search, "clientid") || getQueryParam(location.search, "clientId") || localClientId;
+  const source = getQueryParam(location.search, "source") || localSource;
   const { data = { category_map: [] }, isLoading } = useGetClientProducts(clientId);
 
   const { kitchenSetup, openTime } = useGetKitchenTiming({
@@ -76,7 +78,7 @@ export const RestaurantLandingPage = () => {
 
     let updatedFilteredData: any[] = [];
     if (searchQuery || filter !== FilterValue.none) {
-      updatedFilteredData = data.category_map.map((category: any) => ({
+      updatedFilteredData = data?.category_map?.map((category: any) => ({
         ...category,
         products: category.products.filter((item: any) =>
           new RegExp(`${searchQuery}`, 'i').test(item.product_name) && testFilter(item)
@@ -144,7 +146,7 @@ export const RestaurantLandingPage = () => {
         {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
       </div>
       <div className="flex flex-col overflow-auto max-h-full mb-12 ">
-        {(filteredData && filteredData.length > 0) ? filteredData.map((category: any, index: number) => (
+        {(filteredData && filteredData.length > 0) ? filteredData?.map((category: any, index: number) => (
           <AccordionItem
             key={category.id}
             defaultState={true}
@@ -152,11 +154,11 @@ export const RestaurantLandingPage = () => {
             color="green"
             isLast={index === filteredData.length - 1}
           >
-            {category.products.map((item: any) => (
+            {category.products?.map((item: any) => (
               <Fooditem key={item.id} data={item} kitchenSetup={kitchenSetup} />
             ))}
           </AccordionItem>
-        )) : <h1>Data Not found</h1>}
+        )) : <h1>No Such Item</h1>}
       </div>
       <BottonTabs kitchenSetup={kitchenSetup} />
     </div>

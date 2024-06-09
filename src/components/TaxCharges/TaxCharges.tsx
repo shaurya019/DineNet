@@ -8,6 +8,12 @@ interface TaxChargesProps {
 }
 
 export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax, taxList }) => {
+  // Transform the taxList to remove underscores and convert keys to uppercase
+  const transformedTaxList = taxList.map(tax => ({
+    ...tax,
+    key: tax.key.replace(/_/g, '').toUpperCase(),
+  }));
+
   return (
     <>
       <StripeComponent title="Bill Details" />
@@ -21,7 +27,7 @@ export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax, ta
           </div>
           {totalTax > 0 && <hr className="bg-silver mx-4 my-3" />}
           <div className="flex flex-col">
-            {taxList.map((tax, index) => (
+            {transformedTaxList.map((tax, index) => (
               <div key={index} className="flex flex-row py-2.5 justify-between">
                 <div className="flex items-center">
                   <span className="font-normal text-xs">{tax.key} :</span>

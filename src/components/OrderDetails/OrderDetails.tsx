@@ -19,14 +19,14 @@ interface OrderDetailsProps {
   setInstruction: React.Dispatch<React.SetStateAction<string>>;
 }
 
-export const OrderDetails = ({ meals,setRefresh,setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction, }: OrderDetailsProps) => {
-
+export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction, }: OrderDetailsProps) => {
+  console.log("meals", meals);
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
   const { carts } = useSelector((state: RootState) => state.cart);
   const clientCart = carts[clientId]?.[source];
   const items = clientCart ? clientCart.items : {};
- 
+
 
   const handleChange = (e: any) => {
     setInstruction(e.target.value);
@@ -39,7 +39,7 @@ export const OrderDetails = ({ meals,setRefresh,setOutOfStock, add, setAdd, save
     navigate(`/?clientId=${clientId}`);
   };
 
-  const saveThings = () => { 
+  const saveThings = () => {
     setSave(true);
   };
 
@@ -52,8 +52,9 @@ export const OrderDetails = ({ meals,setRefresh,setOutOfStock, add, setAdd, save
     setAdd(true);
   };
 
-  const checkAvailability = (productId:any) => {
+  const checkAvailability = (productId: any) => {
     const product = meals.find(item => item.id === productId);
+    console.log("PRODUCT", product);
     return product ? product.isAvailable : false;
   };
 
@@ -62,18 +63,18 @@ export const OrderDetails = ({ meals,setRefresh,setOutOfStock, add, setAdd, save
     <>
       <StripeComponent title="Order Details" />
       <div className='flex flex-col px-3.5 py-3.5'>
-      {Object.keys(items).map(itemId => {
-        const isAvailable = checkAvailability(itemId);
-        return (
-          <CartData
-            key={itemId}
-            item={items[itemId]}
-            isAvailable={isAvailable}  // Passing availability status
-            setRefresh={setRefresh}
-            setOutOfStock={setOutOfStock}
-          />
-        );
-      })}
+        {Object.keys(items).map(itemId => {
+          const isAvailable = checkAvailability(itemId);
+          return (
+            <CartData
+              key={itemId}
+              item={items[itemId]}
+              isAvailable={isAvailable}  // Passing availability status
+              setRefresh={setRefresh}
+              setOutOfStock={setOutOfStock}
+            />
+          );
+        })}
       </div>
       <hr className="bg-silver  w-full" />
       <div className="bg-white text-greenCyan px-3.5 py-3 flex flex-row justify-between items-center">
@@ -94,23 +95,23 @@ export const OrderDetails = ({ meals,setRefresh,setOutOfStock, add, setAdd, save
               placeholder="Add instructions..."
               value={instruction}
               onChange={handleChange}
-              style={{ width: '100%'}}
+              style={{ width: '100%' }}
               readOnly={save}
               className="focus:outline-none"
             />
-            {instruction.length > 0 ? 
-            <div>
-            {
-              save ?
-              <button onClick={editThings} className="text-green-willam font-bold text-xs"><EditItems /></button>
+            {instruction.length > 0 ?
+              <div>
+                {
+                  save ?
+                    <button onClick={editThings} className="text-green-willam font-bold text-xs"><EditItems /></button>
+                    :
+                    <button onClick={saveThings} className="text-green-willam font-bold text-xs">SAVE</button>
+                }
+              </div>
               :
-              <button onClick={saveThings} className="text-green-willam font-bold text-xs">SAVE</button>
-            }
+              ''}
           </div>
-             : 
-            ''}
-          </div>
-          <h6 className='text-[8px] font-light text-green-willam'>* Fulfillment of this request may vary based on the hotel's specifications and refunds <br/> related to this matter cannot be guaranteed.</h6>
+          <h6 className='text-[8px] font-light text-green-willam'>* Fulfillment of this request may vary based on the hotel's specifications and refunds <br /> related to this matter cannot be guaranteed.</h6>
         </div>
       ) : (
         <div className="bg-white text-greenCyan px-3.5 py-3 flex flex-row justify-between items-center">
