@@ -11,7 +11,8 @@ export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax, ta
   // Transform the taxList to remove underscores and convert keys to uppercase
   const transformedTaxList = taxList.map(tax => ({
     ...tax,
-    key: tax.key.replace(/_/g, '').toUpperCase(),
+    key: tax?.key.replace(/_/g, ' ').toUpperCase(),
+
   }));
 
   return (
