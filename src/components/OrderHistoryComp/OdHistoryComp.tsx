@@ -247,7 +247,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
             </div>
             <div className="w-full flex flex-col">
               {Object.keys(item.total_amount_breakup).map((key, i) => {
-                if (key !== "amount") {
+                if (key !== "amount" && key !== "total_amount") {
                   return (
                     <div className="flex flex-row justify-between mb-3" key={i}>
                       <h5 className="ml-6 font-normal text-[10px]">{key} :</h5>
@@ -264,7 +264,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
             <div className="w-full h-[42px] bg-green-finn px-5 font-bold text-blue-oxford flex flex-row items-center justify-between">
               <h4 className="text-[10px]">Total Price</h4>
               <h4 className="text-[15px]">
-                <span>&#8377;</span>{total}
+                <span>&#8377;</span>{item.total_amount_breakup.total_amount}
               </h4>
             </div>
             {item.customization !== "" && <div className="w-full h-6 bg-red-light flex items-center">

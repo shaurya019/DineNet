@@ -50,13 +50,11 @@ export const RestaurantLandingPage = () => {
     const nonVegCheck = data.category_map?.some((category: any) =>
       category.products.some((product: any) => product.non_veg)
     );
-    console.log("nonVegCheck", nonVegCheck);
     setHasNonVegProducts(nonVegCheck);
     if (filter === FilterValue.veg && nonVegCheck) {
       setFilter(FilterValue.none);
     }
     if (!nonVegCheck) {
-      console.log("data", nonVegCheck);
       setFilter(FilterValue.veg);
     }
   }, [data, hasNonVegProducts]);
@@ -145,13 +143,14 @@ export const RestaurantLandingPage = () => {
         </div>
         {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
       </div>
-      <div className="flex flex-col overflow-auto max-h-full mb-12">
+      <div className="flex flex-col overflow-auto max-h-full mb-12 ">
         {(filteredData && filteredData.length > 0) ? filteredData.map((category: any, index: number) => (
           <AccordionItem
             key={category.id}
             defaultState={true}
             title={<h2 ref={(elem) => (itemsRef.current[index] = elem)} className="text-sm text-green font-semibold">{category.category_name}</h2>}
             color="green"
+            isLast={index === filteredData.length - 1}
           >
             {category.products.map((item: any) => (
               <Fooditem key={item.id} data={item} kitchenSetup={kitchenSetup} />

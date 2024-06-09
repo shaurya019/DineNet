@@ -6,6 +6,7 @@ export interface AccordionItemProps {
   children: ReactNode;
   color?: string;
   defaultState?: boolean;
+  isLast?: boolean;
 }
 
 export const AccordionItem: React.FC<AccordionItemProps> = ({
@@ -13,14 +14,14 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   children,
   color,
   defaultState = false,
+  isLast = false,
 }) => {
   const [isOpen, setIsOpen] = useState(defaultState);
   const toggleAccordion = () => setIsOpen((open) => !open);
   return (
     <div
-      className={`border border-gray-200 ${isOpen && "min-h-min"} ${
-        !isOpen && "mb-2"
-      }`}
+      className={`border border-gray-200 ${isOpen && "min-h-min"} ${!isOpen && !isLast && "mb-2"
+        } ${isLast && "mb-16"}`}
     >
       <div
         className="flex justify-between items-center p-2 cursor-pointer bg-green-light"
@@ -30,9 +31,8 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         <Chevron isOpen={isOpen} className={`stroke-${color}`} />
       </div>
       <div
-        className={`transition-[max-height] ${
-          isOpen ? "max-h-full" : "max-h-0"
-        } overflow-auto delay-150`}
+        className={`transition-[max-height] ${isOpen ? "max-h-full" : "max-h-0"
+          } overflow-auto delay-150`}
       >
         <div className="p-2 border-t border-gray-200">
           <div className="text-gray-700">{children}</div>
@@ -40,4 +40,4 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       </div>
     </div>
   );
-};        
+};
