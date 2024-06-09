@@ -66,8 +66,6 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
 
   const formattedAmountBreakup = formatBreakupKeys(item.total_amount_breakup);
 
-  const total = Object.keys(formattedAmountBreakup)
-    .reduce((acc, key) => acc + formattedAmountBreakup[key], 0);
 
   return (
     <>
@@ -182,7 +180,7 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
             </div>
             <div className="w-full flex flex-col">
               {Object.keys(formattedAmountBreakup).map((key, i) => {
-                if (key !== "amount" && key !== "total_amount" && key !== "TOTAL AMOUNT") {
+                if (key !== "amount" && key !== "TOTAL AMOUNT") {
                   return (
                     <div className="flex flex-row justify-between mb-3" key={i}>
                       <h5 className="ml-6 font-normal text-[10px]">{key} :</h5>

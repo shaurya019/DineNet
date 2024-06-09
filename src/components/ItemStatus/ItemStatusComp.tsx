@@ -5,7 +5,17 @@ interface ItemStatusProps {
 }
 
 export const ItemStatusComp = ({ item }: ItemStatusProps) => {
-  console.log("Dataasd2wed", item);
+  const formatBreakupKeys = (breakup: any) => {
+    const formattedBreakup: any = {};
+    Object.keys(breakup).forEach((key) => {
+      const formattedKey = key.replace(/_/g, ' ').toUpperCase();
+      formattedBreakup[formattedKey] = breakup[key];
+    });
+    return formattedBreakup;
+  };
+
+  const formattedAmountBreakup = formatBreakupKeys(item.total_amount_breakup);
+
   return (
     <div className="bg-white mx-5 mb-4 p-3 rounded-md shadow-lg text-blue-dark">
       <div className="flex flex-col">
@@ -39,13 +49,13 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
         <div className="overflow-x-auto ml-6 mr-10">
           <table className="w-full mb-6">
             <tbody>
-              {Object.keys(item.total_amount_breakup).map((key, i) => {
-                if (key !== "amount" && key !== "total_amount") {
+              {Object.keys(formattedAmountBreakup).map((key, i) => {
+                if (key !== "AMOUNT" && key !== "TOTAL AMOUNT") {
                   return (
                     <tr key={i} className="flex flex-row justify-between mb-3">
                       <td className="font-normal text-[10px]">{key} :</td>
                       <td className="font-semibold text-grey text-[12px]">
-                        <span>&#8377;</span>{item.total_amount_breakup[key]}
+                        <span>&#8377;</span>{formattedAmountBreakup[key]}
                       </td>
                     </tr>
                   );
@@ -58,7 +68,7 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
         <div className="w-full h-[42px] px-5 font-bold text-blue-oxford flex flex-row items-center justify-between">
           <h4 className="text-[10px]">Total Price</h4>
           <h4 className="text-[15px]">
-            <span>&#8377;</span>{item.total_amount_breakup.total_amount}
+            <span>&#8377;</span>{formattedAmountBreakup["TOTAL AMOUNT"]}
           </h4>
         </div>
 
