@@ -80,6 +80,7 @@ export const RequestHistoryPage = () => {
               const createdAt = new Date(item.created_at);
               const date = createdAt.toISOString().split('T')[0];
               const time = createdAt.toTimeString().split(' ')[0];
+              const clientTitle = item.client.client_title;
               return (
                 <RequestHistoryComp
                   key={item.id}
@@ -90,6 +91,7 @@ export const RequestHistoryPage = () => {
                   Date={date}
                   Time={time}
                   Source={source}
+                  ClientTitle={clientTitle}
                 />
               );
             })
@@ -98,6 +100,7 @@ export const RequestHistoryPage = () => {
               const createdAt = new Date(item.created_at);
               const date = createdAt.toISOString().split('T')[0];
               const time = createdAt.toTimeString().split(' ')[0];
+              const clientTitle = item.client.client_title;
               return (
                 <RequestHistoryComp
                   key={item.id}
@@ -108,6 +111,7 @@ export const RequestHistoryPage = () => {
                   Date={date}
                   Time={time}
                   Source={source}
+                  ClientTitle={clientTitle}
                 />
               );
             })

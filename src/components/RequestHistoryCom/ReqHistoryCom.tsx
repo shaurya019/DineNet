@@ -9,17 +9,19 @@ interface ReqHistoryComProps {
   Date: string;
   Time: string;
   Source: string;
+  ClientTitle:string
 }
 
 
-export const ReqHistoryCom = ({ Request, Order, Status, Subject, Date, Time, Source }: ReqHistoryComProps) => {
+export const ReqHistoryCom = ({ Request, Order, Status, Subject, Date, Time, Source,ClientTitle }: ReqHistoryComProps) => {
 
   // Navigation
   const navigate = useNavigate();
 
   const handleTrackRequest = () => {
     const requestData = {
-      Order
+      Order,
+      ClientTitle
     };
 
     // Navigate to the target route with data
