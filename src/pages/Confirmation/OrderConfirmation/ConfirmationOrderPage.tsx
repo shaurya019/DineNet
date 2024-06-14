@@ -52,7 +52,9 @@ export const ConfirmationOrderPage = () => {
       message2="Your order estimated"
       message3="serving time is 20 mins"
       message4="Thank you for your patience. We will serve you as soon as possible"
+      message5='Order change or cancellation can be only accepted  till 5 minute after order placement'
       buttonName="Track Order"
+      billDetails="billDetails"
       Order={orderId}
       svg={<OrderConfirmation />}
     />
