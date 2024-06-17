@@ -13,6 +13,7 @@ import OrderHistory from "./pages/History/OrderHistory"
 import RequestHistroy from "./pages/History/RequestHistory"
 import ConfirmationRequest from "./pages/Confirmation/RequestConfirmation"
 import PageNotFound from "./pages/PageNotFound/PageNotFound";
+import BillPage from "./pages/BillDetails";
 
 
 const router = createBrowserRouter([
@@ -71,6 +72,10 @@ const router = createBrowserRouter([
   {
     path: "/payment",
     element: <PaymentMade />,
+  },
+  {
+    path: "/billDetails",
+    element: <BillPage />,
   },
   {
     path: "*",

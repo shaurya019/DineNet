@@ -10,7 +10,7 @@ import Loader from "@/atomicComponents/Loader";
 export const TrackRequestPage = () => {
   const [status,setStatus]  = useState('0')
   const location = useLocation();
-  const { Order } = location.state || {};
+  const { Order,ClientTitle } = location.state || {};
 
   const { data = [], isLoading } = useGetComplimentaryProductData(Order!);
 
@@ -27,7 +27,7 @@ export const TrackRequestPage = () => {
     <Nav title="Request Details"  show="True" showEmpty="False"/> 
     <div className='py-9 flex flex-row bg-greenCyan text-white justify-evenly items-center'>
     <div className='flex-col'>
-       <h3 className='font-bold text-xl'>{data.client?.client_title}</h3>
+       <h3 className='font-bold text-xl'>{ClientTitle}</h3>
        </div>
        <div className="h-12 border-l border-gray-300"></div>
        <div className='flex-col'>
