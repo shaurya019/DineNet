@@ -11,13 +11,13 @@ export interface LandingHeaderProps {
   clientName?: string;
 }
 
-export const LandingHeader = ({clientName}:LandingHeaderProps) => {
+export const LandingHeader = ({ clientName }: LandingHeaderProps) => {
   const [isLoginModalOpen, setisLoginModalOpen] = useState(false);
   const user = useSelector((state: RootState) => state.user);
   const dispatch = useDispatch<AppDispatch>();
   const profileRef = useRef<SVGSVGElement>(null);
-  const source = window.localStorage.getItem("source") || "Table No. 1";
-  
+  const source = window.localStorage.getItem("source") || "Table 1";
+
   const handleCloseOtpModal = (action: string,) => {
     if (action === "otp") {
       window.localStorage.removeItem("loginCredentials");
@@ -34,7 +34,7 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
 
   return (
     <div className="flex flex-row flex-nowrap gap-2 items-center ">
-       {isLoginModalOpen && (
+      {isLoginModalOpen && (
         <LoginModal closeModal={handleCloseOtpModal} />
       )}
       <div>
@@ -42,20 +42,20 @@ export const LandingHeader = ({clientName}:LandingHeaderProps) => {
       </div>
       <div className="flex-1 flex flex-col">
         <h3 className="text-grey-dark font-bold">Welcome to the {clientName}</h3>
-       <p className="text-grey-dark text-xs">
-         {source}
+        <p className="text-grey-dark text-xs">
+          {source}
         </p>
       </div>
       <div className="ml-auto">
         {/* {user.loggedIn ?
           ( */}
-          <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
-            <Profile
-              className="stroke-white h-4 w-4 fill-green"
-              ref={profileRef}
-            />
-            <UserProfile targetRef={profileRef} />
-          </div>
+        <div className="h-8 w-8 rounded-full bg-green flex items-center justify-center">
+          <Profile
+            className="stroke-white h-4 w-4 fill-green"
+            ref={profileRef}
+          />
+          <UserProfile targetRef={profileRef} />
+        </div>
         {/* ) : ( 
           <button
             onClick={() =>

@@ -141,7 +141,7 @@ export const RestaurantLandingPage = () => {
             onSelect={() => toggleFilter(FilterValue.recommended)}
             title="Recommended"
             selected={filter === FilterValue.recommended}
-            selectedColor="bg-blue-600"
+            selectedColor="bg-white"
           />}
         </div>
         {kitchenSetup && <p className="text-[11px] font-medium text-red-dark">Kitchen Closed : Our kitchen opens at {openTime} everyday</p>}
