@@ -56,10 +56,11 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
   const { loggedIn, firebaseToken } = useSelector(
     (state: RootState) => state.user,
   );
+  const authToken = window.localStorage.getItem('authToken') || firebaseToken;
 
   //Mutation
   const { data: orderDetailsData, mutate: orderDetailsMutate } =
-    usePostOrderDetails(name, phone, instruction, firebaseToken, ChooseOption);
+    usePostOrderDetails(name, phone, instruction, authToken, ChooseOption);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } =
     usePostComplimentaryOrder(productId, textRequest, imageFile);
 
@@ -261,10 +262,10 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
           <button className="uppercase font-[NotoSans] text-white font-black text-xs">
             {Heading}
           </button>
-         
+
         </div>
-         <p className='text-center'>Please remove out-of-stock items.</p>
-         </>
+        <p className='text-center'>Please remove out-of-stock items.</p>
+      </>
       ) : (
         <div
           className="bg-greenCyan text-center py-3 rounded-2xl"

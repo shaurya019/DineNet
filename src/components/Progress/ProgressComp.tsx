@@ -17,7 +17,6 @@ export const ProgressComp: React.FC<ProgressCompProps> = ({ one, two, third, val
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
-    console.log("COMING", value);
     setIsLoading(true);
     if (value === "PLACED") {
       setStatus("0");

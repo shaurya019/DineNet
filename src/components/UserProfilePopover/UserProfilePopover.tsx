@@ -29,7 +29,6 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
   const { mutateAsync: signOut } = useSignOut();
 
   useEffect(() => {
-    console.log('token found in local storage');
     // Retrieve the token from local storage
     const storedToken = localStorage.getItem('authToken');
 
@@ -38,10 +37,7 @@ export const UserProfile: React.FC<UserProfileProps> = ({ targetRef }) => {
       const decoded: JwtPayload = jwtDecode(storedToken);
       const name = decoded.name || 'Guest User';
         setNamex(name);
-        console.log("Name", name);
-    } else {
-      console.log('No token found in local storage');
-    }
+    } 
 }, []);
 
  
