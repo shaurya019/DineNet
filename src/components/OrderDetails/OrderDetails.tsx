@@ -21,7 +21,6 @@ interface OrderDetailsProps {
 }
 
 export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, save, setSave, instruction, setInstruction, filteredData}: OrderDetailsProps) => {
-  console.log("meals", meals);
   const clientId = window.localStorage.getItem("clientId") || defaultClientId;
   const source = window.localStorage.getItem("source") || defaultSource;
   const { carts } = useSelector((state: RootState) => state.cart);
@@ -55,7 +54,6 @@ export const OrderDetails = ({ meals, setRefresh, setOutOfStock, add, setAdd, sa
 
   const checkAvailability = (productId: any) => {
     const product = filteredData.filter((item :any) => item.id == productId);
-    console.log(productId, "PRODUCT", filteredData, product);
     return product[0] ? product[0].availability : false;
   };
 

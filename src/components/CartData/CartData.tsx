@@ -17,7 +17,6 @@ export const CartData = ({
   isAvailable,
 }: OrderDetailsProps) => {
   const { product_name, serves, price, non_veg } = item;
-  console.log(item, 'check 1');
   if (typeof item.availability !== 'undefined' && !item.availability) {
     setOutOfStock(true);
   }

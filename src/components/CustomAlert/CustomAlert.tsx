@@ -5,20 +5,20 @@ interface CustomAlertProps {
   title: string;
   perform: string;
   onClose: () => void;
-  clearCart: () => void; 
+  onSuccess: () => void;
 }
 
-export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, title,message,perform, onClose, clearCart }) => {
+export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, title, message, perform, onClose, onSuccess }) => {
 
   if (!isOpen) return null;
-  
+
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 z-50">
       <div className="bg-white px-3.5 mx-10 rounded-lg max-w-md">
         <div className="my-3.5">
           <p className="text-lg text-grey-granite">{title}</p>
         </div>
-        <hr className='my-[14px]'/>
+        <hr className='my-[14px]' />
         <div>
           <p className="text-[11px] text-grey-granite">{message}</p>
         </div>
@@ -29,8 +29,8 @@ export const CustomAlert: React.FC<CustomAlertProps> = ({ isOpen, title,message,
             </div>
           </button>
           <button onClick={() => {
-            clearCart();
-            onClose();
+            onSuccess();
+            // onClose();
           }}>
             <div className="w-24 md:w-32 h-8 rounded-md bg-greenCyan flex justify-center items-center">
               <span className="font-semibold text-[11px] text-white">{perform}</span>
