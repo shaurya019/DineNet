@@ -48,7 +48,6 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
   setFinal,
   instruction,
 }) => {
-  const [showOtpModal, setShowOtpModal] = useState<Boolean>(false);
   const [isOpen, setIsOpen] = useState(false);
   const clientId = window.localStorage.getItem('clientId') || defaultClientId;
   const source = window.localStorage.getItem('source') || defaultSource;
@@ -100,6 +99,22 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
   const handleOpenAlert = () => {
     setIsOpen(true);
   };
+
+  const handleOrderPage = async () => {
+    try {
+      setSubmit?.(true);
+      setFinal?.(true);
+      setIsLoading(true);
+      setIsOpen(false);
+      console.log("COMING TO THIS");
+      await orderDetailsMutate();
+    }
+    catch (error) {
+      handleCloseAlert();
+      console.error('Error completing order details mutation:', error);
+    } 
+  };
+
 
   const handleCloseAlert = () => {
     setSubmit?.(false);
@@ -176,7 +191,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
   const handleCreateOrder = () => {
     switch (path) {
       case 'OrderPage':
-        orderDetailsMutate();
+        handleOrderPage()
         break;
       case 'RequestCart':
         if (name === '') {
@@ -202,15 +217,15 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
     }
   };
 
-  const handleCloseOtpModal = (action: string) => {
-    if (action === 'otp') {
-      window.localStorage.removeItem('loginCredentials');
-      handleCreateOrder();
-    } else {
-      setShowOtpModal(false);
-    }
-    setIsLoading(false);
-  };
+  // const handleCloseOtpModal = (action: string) => {
+  //   if (action === 'otp') {
+  //     window.localStorage.removeItem('loginCredentials');
+  //     handleCreateOrder();
+  //   } else {
+  //     setShowOtpModal(false);
+  //   }
+  //   setIsLoading(false);
+  // };
 
   const handleOnSubmit = () => {
     if (ChooseOption) {
@@ -254,7 +269,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
           isOpen={isOpen}
           message="Are you sure you want to place the order?"
           onClose={handleCloseAlert}
-          clearCart={handleCreateOrder}
+          onSuccess={handleCreateOrder}
         />
       )}
       {outOfStock ? (<>
