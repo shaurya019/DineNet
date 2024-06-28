@@ -6,14 +6,28 @@ interface ReqHistoryComProps {
   Order: string;
   Subject: string
   Status: string;
-  Date: string;
-  Time: string;
   Source: string;
+  CreatedAt: any;
   ClientTitle:string
 }
 
 
-export const ReqHistoryCom = ({ Request, Order, Status, Subject, Date, Time, Source,ClientTitle }: ReqHistoryComProps) => {
+export const ReqHistoryCom = ({ Request, Order, Status, Subject, CreatedAt, Source,ClientTitle }: ReqHistoryComProps) => {
+
+  const dateFormatOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: '2-digit',
+  };
+  const timeFormatOptions: Intl.DateTimeFormatOptions = {
+    hour: 'numeric',
+    minute: 'numeric',
+    hour12: true,
+  };
+
+  const Date = CreatedAt.toLocaleDateString('en-US', dateFormatOptions);
+  const Time = CreatedAt.toLocaleTimeString('en-US', timeFormatOptions);
+
 
   // Navigation
   const navigate = useNavigate();

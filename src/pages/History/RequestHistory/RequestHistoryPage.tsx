@@ -78,8 +78,6 @@ export const RequestHistoryPage = () => {
             ?
             data?.orders.map((item: any, index: any) => {
               const createdAt = new Date(item.created_at);
-              const date = createdAt.toISOString().split('T')[0];
-              const time = createdAt.toTimeString().split(' ')[0];
               const clientTitle = item.client.client_title;
               return (
                 <RequestHistoryComp
@@ -88,8 +86,7 @@ export const RequestHistoryPage = () => {
                   Subject={item.text}
                   Order={item.id}
                   Status="Received"
-                  Date={date}
-                  Time={time}
+                  CreatedAt={createdAt}
                   Source={source}
                   ClientTitle={clientTitle}
                 />
@@ -98,8 +95,6 @@ export const RequestHistoryPage = () => {
             :
             showData.map((item: any, index: any) => {
               const createdAt = new Date(item.created_at);
-              const date = createdAt.toISOString().split('T')[0];
-              const time = createdAt.toTimeString().split(' ')[0];
               const clientTitle = item.client.client_title;
               return (
                 <RequestHistoryComp
@@ -108,8 +103,7 @@ export const RequestHistoryPage = () => {
                   Subject={item.text}
                   Order={item.id}
                   Status="Received"
-                  Date={date}
-                  Time={time}
+                  CreatedAt={createdAt}
                   Source={source}
                   ClientTitle={clientTitle}
                 />
