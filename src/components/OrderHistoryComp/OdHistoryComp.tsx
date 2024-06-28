@@ -91,14 +91,14 @@ export const OdHistoryComp = ({ item }: OdHistoryCompProps) => {
                 </div>
               </div>
               <div className="flex flex-row items-center justify-center">
-                <h4
+                {/* <h4
                   className={`text-[8px] p-[5px] mr-2 ${item.payment_source === "OFFLINE"
                     ? "bg-blue-bright"
                     : "bg-green-japanese px-3"
                     } text-white border border-solid rounded-2xl `}
                 >
                   {item.payment_source === "OFFLINE" ? "Cash at Counter" : item.payment_source}
-                </h4>
+                </h4> */}
                 {expanded ? (
                   <button>
                     <Down />
