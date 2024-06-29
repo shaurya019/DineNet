@@ -30,6 +30,7 @@ export const TrackOrderPage = () => {
   const [disable, setDisable] = useState(false);
   const [cancelOpen, setCancelOpen] = useState(false);
   const [wantBillOpen, setWantBillOpen] = useState(false);
+  const [remainingTime, setRemainingTime] = useState('0:00 Min');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -37,20 +38,31 @@ export const TrackOrderPage = () => {
         const createdAtDate = new Date(data.created_at);
         const now = new Date();
         const differenceInSeconds = (now.getTime() - createdAtDate.getTime()) / 1000;
+        var time = data?.client?.client_preferences?.order_cancel_till_seconds ?? 300;
+        console.log("differenceInSeconds DATE", differenceInSeconds);
 
-        if (differenceInSeconds < 30) {
-          setIsWithin300Seconds(true);
+        if (differenceInSeconds < time) {
+          const remainingSeconds = time - differenceInSeconds;
+          if (remainingSeconds > 0) {
+            const minutes = Math.floor(remainingSeconds / 60);
+            const seconds = Math.floor(remainingSeconds % 60);
+            setRemainingTime(`${minutes}:${seconds.toString().padStart(2, '0')} Min`);
+            setIsWithin300Seconds(true);
+          } else {
+            setRemainingTime('0:00 Min');
+            setIsWithin300Seconds(false);
+          }
         } else {
+          setRemainingTime('0:00 Min');
           setIsWithin300Seconds(false);
         }
+
         console.log("COMING WITH BILL");
         if (data?.bill_requested_at && data?.bill_requested_at !== null) {
           console.log("BILL DATE", data?.bill_requested_at);
           const createdAtDate = new Date(data.bill_requested_at);
           const now = new Date();
-          console.log("created DATE", createdAtDate);
           const differenceInSeconds = (now.getTime() - createdAtDate.getTime()) / 1000;
-          console.log("differenceInSeconds DATE", differenceInSeconds);
           if (differenceInSeconds < 600) {
             setDisable(true);
           } else {
@@ -61,7 +73,7 @@ export const TrackOrderPage = () => {
           setIsTimeCalculated(true);
         }
       }
-    }, 5000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [data.created_at, data.bill_requested_at, isTimeCalculated]);
@@ -140,27 +152,29 @@ export const TrackOrderPage = () => {
         <div className="h-12 border-l border-gray-300"></div>
         <div className='flex-col'>
           <h3 className='font-bold text-xl'>STATUS</h3>
-          <h3 className='font-semibold text-xl'>{data.status}</h3>
+          <h3 className='font-semibold text-xl'>{data?.status}</h3>
         </div>
       </div>
       <div className='mt-7'>
         <ItemStatusComp item={data} />
       </div>
-      <div className='mt-7 '>
-        <ProgressComp one="Order Placed" two="Order Accepted" third="Completed" value={data.status} />
+      <div className='mt-7'>
+        <ProgressComp one="Order Placed" two="Order Accepted" third="Completed" value={data?.status} />
       </div>
       {isWithin300Seconds ?
         <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
-          <h4 className='text-grey font-medium'>Cancel or change Order?</h4>
+          <div className="w-113 h-41 bg-green-lightest text-green-willam rounded-[10px] border-grey-dark px-[19px] py-[6px]">
+            <h4 className='text-green-minral font-extrabold'>{remainingTime}</h4>
+          </div>
           <button className='text-red-warm font-semibold' onClick={handleCancelOrder}>Cancel Order</button>
         </div>
         :
-        <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
+        (data?.status === 'COMPLETED' && <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
           <h4 className='text-grey font-medium'>Want bill?</h4>
           <button className={`border ${disable ? 'border-grey' : 'border-blue-bright'} rounded p-1`}
             onClick={disable ? () => { } : handleWantBill}
           > <h4 className={`font-semibold ${disable ? 'text-grey' : 'text-blue-bright'}`}>Check Bill</h4></button>
-        </div>
+        </div>)
       }
       {cancelOpen && (
         <CustomAlert
