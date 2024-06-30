@@ -58,7 +58,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
   const authToken = window.localStorage.getItem('authToken') || firebaseToken;
 
   //Mutation
-  const { data: orderDetailsData, mutate: orderDetailsMutate } =
+  const { data: orderDetailsData, mutate: orderDetailsMutate ,isError , error} =
     usePostOrderDetails(name, phone, instruction, authToken, ChooseOption);
   const { data: complimentaryOrderData, mutate: complimentaryOrderMutate } =
     usePostComplimentaryOrder(productId, textRequest, imageFile);
@@ -71,6 +71,12 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
 
   // Redux Dispatch
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (isError && error) {
+      handleCloseAlert();
+    }
+  }, [isError, error]);
 
   useEffect(() => {
     if (complimentaryOrderData != null) {
