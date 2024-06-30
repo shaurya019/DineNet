@@ -41,10 +41,12 @@ export const CartPage = () => {
   const [namex, setNamex] = useState<any | null>('');
   const [submit, setSubmit] = useState(false);
   const [final, setFinal] = useState(false);
-  const [selectedOption, setSelectedOption] = useState<string>('Option3');
+  const [showBill, setShowBill] = useState(false);
+  // const [selectedOption, setSelectedOption] = useState<string>('Option3');
 
   useEffect(() => {
-    if (data && data?.category_map) {
+    if (data && data?.category_map && data?.client) {
+      setShowBill(data?.client?.client_preferences?.show_bill_in_cart);
       const filtered_data = data.category_map?.flatMap((category: any) => category.products);
       const filteredProducts = filtered_data.filter((product: any) => !items[product.id]);
       const MealProducts = filteredProducts.filter((product: any) =>
@@ -66,8 +68,6 @@ export const CartPage = () => {
       const phone = decoded.mobile_number || '';
       setNamex(name);
 
-    } else {
-      console.log('No token found in local storage');
     }
   }, []);
 
@@ -85,8 +85,8 @@ export const CartPage = () => {
       {itemCount === 0 ? (
         <EmptyCart />
       ) : (
-          <>
-            <StripeComponent title="Personal Details" />
+        <>
+          <StripeComponent title="Personal Details" />
           <InputFormComponent final={final} submit={submit} name={namex} setName={setNamex} />
           <OrderDetails
             setRefresh={setRefresh}
@@ -102,7 +102,7 @@ export const CartPage = () => {
           />
           {meal.length > 0 && <StripeComponent title="Complete meal with add ons" />}
           {meal.length > 0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}
-            <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />
+          <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} showBill={showBill} />
           <BottomSubmit
             Heading="Place Order"
             outOfStock={outOfStock}

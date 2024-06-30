@@ -83,8 +83,10 @@ export const TrackOrderPage = () => {
     try {
       setLoad(true);
       await cancelOrder();
-      navigate('/orderHistory');
+      navigate('/orderHistory', { replace: true });
       setLoad(false);
+      setRemainingTime('0:00 Min');
+      setIsWithin300Seconds(false);
       console.log('Order cancelled successfully');
     } catch (error) {
       console.error('Error cancelling order:', error);
@@ -162,12 +164,12 @@ export const TrackOrderPage = () => {
         <ProgressComp one="Order Placed" two="Order Accepted" third="Completed" value={data?.status} />
       </div>
       {isWithin300Seconds ?
-        <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
+        (data?.status !== 'COMPLETED' && <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
           <div className="w-113 h-41 bg-green-lightest text-green-willam rounded-[10px] border-grey-dark px-[19px] py-[6px]">
             <h4 className='text-green-minral font-extrabold'>{remainingTime}</h4>
           </div>
           <button className='text-red-warm font-semibold' onClick={handleCancelOrder}>Cancel Order</button>
-        </div>
+        </div>)
         :
         (data?.status === 'COMPLETED' && <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
           <h4 className='text-grey font-medium'>Want bill?</h4>
