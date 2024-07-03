@@ -102,7 +102,7 @@ export const CartPage = () => {
           />
           {meal.length > 0 && <StripeComponent title="Complete meal with add ons" />}
           {meal.length > 0 && <MealAddOns meals={meal} refresh={refresh} setRefresh={setRefresh} />}
-          <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} showBill={showBill} />
+          {showBill && <TaxCharges totalPrice={totalPrice} totalTax={totalTax} taxList={taxList} />}
           <BottomSubmit
             Heading="Place Order"
             outOfStock={outOfStock}

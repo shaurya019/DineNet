@@ -27,8 +27,8 @@ export const ConfirmationOrderPage = () => {
     if(id){
       setOrderId(id);
     }else{
-      setOrderId(data.order_id);
-      setPayStatus(data.status);
+      setOrderId(data?.order_id);
+      setPayStatus(data?.status);
     }
   }, [data, orderId, paystatus,id]);
 

@@ -4,11 +4,11 @@ import { StripeComponent } from '../ContainerCart/StripeComponent';
 interface TaxChargesProps {
   totalPrice: number;
   totalTax: number;
-  showBill:boolean
+  // showBill:boolean
   taxList: { key: string; value: any; }[];
 }
 
-export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax,showBill,taxList }) => {
+export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax,taxList }) => {
   // Transform the taxList to remove underscores and convert keys to uppercase
   const transformedTaxList = taxList.map(tax => ({
     ...tax,
@@ -27,8 +27,8 @@ export const TaxCharges: React.FC<TaxChargesProps> = ({ totalPrice, totalTax,sho
             </div>
             <h5 className="font-semibold text-sm text-grey"><span>&#8377;</span>{totalPrice}</h5>
           </div>
-          {showBill===true && totalTax > 0 && <hr className="bg-silver mx-4 my-3" />}
-          {showBill===true && totalTax > 0 && <div className="flex flex-col">
+          {totalTax > 0 && <hr className="bg-silver mx-4 my-3" />}
+          {totalTax > 0 && <div className="flex flex-col">
             {transformedTaxList.map((tax, index) => (
               <div key={index} className="flex flex-row py-2.5 justify-between">
                 <div className="flex items-center">
