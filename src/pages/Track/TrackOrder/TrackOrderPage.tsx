@@ -31,6 +31,17 @@ export const TrackOrderPage = () => {
   const [cancelOpen, setCancelOpen] = useState(false);
   const [wantBillOpen, setWantBillOpen] = useState(false);
   const [remainingTime, setRemainingTime] = useState('0:00 Min');
+  const [showWantBill, setShowWantBill] = useState(false);
+  const [showBillInCart, setshowBillInCart] = useState(false);
+  useEffect(() => {
+    if (data && data?.client) {
+      setshowBillInCart(data?.client?.client_preferences?.show_bill_in_cart);
+      if (data?.status === 'COMPLETED') {
+        setShowWantBill(data?.client?.client_preferences?.show_want_bill); 
+      }
+    }
+    
+  }, [data]);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -57,7 +68,6 @@ export const TrackOrderPage = () => {
           setIsWithin300Seconds(false);
         }
 
-        console.log("COMING WITH BILL");
         if (data?.bill_requested_at && data?.bill_requested_at !== null) {
           console.log("BILL DATE", data?.bill_requested_at);
           const createdAtDate = new Date(data.bill_requested_at);
@@ -76,7 +86,7 @@ export const TrackOrderPage = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [data.created_at, data.bill_requested_at, isTimeCalculated]);
+  }, [data, isTimeCalculated]);
 
 
   const handleCreateCancelOrderAlert = async () => {
@@ -158,7 +168,7 @@ export const TrackOrderPage = () => {
         </div>
       </div>
       <div className='mt-7'>
-        <ItemStatusComp item={data} />
+        <ItemStatusComp item={data} showBillInCart={showBillInCart} />
       </div>
       <div className='mt-7'>
         <ProgressComp one="Order Placed" two="Order Accepted" third="Completed" value={data?.status} />
@@ -171,11 +181,11 @@ export const TrackOrderPage = () => {
           <button className='text-red-warm font-semibold' onClick={handleCancelOrder}>Cancel Order</button>
         </div>)
         :
-        (data?.status === 'COMPLETED' && <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
+        (showWantBill && <div className='flex flex-row justify-between items-center mb-20 mx-[22px] text-xs'>
           <h4 className='text-grey font-medium'>Want bill?</h4>
           <button className={`border ${disable ? 'border-grey' : 'border-blue-bright'} rounded p-1`}
             onClick={disable ? () => { } : handleWantBill}
-          > <h4 className={`font-semibold ${disable ? 'text-grey' : 'text-blue-bright'}`}>Check Bill</h4></button>
+          > <h4 className={`font-semibold ${disable ? 'text-grey' : 'text-blue-bright'}`}>Ask for Bill</h4></button>
         </div>)
       }
       {cancelOpen && (

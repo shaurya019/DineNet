@@ -2,9 +2,10 @@ import React from "react";
 
 interface ItemStatusProps {
   item: any;
+  showBillInCart:boolean
 }
 
-export const ItemStatusComp = ({ item }: ItemStatusProps) => {
+export const ItemStatusComp = ({ item, showBillInCart}: ItemStatusProps) => {
   const formatBreakupKeys = (breakup: any) => {
     const formattedBreakup: any = {};
     Object.keys(breakup).forEach((key) => {
@@ -46,7 +47,7 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
         <div className="w-full">
           <hr className="bg-silver mx-3 my-3" />
         </div>
-        <div className="overflow-x-auto ml-6 mr-10">
+        {showBillInCart && <div className="overflow-x-auto ml-6 mr-10">
           <table className="w-full mb-6">
             <tbody>
               {Object.keys(formattedAmountBreakup).map((key, i) => {
@@ -63,14 +64,14 @@ export const ItemStatusComp = ({ item }: ItemStatusProps) => {
               })}
             </tbody>
           </table>
-        </div>
+        </div>}
         <hr className="bg-silver mx-3 my-3" />
-        <div className="w-full h-[42px] px-5 font-bold text-blue-oxford flex flex-row items-center justify-between">
+        { showBillInCart && <div className="w-full h-[42px] px-5 font-bold text-blue-oxford flex flex-row items-center justify-between">
           <h4 className="text-[10px]">Total Price</h4>
           <h4 className="text-[15px]">
             <span>&#8377;</span>{formattedAmountBreakup["TOTAL AMOUNT"]}
           </h4>
-        </div>
+        </div>}
 
         {item.customization !== "" && (
           <div>

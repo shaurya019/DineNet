@@ -49,7 +49,7 @@ export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({ ti
         <button onClick={handleButtonClick} className='mb-4 h-7 w-56 border border-green-willam rounded rounded-md border-2'>
           <h5 className=' text-green-willam text-center font-medium'>{buttonName}</h5>
         </button>
-        {showBillDetails && <button onClick={handleBillButtonClick} className='mb-4 h-7 w-56'>
+        {showBillDetails === false && <button onClick={handleBillButtonClick} className='mb-4 h-7 w-56'>
           <h5 className=' text-blue text-center font-medium'>Check Bill Details</h5>
         </button>
         }

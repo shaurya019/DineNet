@@ -42,13 +42,11 @@ export const CartPage = () => {
   const [submit, setSubmit] = useState(false);
   const [final, setFinal] = useState(false);
   const [showBill, setShowBill] = useState(false);
-  const [showBillDetails, setShowBillDetails] = useState(false);
   // const [selectedOption, setSelectedOption] = useState<string>('Option3');
 
   useEffect(() => {
     if (data && data?.category_map && data?.client) {
       setShowBill(data?.client?.client_preferences?.show_bill_in_cart);
-      setShowBillDetails(data?.client?.client_preferences?.show_want_bill);
       const filtered_data = data.category_map?.flatMap((category: any) => category.products);
       const filteredProducts = filtered_data.filter((product: any) => !items[product.id]);
       const MealProducts = filteredProducts.filter((product: any) =>
@@ -115,7 +113,7 @@ export const CartPage = () => {
             instruction={instruction}
             ChooseOption="OFFLINE"
             path="OrderPage"
-            showBillDetails = {showBillDetails}
+            showBillDetails = {showBill}
           />
         </>
       )}
