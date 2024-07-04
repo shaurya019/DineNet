@@ -14,7 +14,7 @@ export const ConfirmationOrderPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const transactionId = queryParams.get('transacation_id');
 
-  const { id } = location.state?.Order || {};
+  const { id ,showBillDetails} = location.state?.Order || {};
 
   const [orderId, setOrderId] = useState('');
 
@@ -54,9 +54,9 @@ export const ConfirmationOrderPage = () => {
       message4="Thank you for your patience. We will serve you as soon as possible"
       message5='Order change or cancellation can be only accepted  till 5 minute after order placement'
       buttonName="Track Order"
-      billDetails="billDetails"
       Order={orderId}
       svg={<OrderConfirmation />}
+      showBillDetails={showBillDetails}
     />
   );
 };

@@ -27,6 +27,7 @@ interface BottomSubmitComponentProps {
   phone?: string;
   name?: string;
   instruction?: string;
+  showBillDetails?:boolean
   setFinal?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -47,6 +48,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
   name,
   setFinal,
   instruction,
+  showBillDetails,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const clientId = window.localStorage.getItem('clientId') || defaultClientId;
@@ -98,6 +100,7 @@ export const BottomSubmitComponent: React.FC<BottomSubmitComponentProps> = ({
     dispatch(clearCart({ clientId, source }));
     const Order = {
       id: Id,
+      showBillDetails: showBillDetails,
     };
     navigate('/order', { replace: true, state: { Order } });
   };

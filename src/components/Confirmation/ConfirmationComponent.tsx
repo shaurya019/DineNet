@@ -11,13 +11,13 @@ interface ConfirmationComponentProps {
   message4: string;
   message5?: string;
   buttonName: string;
-  billDetails?: string;
   Order?: string;
   svg: React.ReactNode;
+  showBillDetails?:boolean
 }
 
 
-export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({ title, message1, message2, message3, message4, message5, buttonName, billDetails, Order, svg }) => {
+export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({ title, message1, message2, message3, message4, message5, buttonName, Order, svg,showBillDetails }) => {
   const navigate = useNavigate();
   const handleButtonClick = () => {
     if (buttonName === "Track Request") {
@@ -49,7 +49,7 @@ export const ConfirmationComponent: React.FC<ConfirmationComponentProps> = ({ ti
         <button onClick={handleButtonClick} className='mb-4 h-7 w-56 border border-green-willam rounded rounded-md border-2'>
           <h5 className=' text-green-willam text-center font-medium'>{buttonName}</h5>
         </button>
-        {billDetails && <button onClick={handleBillButtonClick} className='mb-4 h-7 w-56'>
+        {showBillDetails && <button onClick={handleBillButtonClick} className='mb-4 h-7 w-56'>
           <h5 className=' text-blue text-center font-medium'>Check Bill Details</h5>
         </button>
         }
